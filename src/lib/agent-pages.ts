@@ -188,7 +188,7 @@ function careersDocs(): AgentDoc[] {
         {
           h2: "How joining works",
           list: [
-            "1. Apply: two minutes online. Antony reviews every application.",
+            "1. Apply: two minutes online. Your onboarding packet is emailed instantly; Antony reviews every application.",
             "2. Approve & sign: once approved, sign the Independent Contractor Agreement and affiliate your license.",
             "3. Get set up: association/MLS, Agent Portal, MoxiWorks, SkySlope, company email and ADP.",
             "4. Produce: finish the 14-day Producer Activation Program to qualify for company leads.",

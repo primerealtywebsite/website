@@ -170,7 +170,7 @@ export default function Careers() {
             <Heading eyebrow="How joining works" title="Your next chapter starts here" />
             <ol className="mt-6 space-y-3">
               {[
-                "Apply online in 2 minutes. Antony reviews your license and production history.",
+                "Apply online in 2 minutes. Your onboarding packet is emailed instantly, and Antony reviews every application.",
                 "Once approved, sign the Independent Contractor Agreement and transfer your license. Antony handles your onboarding.",
                 "Complete the 14-day Producer Activation Program.",
                 "Become eligible for company-generated leads and listing appointments.",

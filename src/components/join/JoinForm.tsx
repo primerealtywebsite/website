@@ -4,7 +4,9 @@ import { useRef, useState, type FormEvent, type ReactNode } from "react";
 import { site } from "@/config/site";
 import { getAttribution, newEventId, setGoogleUserData, track, trackCustom } from "@/lib/meta";
 import { cn } from "@/lib/utils";
-import { IconArrow, IconBack, IconCalendar, IconCheck, IconLock, IconMail } from "@/components/icons";
+import { IconArrow, IconBack, IconCalendar, IconCheck, IconDoc, IconLock, IconMail } from "@/components/icons";
+
+type Doc = { slug: string; title: string; url: string };
 import { CalendlyEmbed } from "./CalendlyEmbed";
 
 const LICENSE_STATUS = ["Active Florida license", "Inactive Florida license", "In pre-licensing"] as const;
@@ -53,7 +55,7 @@ export function JoinForm({ defaultNext = "apply" }: { defaultNext?: "apply" | "c
   const [next, setNext] = useState<"apply" | "call">(defaultNext);
   const [status, setStatus] = useState<"idle" | "sending" | "error">("idle");
   const [error, setError] = useState("");
-  const [result, setResult] = useState<{ emailed: boolean } | null>(null);
+  const [result, setResult] = useState<{ docs: Doc[]; emailed: boolean } | null>(null);
   const started = useRef(false);
   const root = useRef<HTMLDivElement>(null);
 
@@ -75,7 +77,7 @@ export function JoinForm({ defaultNext = "apply" }: { defaultNext?: "apply" | "c
     e.preventDefault();
     setError("");
     if (!f.firstName.trim() || !f.lastName.trim()) return setError("Please enter your first and last name.");
-    if (!/^\S+@\S+\.\S+$/.test(f.email.trim())) return setError("Please enter a valid email.");
+    if (!/^\S+@\S+\.\S+$/.test(f.email.trim())) return setError("Please enter a valid email. Your onboarding packet is sent there.");
     if (f.phone.replace(/\D/g, "").length < 10) return setError("Please enter a 10-digit phone number.");
     trackCustom("JoinStep", { step: "contact" });
     setStep(2);
@@ -128,7 +130,7 @@ export function JoinForm({ defaultNext = "apply" }: { defaultNext?: "apply" | "c
       if (!res.ok || !j.ok) throw new Error(j.error || `Something went wrong. Please email ${site.recruiting.email}.`);
       setGoogleUserData({ email: f.email, phone: f.phone, firstName: f.firstName, lastName: f.lastName });
       track("SubmitApplication", { content_category: "agent_recruiting", next_step: next }, { eventId, server: false });
-      setResult({ emailed: Boolean(j.emailed) });
+      setResult({ docs: j.docs ?? [], emailed: Boolean(j.emailed) });
       setStep(3);
       top();
     } catch (err) {
@@ -147,16 +149,30 @@ export function JoinForm({ defaultNext = "apply" }: { defaultNext?: "apply" | "c
           <h2 className="mt-4 text-[1.9rem] leading-tight">Thanks, {f.firstName}. Your application is in.</h2>
           <p className="mt-2 text-muted">
             Antony Oseitutu, our Broker of Record, reviews every application personally and will contact you, usually within one business day.
-            {result.emailed && <> A confirmation is on its way to <b className="text-ink">{f.email}</b>.</>}
+            {result.emailed ? <> Your onboarding packet is on its way to <b className="text-ink">{f.email}</b> (check spam too).</> : <> Download your onboarding packet below.</>}
           </p>
           <ol className="mt-5 space-y-2 text-[0.95rem]">
-            {["Antony reviews your license and production history.", "Once approved, you receive the Independent Contractor Agreement to review and sign.", "We coordinate your license affiliation, then onboarding."].map((t, i) => (
+            {["Review the agreement and handbook in your onboarding packet.", "Antony reviews your application and contacts you.", "Once approved, sign and we coordinate your license affiliation and onboarding."].map((t, i) => (
               <li key={t} className="flex gap-3">
                 <span className="grid size-6 shrink-0 place-items-center rounded-full bg-ink text-xs font-bold text-white">{i + 1}</span>
                 <span>{t}</span>
               </li>
             ))}
           </ol>
+          {result.docs.length > 0 && (
+            <>
+              <h3 className="mt-6 flex items-center gap-2 font-sans text-base font-bold"><IconDoc size={18} className="text-red" /> Your onboarding packet</h3>
+              <ul className="mt-3 grid gap-1.5 sm:grid-cols-2">
+                {result.docs.map((d) => (
+                  <li key={d.slug}>
+                    <a href={d.url} target="_blank" rel="noopener" onClick={() => trackCustom("OnboardingDocOpen", { doc: d.slug })} className="flex items-center gap-2 rounded-lg border border-line px-3 py-2.5 text-sm font-semibold hover:border-ink">
+                      <IconDoc size={16} className="shrink-0 text-muted" /> {d.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
         </div>
         <div className="border-t border-line bg-paper p-6 sm:p-8">
           <h3 className="flex items-center gap-2 text-2xl"><IconCalendar size={22} className="text-red" /> {next === "call" ? "Pick a time to talk with Antony" : "Want to talk sooner? (optional)"}</h3>
@@ -207,7 +223,7 @@ export function JoinForm({ defaultNext = "apply" }: { defaultNext?: "apply" | "c
         {step === 1 && (
           <form onSubmit={toStep2} noValidate>
             <h2 className="font-display text-[1.65rem] leading-tight sm:text-[1.85rem]">Apply to join Prime 1</h2>
-            <p className="mt-1.5 text-[0.95rem] text-muted">Takes about 2 minutes. Antony reviews every application personally.</p>
+            <p className="mt-1.5 text-[0.95rem] text-muted">Takes about 2 minutes. Your onboarding packet is emailed to you right away.</p>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               <Field label="First name" id="j-first"><input id="j-first" autoComplete="given-name" value={f.firstName} onChange={set("firstName")} className={inputCls} /></Field>
               <Field label="Last name" id="j-last"><input id="j-last" autoComplete="family-name" value={f.lastName} onChange={set("lastName")} className={inputCls} /></Field>
@@ -303,7 +319,7 @@ export function JoinForm({ defaultNext = "apply" }: { defaultNext?: "apply" | "c
             <fieldset className="mt-5">
               <legend className="mb-2 text-sm font-semibold">How do you want to move forward?</legend>
               <div className="grid gap-2 sm:grid-cols-2">
-                <Choice active={next === "apply"} onClick={() => setNext("apply")} icon={<IconMail size={20} />} title="Submit my application" hint="Antony will follow up" />
+                <Choice active={next === "apply"} onClick={() => setNext("apply")} icon={<IconMail size={20} />} title="Submit my application" hint="Packet emailed now" />
                 <Choice active={next === "call"} onClick={() => setNext("call")} icon={<IconCalendar size={20} />} title="Apply + book a call" hint="30 min with Antony" />
               </div>
             </fieldset>

@@ -36,6 +36,7 @@ declare global {
   interface Window {
     fbq?: Fbq;
     gtag?: (...args: unknown[]) => void;
+    uetq?: unknown[];
     dataLayer?: unknown[];
   }
 }
@@ -111,6 +112,19 @@ function sendGoogle(event: StandardEvent, params: TrackParams, eventId: string) 
   // One conversion per action: the PM label when it is set for a PM action, otherwise the general label.
   const label = pmLabel || (m.label && isCall ? L[m.label] : "");
   if (label) g("event", "conversion", { send_to: `${site.googleAds.id}/${label}`, transaction_id: eventId });
+}
+
+/**
+ * Microsoft Ads (UET) mirror. Goals in Microsoft Ads: create "Event" goals on these actions:
+ * submit_lead_form (leads; category = service line), phone_call_click, book_appointment, agent_application.
+ */
+const MS_MAP: Partial<Record<StandardEvent, string>> = { Lead: "submit_lead_form", Schedule: "book_appointment", SubmitApplication: "agent_application" };
+function sendMicrosoft(event: StandardEvent, params: TrackParams) {
+  if (typeof window === "undefined" || !site.msUetId) return;
+  const action = event === "Contact" ? (params.method === "phone" ? "phone_call_click" : "email_click") : MS_MAP[event];
+  if (!action) return;
+  window.uetq = window.uetq || [];
+  window.uetq.push("event", action, { event_category: String(params.service_line ?? "general"), event_label: String(params.lead_type ?? params.cta_location ?? "") });
 }
 
 /** Enhanced conversions: give Google the submitted email/phone (hashed by gtag) before a lead conversion fires. */
@@ -217,6 +231,11 @@ export function track(event: StandardEvent, params: TrackParams = {}, opts: { ev
   window.fbq?.("track", event, payload, { eventID: eventId });
   try {
     sendGoogle(event, payload, eventId);
+  } catch {
+    /* tracking must never break the page */
+  }
+  try {
+    sendMicrosoft(event, payload);
   } catch {
     /* tracking must never break the page */
   }

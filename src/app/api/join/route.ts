@@ -2,13 +2,14 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { site } from "@/config/site";
 import { requestContext, sendCapiEvent } from "@/lib/meta-capi";
+import { docAttachments, docLinks, ONBOARDING_DOCS } from "@/lib/onboarding-docs";
 import { sendEmail } from "@/lib/resend";
 
 /**
  * Agent application ("Join Prime 1"). Approval-first process (per Antony, Nov 2026):
  *  1. The application goes straight to Antony (site.recruiting.notify), with admin copied. Reply goes to the agent.
- *  2. The agent gets a short "application received" email. No agreement or onboarding packet is sent until
- *     Antony approves the agent; then the ICA, license affiliation and onboarding follow.
+ *  2. The agent gets a confirmation email with the onboarding packet attached (plus signed download links),
+ *     so they can review the agreement and handbook before Antony calls. Antony still approves before signing.
  *  3. The application is also copied to the CRM: Google Sheet, LEAD_WEBHOOK_URL and/or CRM_LEAD_EMAIL
  *     (e.g. the Buildout lead-intake address), whichever are configured.
  */
@@ -91,7 +92,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "Please check your name, email and phone number." }, { status: 400 });
   }
   const a = parsed.data;
-  if (a.company_website) return NextResponse.json({ ok: true, emailed: true });
+  const origin = new URL(req.url).origin;
+  const links = docLinks(origin);
+  if (a.company_website) return NextResponse.json({ ok: true, emailed: true, docs: links });
   if (a.licenseStatus !== "In pre-licensing" && a.licenseNumber.replace(/\W/g, "").length < 5) {
     return NextResponse.json({ ok: false, error: "Please enter your Florida license number (e.g. SL3456789)." }, { status: 400 });
   }
@@ -129,37 +132,45 @@ export async function POST(req: Request) {
   const filled = fields.filter(([, v]) => v);
   const licenseLookup = "https://www.myfloridalicense.com/wl11.asp";
 
+  const PACKET_NOTE = `The agent was emailed the onboarding packet (${ONBOARDING_DOCS.length} documents) and your booking link.`;
+  const PACKET_FAILED = "The packet email to the agent did NOT go out (they could download it on the website). Please email them the packet.";
+
   // ---------- Application to Antony ----------
   const toAntony = {
     to: site.recruiting.notify,
     subject: `Agent application: ${name}${a.licenseNumber ? ` (${a.licenseNumber.toUpperCase()})` : ""} · ${a.transactions || "?"} closings${a.timing ? ` · ${a.timing}` : ""}`,
     html: `<div style="font-family:Arial,sans-serif;font-size:14px;color:#111">
 <h2 style="margin:0 0 4px">New agent application</h2>
-<p style="margin:0 0 16px;color:#555">${esc(fitNote)}. ${wantsCall ? "They asked for a call before deciding." : "Review and reply to approve or decline."} Nothing has been sent to the agent except an "application received" note.</p>
+<p style="margin:0 0 16px;color:#555">${esc(fitNote)}. ${wantsCall ? "They asked for a call before deciding." : "Review and reply to approve or decline."} PACKET_NOTE</p>
 <table style="border-collapse:collapse">${filled.map(([k, v]) => `<tr><td style="padding:5px 14px 5px 0;color:#555;vertical-align:top">${esc(k)}</td><td style="padding:5px 0"><b>${esc(v)}</b></td></tr>`).join("")}</table>
 <p style="margin:18px 0 0"><a href="tel:+1${telDigits}">Call ${esc(a.phone)}</a> · <a href="mailto:${esc(a.email)}">Email ${esc(a.firstName)}</a> · <a href="${licenseLookup}">Verify license (DBPR)</a></p>
 <p style="color:#777;font-size:12px;margin-top:18px">Submitted ${submittedLocal} on prime1realty.net/join. Reply to this email to reach the agent directly.</p></div>`,
     text: `New agent application\n${fitNote}\n\n${filled.map(([k, v]) => `${k}: ${v}`).join("\n")}\n\nSubmitted ${submittedLocal}`,
   };
 
-  // ---------- Confirmation to the agent ----------
+  // ---------- Confirmation + onboarding packet to the agent ----------
+  const steps = [
+    "Review the Independent Contractor Agreement, Policies & Procedures Handbook and Onboarding Checklist (attached).",
+    `${site.recruiting.name} reviews your application and contacts you, usually within one business day.`,
+    "Once approved, you sign the agreement and we coordinate your license affiliation with Prime 1.",
+    "Onboarding: association/MLS, Agent Portal, MoxiWorks, SkySlope, company email and ADP.",
+  ];
   const toAgent = {
     to: a.email,
-    subject: "We received your Prime 1 Realty application",
+    subject: "Your Prime 1 Realty application + onboarding packet",
     html: `<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.55;color:#111;max-width:620px">
 <p>Hi ${esc(a.firstName)},</p>
-<p>Thank you for applying to <b>Prime 1 Realty</b>. ${esc(site.recruiting.name)}, our Broker of Record, reviews every application personally and will contact you, usually within one business day.</p>
-<p><b>What happens next</b></p>
-<ol style="padding-left:20px;margin:0 0 16px">
-<li>Antony reviews your license and production history.</li>
-<li>Once approved, you receive the Independent Contractor Agreement to review and sign.</li>
-<li>We coordinate your license affiliation with Prime 1, then onboarding.</li>
-</ol>
+<p>Thank you for applying to <b>Prime 1 Realty</b>. Your onboarding packet is attached (${ONBOARDING_DOCS.length} PDFs) so you can review everything ahead of time. ${esc(site.recruiting.name)}, our Broker of Record, reviews every application personally and will contact you, usually within one business day.</p>
 <p style="margin:22px 0"><a href="${site.recruiting.calendly}" style="background:#d90a0a;color:#fff;padding:12px 20px;border-radius:8px;text-decoration:none;font-weight:bold">Book a 30-minute call with Antony</a></p>
-<p>Questions? Reply to this email or call ${site.phone.display}.</p>
-<p>Prime 1 Realty<br>${site.address.street}, ${site.address.city}, ${site.address.region} ${site.address.postal}</p>
+<h3 style="margin:24px 0 8px">What happens next</h3>
+<ol style="padding-left:20px;margin:0">${steps.map((t) => `<li style="margin:0 0 6px">${esc(t)}</li>`).join("")}</ol>
+<h3 style="margin:24px 0 8px">Your onboarding documents</h3>
+<p style="margin:0 0 8px;color:#555;font-size:13px">Attached to this email. If your inbox removed the attachments, use these links (valid 60 days):</p>
+<ul style="padding-left:20px;margin:0">${links.map((l) => `<li style="margin:0 0 4px"><a href="${l.url}">${esc(l.title)}</a></li>`).join("")}</ul>
+<p style="margin-top:24px">Questions? Reply to this email or call the office at ${site.phone.display}.</p>
+<p><b>${esc(site.recruiting.name)}</b><br>Broker of Record, Prime 1 Realty<br><a href="mailto:${site.recruiting.email}">${site.recruiting.email}</a> · ${site.phone.display}<br>${site.address.street}, ${site.address.city}, ${site.address.region} ${site.address.postal}</p>
 </div>`,
-    text: `Hi ${a.firstName},\n\nThank you for applying to Prime 1 Realty. ${site.recruiting.name}, our Broker of Record, reviews every application personally and will contact you, usually within one business day.\n\nWhat happens next:\n1. Antony reviews your license and production history.\n2. Once approved, you receive the Independent Contractor Agreement to review and sign.\n3. We coordinate your license affiliation with Prime 1, then onboarding.\n\nBook a 30-minute call with Antony: ${site.recruiting.calendly}\n\nQuestions? Reply to this email or call ${site.phone.display}.`,
+    text: `Hi ${a.firstName},\n\nThank you for applying to Prime 1 Realty. Your onboarding packet is attached. ${site.recruiting.name}, our Broker of Record, will contact you, usually within one business day.\n\nBook a 30-minute call with Antony: ${site.recruiting.calendly}\n\nWhat happens next:\n${steps.map((t, i) => `${i + 1}. ${t}`).join("\n")}\n\nDocuments (links valid 60 days):\n${links.map((l) => `- ${l.title}: ${l.url}`).join("\n")}\n\nQuestions? Reply to this email or call ${site.phone.display}.\n\n${site.recruiting.name}\nBroker of Record, Prime 1 Realty\n${site.recruiting.email}`,
   };
 
   const record = {
@@ -180,13 +191,30 @@ export async function POST(req: Request) {
   if (resend) {
     const from = process.env.RECRUITING_EMAIL_FROM || process.env.LEAD_EMAIL_FROM || "Prime 1 Realty <recruiting@updates.prime1realty.net>";
     const cc = [...new Set([site.recruiting.cc, process.env.RECRUITING_EMAIL_CC].filter((v): v is string => Boolean(v) && v !== toAntony.to))];
+    const agentBody = { from, to: [toAgent.to], reply_to: site.recruiting.email, subject: toAgent.subject, html: toAgent.html, text: toAgent.text };
+    agentEmailed = docAttachments()
+      .then((attachments) => sendEmail({ ...agentBody, attachments }, { tag: "[join]" }))
+      .catch((e) => {
+        console.error("[join] attachment error", e);
+        return sendEmail(agentBody, { tag: "[join]" });
+      });
+    // Antony's notice waits for the agent email so it can say whether the packet actually went out.
     deliveries.push(
-      sendEmail(
-        { from, to: [toAntony.to], cc: cc.length ? cc : undefined, reply_to: a.email, subject: toAntony.subject, html: toAntony.html, text: toAntony.text },
-        { officeNotice: true, tag: "[join]" },
+      agentEmailed.then((ok) =>
+        sendEmail(
+          {
+            from,
+            to: [toAntony.to],
+            cc: cc.length ? cc : undefined,
+            reply_to: a.email,
+            subject: toAntony.subject,
+            html: toAntony.html.replace("PACKET_NOTE", ok ? PACKET_NOTE : PACKET_FAILED),
+            text: toAntony.text + `\n\n${ok ? PACKET_NOTE : PACKET_FAILED}`,
+          },
+          { officeNotice: true, tag: "[join]" },
+        ),
       ),
     );
-    agentEmailed = sendEmail({ from, to: [toAgent.to], reply_to: site.recruiting.email, subject: toAgent.subject, html: toAgent.html, text: toAgent.text }, { tag: "[join]" });
   }
 
   // CRM copy by email (e.g. Buildout / CRM lead-intake address)
@@ -194,7 +222,7 @@ export async function POST(req: Request) {
     const from = process.env.LEAD_EMAIL_FROM || "Prime 1 Website <leads@updates.prime1realty.net>";
     deliveries.push(
       sendEmail(
-        { from, to: process.env.CRM_LEAD_EMAIL.split(",").map((s) => s.trim()), reply_to: a.email, subject: `[Recruiting] ${toAntony.subject}`, html: toAntony.html, text: toAntony.text },
+        { from, to: process.env.CRM_LEAD_EMAIL.split(",").map((s) => s.trim()), reply_to: a.email, subject: `[Recruiting] ${toAntony.subject}`, html: toAntony.html.replace("PACKET_NOTE", ""), text: toAntony.text },
         { tag: "[join:crm]" },
       ),
     );
@@ -249,5 +277,5 @@ export async function POST(req: Request) {
       { status: 502 },
     );
   }
-  return NextResponse.json({ ok: true, emailed });
+  return NextResponse.json({ ok: true, emailed, docs: links });
 }

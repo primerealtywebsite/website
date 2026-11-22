@@ -81,6 +81,13 @@ export const site = {
    * (action) > Tag setup > "send_to: AW-17574854752/<LABEL>". Until a label is set, the matching
    * event still goes to Google as a plain event (usable for event-based conversions in Google Ads).
    */
+  /** Google Analytics 4 property (same one the previous site used, so reporting continues). */
+  ga4Id: process.env.NEXT_PUBLIC_GA4_ID || "G-NDND810E86",
+  /**
+   * Microsoft Advertising UET tag ID (Microsoft Ads > Tools > UET tag). When set, every conversion
+   * event (leads, calls, bookings, agent applications) is mirrored to Microsoft Ads as well.
+   */
+  msUetId: process.env.NEXT_PUBLIC_MS_UET_ID || "",
   googleAds: {
     id: process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || "AW-17574854752",
     labels: {

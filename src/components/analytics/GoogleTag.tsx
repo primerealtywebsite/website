@@ -14,7 +14,7 @@ export function GoogleTag() {
     <>
       <Script src={`https://www.googletagmanager.com/gtag/js?id=${id}`} strategy="afterInteractive" />
       <Script id="google-tag" strategy="afterInteractive">
-        {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('js',new Date());gtag('config','${id}',{allow_enhanced_conversions:true});${
+        {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('js',new Date());gtag('config','${id}',{allow_enhanced_conversions:true});${site.ga4Id ? `gtag('config','${site.ga4Id}');` : ""}${
           phone ? `gtag('config','${id}/${phone}',{phone_conversion_number:'${site.phone.display}'});` : ""
         }`}
       </Script>

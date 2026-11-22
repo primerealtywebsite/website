@@ -44,7 +44,7 @@ export default function Join() {
             </dl>
             <div className="mt-6 hidden gap-3 lg:grid">
               {[
-                ["Apply online", "Your license, current brokerage, production and timing. It goes straight to Antony."],
+                ["Apply online", "Your license, brokerage, production and timing go straight to Antony, and your onboarding packet is emailed to you right away."],
                 ["Or book a call", "Pick a time on Antony's calendar and ask anything about the split, leads, fees or your license transfer."],
               ].map(([t, b]) => (
                 <div key={t} className="flex gap-3">
@@ -116,7 +116,7 @@ export default function Join() {
         <Heading eyebrow="How joining works" title="From application to your first company lead" />
         <ol className="mt-8 grid gap-4 md:grid-cols-4">
           {[
-            ["Apply", "Two minutes online. Antony reviews every application."],
+            ["Apply", "Two minutes online. Your onboarding packet is emailed instantly."],
             ["Approve & sign", "Once approved, sign the Independent Contractor Agreement and affiliate your license."],
             ["Get set up", "Association/MLS, Agent Portal, MoxiWorks, SkySlope, company email and ADP."],
             ["Produce", "Finish the 14-day Producer Activation Program to qualify for company leads."],
