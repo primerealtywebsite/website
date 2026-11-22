@@ -33,6 +33,8 @@ const nextConfig: NextConfig = {
     const rules: R[] = [
       // Canonical host: apex -> www
       { source: "/:path*", has: [{ type: "host", value: siteHost.replace(/^www\./, "") }], destination: `${SITE}/:path*`, permanent: true },
+      // Old recruiting portal host (was Capped/Lovable) -> on-site application
+      { source: "/:path*", has: [{ type: "host", value: "join.prime1realty.net" }], destination: `${SITE}/join`, permanent: false },
       { source: "/index.php", destination: "/", permanent: true },
       { source: "/contact", destination: "/lets-connect", permanent: true },
       { source: "/about", destination: "/about-us", permanent: true },

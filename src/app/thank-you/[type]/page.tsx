@@ -12,7 +12,7 @@ const COPY: Record<string, { title: string; next: string[]; link: { label: strin
   rent: { title: "We're finding rentals for you", next: ["We review your area, size and budget", "We send available homes that match", "We help you apply online"], link: { label: "Review resident services", href: "/resident_services" } },
   management: { title: "Your management proposal request is in", next: ["A licensed manager reviews your property details", "We may ask for documents or a site visit", "You receive a written proposal"], link: { label: "Read: Why a Designated CAM matters", href: "/blog/florida-designated-cam-license-explained" } },
   commercial: { title: "A commercial broker will be in touch", next: ["We review your objectives and criteria", "We prepare initial options or analysis", "We schedule a confidential conversation"], link: { label: "Explore commercial services", href: "/commercial" } },
-  careers: { title: "Thanks for your interest in Prime 1", next: ["Antony, our Broker of Record, reviews your details", "Apply online to get the onboarding packet by email", "Or book a 30-minute call with Antony"], link: { label: "Apply online or book a call with Antony", href: "/join" } },
+  careers: { title: "Thanks for your interest in Prime 1", next: ["Antony, our Broker of Record, reviews your details", "Apply online with your license and production details", "Or book a 30-minute call with Antony"], link: { label: "Apply online or book a call with Antony", href: "/join" } },
   contact: { title: "Thanks, we received your message", next: ["We read every message personally", "We reply within one business day", "Need us sooner? Call (813) 295-8215, answered 24/7"], link: { label: "Back to home", href: "/" } },
 };
 

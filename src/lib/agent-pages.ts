@@ -5,7 +5,6 @@ import { AREAS } from "@/content/areas";
 import { POSTS } from "@/content/blog";
 import { HOME, FAQS as HOME_FAQS, PATHS } from "@/content/home";
 import { FAQS as AGENT_FAQS, JOIN_STATS, STATS as AGENT_STATS } from "@/content/careers";
-import { ONBOARDING_DOCS } from "@/lib/onboarding-docs";
 import { articleSchema, breadcrumbSchema, faqSchema, organizationSchema, personSchema, serviceSchema } from "@/lib/schema";
 
 /**
@@ -170,7 +169,7 @@ function careersDocs(): AgentDoc[] {
       facts,
       sections: [],
       faqs: AGENT_FAQS,
-      start: [`Apply online in about 2 minutes (no interview) or book a 30-minute call with ${site.recruiting.name}: ${u("/join")}`, `Email ${site.recruiting.email}.`],
+      start: [`Apply online in about 2 minutes (the broker reviews every application) or book a 30-minute call with ${site.recruiting.name}: ${u("/join")}`, `Email ${site.recruiting.email}.`],
       related: [{ label: "Join Prime 1", href: "/join" }],
       updated: CONTENT_UPDATED,
       schema: [faqSchema(AGENT_FAQS)],
@@ -178,19 +177,19 @@ function careersDocs(): AgentDoc[] {
     {
       path: "/join",
       title: "Join Prime 1 Realty | Apply Online or Book a Call with the Broker",
-      description: "Florida agents: apply to Prime 1 Realty in 2 minutes with no interview and get the onboarding packet by email, or book a 30-minute call with Broker Antony Oseitutu.",
-      h1: "Apply in 2 minutes. No interview required.",
+      description: "Experienced Florida agents: apply to Prime 1 Realty in 2 minutes. 85% agent share, $15,000 cap, $5,000 Producer Advantage bonus. Or book a 30-minute call with Broker Antony Oseitutu.",
+      h1: "Apply to join Prime 1 in 2 minutes.",
       answer: [
-        `Send your details and your onboarding packet lands in your inbox right away. Prefer to talk first? Book a 30-minute call with ${site.recruiting.name}, our Broker of Record.`,
+        `For experienced residential agents with 6+ closings, and established commercial agents with sales and leasing experience. ${site.recruiting.name}, our Broker of Record, reviews every application personally. Prefer to talk first? Book a 30-minute call.`,
       ],
       facts: JOIN_STATS.map((s) => `${s.v}: ${s.l}`),
       sections: [
-        { h2: "Your onboarding packet", paras: ["Every applicant gets the full Prime 1 packet by email, plus download links on the confirmation screen."], list: ONBOARDING_DOCS.map((d) => d.title) },
+        { h2: "The residential offer", list: ["85% agent share on qualifying business you generate, with a $15,000 annual cap on the brokerage contribution.", "$5,000 Producer Advantage bonus for five qualifying residential closings in your first 120 days, plus $1,000 per qualifying residential seller closing in that period. Both apply to business you generate.", "Designated transaction coordinator: $355 per file, per side."] },
         {
           h2: "How joining works",
           list: [
-            "1. Apply: two minutes online. Your packet is emailed instantly.",
-            "2. Review & sign: read the agreement and handbook. Antony coordinates your license transfer.",
+            "1. Apply: two minutes online. Antony reviews every application.",
+            "2. Approve & sign: once approved, sign the Independent Contractor Agreement and affiliate your license.",
             "3. Get set up: association/MLS, Agent Portal, MoxiWorks, SkySlope, company email and ADP.",
             "4. Produce: finish the 14-day Producer Activation Program to qualify for company leads.",
           ],

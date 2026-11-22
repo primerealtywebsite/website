@@ -112,7 +112,7 @@ export async function POST(req: Request) {
     deliveries.push(
       sendEmail(
         {
-          from: process.env.LEAD_EMAIL_FROM || "Prime 1 Website <leads@prime1realty.net>",
+          from: process.env.LEAD_EMAIL_FROM || "Prime 1 Website <leads@updates.prime1realty.net>",
           // Agent inquiries also go to Antony (recruiting / HR).
           to: [process.env.LEAD_EMAIL_TO || site.email, ...(lead.leadType === "careers" ? [site.recruiting.email] : [])],
           ...(lead.email ? { reply_to: lead.email } : {}),
@@ -122,6 +122,26 @@ export async function POST(req: Request) {
         { officeNotice: true, tag: "[lead]" },
       ),
     );
+    // Copy to the CRM's lead-intake inbox (e.g. Buildout), comma-separated. Plain fields so the CRM can parse them.
+    if (process.env.CRM_LEAD_EMAIL) {
+      const plain = Object.entries({ Name: lead.name, Phone: lead.phone, Email: lead.email ?? "", "Lead type": LABELS[lead.leadType], ...lead.answers, Message: lead.message ?? "", Page: lead.pageUrl ?? "", ...(lead.utm ?? {}) })
+        .filter(([, v]) => v)
+        .map(([k, v]) => `${k}: ${v}`)
+        .join("\n");
+      deliveries.push(
+        sendEmail(
+          {
+            from: process.env.LEAD_EMAIL_FROM || "Prime 1 Website <leads@updates.prime1realty.net>",
+            to: process.env.CRM_LEAD_EMAIL.split(",").map((s) => s.trim()),
+            ...(lead.email ? { reply_to: lead.email } : {}),
+            subject: `New lead: ${LABELS[lead.leadType]} — ${lead.name}`,
+            html: `<pre style="font-family:Arial;font-size:14px">${esc(plain)}</pre>`,
+            text: plain,
+          },
+          { tag: "[lead:crm]" },
+        ),
+      );
+    }
   }
 
   // 2) CRM / automation webhook

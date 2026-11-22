@@ -65,13 +65,14 @@ export const site = {
   bookingUrl: process.env.NEXT_PUBLIC_BOOKING_URL || "/lets-connect#start",
   bookingConfigured: Boolean(process.env.NEXT_PUBLIC_BOOKING_URL),
   /**
-   * Agent recruiting. Every agent application is emailed to `notify` (admin inbox) with Antony copied;
-   * `email` is the public contact agents see and the address their welcome email replies to.
+   * Agent recruiting. Applications and recruiting inquiries go directly to Antony (`notify`), with the
+   * admin inbox copied (`cc`) so support staff can log them in the CRM. Override with RECRUITING_EMAIL_TO/CC.
    */
   recruiting: {
     name: "Antony Oseitutu",
     email: "antony@prime1realty.net",
-    notify: process.env.RECRUITING_EMAIL_TO || "admin@prime1realty.net",
+    notify: process.env.RECRUITING_EMAIL_TO || "antony@prime1realty.net",
+    cc: "admin@prime1realty.net",
     /** 30-minute call with Antony for agents who want to talk before joining */
     calendly: process.env.NEXT_PUBLIC_RECRUITING_CALENDLY_URL || "https://calendly.com/prime1realty-proton/30min",
   },

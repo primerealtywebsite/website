@@ -48,7 +48,7 @@ export default function Careers() {
               </a>
               <TrackedLink href="/join#call" custom="RecruitingCallClick" params={{ cta_location: "careers_hero" }} className="btn btn-ghost text-white">Book a call with Antony</TrackedLink>
             </div>
-            <p className="mt-3 text-sm text-white/60">No interview required. Your onboarding packet is emailed the moment you apply.</p>
+            <p className="mt-3 text-sm text-white/60">For experienced agents: 6+ closings residential, or commercial sales and leasing. Antony reviews every application.</p>
           </div>
           <JoinForm />
         </div>
@@ -70,14 +70,14 @@ export default function Careers() {
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
               <div className="rounded-xl bg-white/5 p-5 ring-1 ring-white/10">
                 <p className="font-display text-4xl">$5,000</p>
-                <p className="mt-1 text-white/75">Production accelerator for 5 qualifying closings in your first 120 days</p>
+                <p className="mt-1 text-white/75">For 5 qualifying residential closings in your first 120 days</p>
               </div>
               <div className="rounded-xl bg-white/5 p-5 ring-1 ring-white/10">
                 <p className="font-display text-4xl">$1,000</p>
-                <p className="mt-1 text-white/75">Seller success bonus per qualifying seller closing in your first 150 days</p>
+                <p className="mt-1 text-white/75">Per qualifying residential seller closing in your first 120 days</p>
               </div>
             </div>
-            <p className="mt-4 text-xs text-white/55">Bonuses require qualifying closed transactions and separate written program terms. Not guaranteed.</p>
+            <p className="mt-4 text-xs text-white/55">Producer Advantage Program. Both incentives apply to business you generate. Bonuses require qualifying closed transactions and separate written program terms. Not guaranteed.</p>
           </div>
           <div>
             <h3 className="text-2xl">Buyer and seller leads. Qualified listing appointments.</h3>
@@ -159,10 +159,10 @@ export default function Careers() {
             <CheckList
               className="mt-6"
               items={[
-                "Experienced agents who already prospect and handle clients, contracts and transactions",
+                "Residential agents with at least six completed transactions who already prospect and handle clients, contracts and transactions",
                 "Agents who want modern tools and a virtual office",
                 "Agents who value direct broker access on residential, commercial and management questions",
-                "A selective group of commercial producers who originate their own business",
+                "One or two established commercial agents with sales and leasing experience",
               ]}
             />
           </div>
@@ -170,8 +170,8 @@ export default function Careers() {
             <Heading eyebrow="How joining works" title="Your next chapter starts here" />
             <ol className="mt-6 space-y-3">
               {[
-                "Apply online in 2 minutes. No interview. Your onboarding packet is emailed instantly.",
-                "Review and sign the agreement. Antony personally coordinates your license transfer and onboarding.",
+                "Apply online in 2 minutes. Antony reviews your license and production history.",
+                "Once approved, sign the Independent Contractor Agreement and transfer your license. Antony handles your onboarding.",
                 "Complete the 14-day Producer Activation Program.",
                 "Become eligible for company-generated leads and listing appointments.",
               ].map((t, i) => (
@@ -182,7 +182,7 @@ export default function Careers() {
               ))}
             </ol>
             <a href="#apply" className="btn btn-red mt-6">
-              Apply & get the onboarding packet <IconArrow size={18} />
+              Apply to join <IconArrow size={18} />
             </a>
           </div>
         </div>

@@ -5,15 +5,14 @@ import { Breadcrumbs } from "@/components/sections/Breadcrumbs";
 import { Heading, Section } from "@/components/sections/Blocks";
 import { JoinForm } from "@/components/join/JoinForm";
 import { CalendlyEmbed } from "@/components/join/CalendlyEmbed";
-import { IconArrow, IconCalendar, IconCheck, IconDoc, IconMail, IconPhone } from "@/components/icons";
+import { IconArrow, IconCalendar, IconCheck, IconMail, IconPhone } from "@/components/icons";
 import { people, site } from "@/config/site";
-import { ONBOARDING_DOCS } from "@/lib/onboarding-docs";
 import { pageMeta } from "@/lib/seo";
 import { JOIN_STATS as STATS } from "@/content/careers";
 
 export const metadata = pageMeta({
   title: "Join Prime 1 Realty | Apply Online or Book a Call with the Broker",
-  description: "Florida agents: apply to Prime 1 Realty in 2 minutes with no interview and get the onboarding packet by email, or book a 30-minute call with Broker Antony Oseitutu.",
+  description: "Experienced Florida agents: apply to Prime 1 Realty in 2 minutes. 85% agent share, $15,000 cap, $5,000 Producer Advantage bonus. Or book a 30-minute call with Broker Antony Oseitutu.",
   path: "/join",
 });
 
@@ -31,9 +30,9 @@ export default function Join() {
           <div className="lg:pt-4">
             <Breadcrumbs items={[{ label: "Careers", href: "/careers" }, { label: "Join", href: "/join" }]} tone="dark" />
             <p className="eyebrow mt-5 text-[#ff5a5a]">Join Prime 1 · Florida-licensed agents</p>
-            <h1 className="mt-3 text-[2.05rem] leading-[1.06] md:text-[3.2rem]">Apply in 2 minutes. No interview required.</h1>
+            <h1 className="mt-3 text-[2.05rem] leading-[1.06] md:text-[3.2rem]">Apply to join Prime 1 in 2 minutes.</h1>
             <p className="mt-4 max-w-xl text-[1.02rem] text-white/80 md:text-lg">
-              Send your details and your onboarding packet lands in your inbox right away. Prefer to talk first? Book a 30-minute call with Antony, our Broker of Record.
+              For experienced residential agents with 6+ closings, and established commercial agents with sales and leasing experience. Antony, our Broker of Record, reviews every application personally. Prefer to talk first? Book a 30-minute call.
             </p>
             <dl className="mt-6 grid grid-cols-2 gap-2.5 md:max-w-lg">
               {STATS.map((s) => (
@@ -45,7 +44,7 @@ export default function Join() {
             </dl>
             <div className="mt-6 hidden gap-3 lg:grid">
               {[
-                ["Apply online", "Fill in the form. Your onboarding packet (agreement, handbook, checklist and more) is emailed to you instantly."],
+                ["Apply online", "Your license, current brokerage, production and timing. It goes straight to Antony."],
                 ["Or book a call", "Pick a time on Antony's calendar and ask anything about the split, leads, fees or your license transfer."],
               ].map(([t, b]) => (
                 <div key={t} className="flex gap-3">
@@ -67,19 +66,22 @@ export default function Join() {
         </div>
       </section>
 
-      {/* What you receive */}
+      {/* The offer */}
       <Section tone="paper">
-        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
-          <Heading eyebrow="Your onboarding packet" title="Everything you need, emailed the moment you apply" intro="Every applicant gets the full Prime 1 packet by email, plus download links on the confirmation screen. Review it at your own pace before you sign." />
-          <ul className="grid gap-2 sm:grid-cols-2">
-            {ONBOARDING_DOCS.map((d) => (
-              <li key={d.slug} className="flex items-center gap-3 rounded-xl bg-white px-4 py-3 ring-1 ring-line">
-                <IconDoc size={18} className="shrink-0 text-red" />
-                <span className="text-[0.95rem] font-semibold">{d.title}</span>
-              </li>
-            ))}
-          </ul>
+        <Heading eyebrow="The residential offer" title="Keep more of the business you generate" />
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          {[
+            ["85% agent share", "On qualifying business you generate, with a $15,000 annual cap on the brokerage contribution."],
+            ["$5,000 Producer Advantage", "For five qualifying residential closings in your first 120 days, plus $1,000 per qualifying residential seller closing in that period. Both apply to business you generate."],
+            ["$355 transaction coordination", "A designated transaction coordinator on every file, $355 per file, per side."],
+          ].map(([t, b]) => (
+            <div key={t} className="card p-6">
+              <h3 className="text-xl">{t}</h3>
+              <p className="mt-2 text-muted">{b}</p>
+            </div>
+          ))}
         </div>
+        <p className="mt-4 text-xs text-muted">Bonuses require qualifying closed transactions and separate written program terms. The executed Independent Contractor Agreement governs.</p>
       </Section>
 
       {/* Book a call */}
@@ -114,8 +116,8 @@ export default function Join() {
         <Heading eyebrow="How joining works" title="From application to your first company lead" />
         <ol className="mt-8 grid gap-4 md:grid-cols-4">
           {[
-            ["Apply", "Two minutes online. Your packet is emailed instantly."],
-            ["Review & sign", "Read the agreement and handbook. Antony coordinates your license transfer."],
+            ["Apply", "Two minutes online. Antony reviews every application."],
+            ["Approve & sign", "Once approved, sign the Independent Contractor Agreement and affiliate your license."],
             ["Get set up", "Association/MLS, Agent Portal, MoxiWorks, SkySlope, company email and ADP."],
             ["Produce", "Finish the 14-day Producer Activation Program to qualify for company leads."],
           ].map(([t, b], i) => (

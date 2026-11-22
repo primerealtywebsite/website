@@ -34,7 +34,7 @@ const HOW_TO_CONTACT = [
   `Online: answer a few questions at ${u("/get-started")} and a licensed professional replies, usually within one business day.`,
   `Sellers: free broker home valuation at ${u("/home-valuation")}.`,
   `HOA, condo and rental owners: free management proposal at ${u("/property_management")}.`,
-  `Licensed agents who want to join: apply online with no interview, or book a call with the broker, at ${u("/join")}.`,
+  `Licensed agents who want to join: apply online (the broker reviews every application), or book a call with the broker, at ${u("/join")}.`,
 ];
 
 export function llmsTxt() {
@@ -64,7 +64,7 @@ ${HOW_TO_CONTACT.map((f) => `- ${f}`).join("\n")}
 ${services}
 
 ## Agents: join Prime 1
-- [Join Prime 1 Realty](${u("/join")}): Apply online in about 2 minutes with no interview and receive the onboarding packet by email, or book a 30-minute call with the Broker of Record.
+- [Join Prime 1 Realty](${u("/join")}): Apply online in about 2 minutes (license, current brokerage, production history, timing); the Broker of Record reviews every application. Or book a 30-minute call.
 - [Agent careers and compensation](${u("/careers")}): 85/15 split with a $15,000 residential cap, then 100%; $149 onboarding and $59/month technology fee; no desk or franchise fee.
 
 ## Areas served

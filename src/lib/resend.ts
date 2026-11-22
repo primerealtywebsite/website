@@ -1,8 +1,8 @@
 import "server-only";
 
 /**
- * Resend sender with a safety net. Until prime1realty.net is verified in Resend, any email "from"
- * that domain is rejected (403). Office notices (leads, agent applications) then go to the Resend
+ * Resend sender with a safety net. Mail is sent from updates.prime1realty.net (verified in Resend;
+ * Google Workspace mail on prime1realty.net is untouched). If that domain ever fails verification, emails are rejected (403). Office notices (leads, agent applications) then go to the Resend
  * account's own inbox (RESEND_FALLBACK_TO, default prime1realty@proton.me) from onboarding@resend.dev,
  * which Resend always allows, so no lead is ever lost. Emails to outside people (the agent's welcome
  * packet) can't use the fallback; the site then shows the packet for download instead.
@@ -47,7 +47,7 @@ export async function sendEmail(email: Email, opts: { officeNotice?: boolean; ta
       to: [fallbackTo],
       cc: undefined,
       subject: `${email.subject} [for ${email.to.join(", ")}]`,
-      html: `<p style="font-family:Arial;font-size:12px;color:#b30808;background:#fdecec;padding:8px 10px;border-radius:6px">Delivered to this inbox because prime1realty.net is not verified in Resend yet. Intended for: ${email.to.join(", ")}. Add the Resend DNS records at GoDaddy to fix.</p>${email.html}`,
+      html: `<p style="font-family:Arial;font-size:12px;color:#b30808;background:#fdecec;padding:8px 10px;border-radius:6px">Delivered to this inbox because the sending domain was rejected by Resend. Intended for: ${email.to.join(", ")}. Check the updates.prime1realty.net domain in Resend.</p>${email.html}`,
     });
     if (!second.ok) console.error(tag, "Resend fallback error", second.status, second.text);
     return second.ok;
