@@ -163,7 +163,7 @@ function careersDocs(): AgentDoc[] {
     {
       path: "/careers",
       title: "Florida Real Estate Agent Careers | 85/15, $15K Cap | Prime 1",
-      description: "Join Prime 1 Realty: 85/15 with a $15,000 residential cap, then 100%. Company leads, a $5,000 production accelerator and remote work anywhere in Florida.",
+      description: "Join Prime 1 Realty: 85% agent share with a $15,000 annual cap, then 100%. $5,000 Producer Advantage bonus, company leads and remote work anywhere in Florida.",
       h1: "Residential and commercial. One brokerage.",
       answer: ["85/15 with a $15,000 residential cap, then 100%. Production bonuses, company-generated leads and listing appointments. Work anywhere in Florida."],
       facts,

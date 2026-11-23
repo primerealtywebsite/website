@@ -96,19 +96,28 @@ export async function POST(req: Request) {
 
   // 1) Email the office
   if (process.env.RESEND_API_KEY) {
-    const rows = Object.entries({
-      Name: lead.name,
-      Phone: lead.phone,
-      Email: lead.email,
-      ...lead.answers,
-      Message: lead.message ?? "",
-      "Call consent": lead.smsConsent ? "Yes" : "No",
-      Page: lead.pageUrl ?? "",
-      ...(lead.utm ?? {}),
-    })
-      .filter(([, v]) => v)
-      .map(([k, v]) => `<tr><td style="padding:4px 12px 4px 0;color:#555">${esc(k)}</td><td style="padding:4px 0"><b>${esc(String(v))}</b></td></tr>`)
-      .join("");
+    const SRC: Record<string, string> = { utm_source: "Ad source", utm_medium: "Ad medium", utm_campaign: "Ad campaign", utm_content: "Ad content", utm_term: "Ad keyword", gclid: "Google Ads click", gbraid: "Google Ads click (iOS)", wbraid: "Google Ads click (web)", fbclid: "Meta ad click", landing_page: "Landing page", landing_service: "Landing service", referrer: "Referred from", device: "Device", ai_source: "Came from AI assistant" };
+    const tr = (k: string, v: string) => `<tr><td style="padding:5px 14px 5px 0;color:#555;vertical-align:top">${esc(k)}</td><td style="padding:5px 0"><b>${esc(v)}</b></td></tr>`;
+    const section = (title: string, rows: [string, string][]) =>
+      rows.some(([, v]) => v)
+        ? `<h3 style="margin:18px 0 6px;font-size:13px;color:#d90a0a;text-transform:uppercase;letter-spacing:.04em">${title}</h3><table style="border-collapse:collapse">${rows.filter(([, v]) => v).map(([k, v]) => tr(k, v)).join("")}</table>`
+        : "";
+    const digits = lead.phone.replace(/\D/g, "").replace(/^1(?=\d{10}$)/, "");
+    const contactRows: [string, string][] = [["Name", lead.name], ["Phone", lead.phone], ["Email", lead.email ?? ""], ["OK to call/text", lead.smsConsent ? "Yes" : "No"]];
+    const answerRows: [string, string][] = [...Object.entries(lead.answers), ["Message", lead.message ?? ""]];
+    const sourceRows: [string, string][] = [["Page", lead.pageUrl ?? ""], ...Object.entries(lead.utm ?? {}).map(([k, v]): [string, string] => [SRC[k] ?? k, v])];
+    const when = new Date(submittedAt).toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "medium", timeStyle: "short" }) + " ET";
+    const html = `<div style="font-family:Arial,sans-serif;font-size:14px;color:#111;max-width:640px">
+<h2 style="margin:0 0 4px">${esc(LABELS[lead.leadType])}</h2>
+<p style="margin:0 0 6px;color:#555">New website lead, ${when}. Call within 5 minutes for the best chance to connect.</p>
+<p style="margin:14px 0"><a href="tel:+1${digits}" style="background:#d90a0a;color:#fff;padding:9px 14px;border-radius:6px;text-decoration:none;font-weight:bold">Call ${esc(lead.name.split(" ")[0])} ${esc(lead.phone)}</a>${lead.email ? ` &nbsp; <a href="mailto:${esc(lead.email)}" style="color:#111">Email ${esc(lead.email)}</a>` : ""}</p>
+${section("Contact", contactRows)}${section("Their answers", answerRows)}${section("Source", sourceRows)}
+<p style="color:#777;font-size:12px;margin-top:18px">Reply to this email to reach ${lead.email ? "the lead directly" : "the office"}.</p></div>`;
+    const block = (title: string, rows: [string, string][]) => {
+      const lines = rows.filter(([, v]) => v).map(([k, v]) => `${k}: ${v}`);
+      return lines.length ? `${title.toUpperCase()}\n${lines.join("\n")}\n` : "";
+    };
+    const text = `${LABELS[lead.leadType]}\n${when}\n\n${block("Contact", contactRows)}\n${block("Their answers", answerRows)}\n${block("Source", sourceRows)}`;
     deliveries.push(
       sendEmail(
         {
@@ -117,17 +126,15 @@ export async function POST(req: Request) {
           to: [process.env.LEAD_EMAIL_TO || site.email, ...(lead.leadType === "careers" ? [site.recruiting.email] : [])],
           ...(lead.email ? { reply_to: lead.email } : {}),
           subject: `New lead: ${LABELS[lead.leadType]} — ${lead.name}`,
-          html: `<h2 style="font-family:Arial">${esc(LABELS[lead.leadType])}</h2><table style="font-family:Arial;font-size:14px">${rows}</table><p style="font-family:Arial;font-size:12px;color:#777">Submitted ${submittedAt}. Call within 5 minutes for the best chance to connect.</p>`,
+          html,
+          text,
         },
         { officeNotice: true, tag: "[lead]" },
       ),
     );
     // Copy to the CRM's lead-intake inbox (e.g. Buildout), comma-separated. Plain fields so the CRM can parse them.
     if (process.env.CRM_LEAD_EMAIL) {
-      const plain = Object.entries({ Name: lead.name, Phone: lead.phone, Email: lead.email ?? "", "Lead type": LABELS[lead.leadType], ...lead.answers, Message: lead.message ?? "", Page: lead.pageUrl ?? "", ...(lead.utm ?? {}) })
-        .filter(([, v]) => v)
-        .map(([k, v]) => `${k}: ${v}`)
-        .join("\n");
+      const plain = text;
       deliveries.push(
         sendEmail(
           {
@@ -135,7 +142,7 @@ export async function POST(req: Request) {
             to: process.env.CRM_LEAD_EMAIL.split(",").map((s) => s.trim()),
             ...(lead.email ? { reply_to: lead.email } : {}),
             subject: `New lead: ${LABELS[lead.leadType]} — ${lead.name}`,
-            html: `<pre style="font-family:Arial;font-size:14px">${esc(plain)}</pre>`,
+            html: `<pre style="font-family:Arial;font-size:14px;white-space:pre-wrap">${esc(plain)}</pre>`,
             text: plain,
           },
           { tag: "[lead:crm]" },

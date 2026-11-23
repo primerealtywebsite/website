@@ -14,6 +14,7 @@ export const metadata = pageMeta({
   title: "Join Prime 1 Realty | Apply Online or Book a Call with the Broker",
   description: "Experienced Florida agents: apply to Prime 1 Realty in 2 minutes. 85% agent share, $15,000 cap, $5,000 Producer Advantage bonus. Or book a 30-minute call with Broker Antony Oseitutu.",
   path: "/join",
+  image: "/og/prime1-join-og.jpg",
 });
 
 

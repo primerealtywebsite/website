@@ -13,8 +13,9 @@ import { FAQS, STATS } from "@/content/careers";
 
 export const metadata = pageMeta({
   title: "Florida Real Estate Agent Careers | 85/15, $15K Cap | Prime 1",
-  description: "Join Prime 1 Realty: 85/15 with a $15,000 residential cap, then 100%. Company leads, a $5,000 production accelerator and remote work anywhere in Florida.",
+  description: "Join Prime 1 Realty: 85% agent share with a $15,000 annual cap, then 100%. $5,000 Producer Advantage bonus, company leads and remote work anywhere in Florida.",
   path: "/careers",
+  image: "/og/prime1-join-og.jpg",
 });
 
 export default function Careers() {

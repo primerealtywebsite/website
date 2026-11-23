@@ -173,8 +173,12 @@ export function Funnel({ flow: preset, className, variant = "card", title }: Pro
     setStatus("sending");
     const eventId = newEventId();
     const leadType = flow.leadType;
+    // Every answer from this flow, in order, labeled with the exact question the visitor saw (this is what the office email shows).
     const named: Record<string, string> = {};
-    Object.entries(answers).forEach(([k, v]) => (named[k] = v));
+    flow.steps.forEach((s) => {
+      const v = answers[s.id]?.trim();
+      if (v) named[s.question.replace(/\?$/, "").slice(0, 120)] = v;
+    });
     try {
       const res = await fetch("/api/lead", {
         method: "POST",
