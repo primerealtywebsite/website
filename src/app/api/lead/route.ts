@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { site } from "@/config/site";
 import { requestContext, sendCapiEvent } from "@/lib/meta-capi";
-import { sendEmail } from "@/lib/resend";
+import { lastResend, sendEmail } from "@/lib/resend";
 
 const LeadSchema = z.object({
   leadType: z.enum(["sell", "valuation", "buy", "rent", "management", "commercial", "careers", "contact"]),
@@ -192,5 +192,5 @@ ${section("Contact", contactRows)}${section("Their answers", answerRows)}${secti
       { status: 502 },
     );
   }
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true }, { headers: { "x-lead-destinations": String(delivered.length), "x-resend": `${lastResend.status ?? "-"} ${(lastResend.body ?? "").replace(/[^\x20-\x7e]/g, "")}` } });
 }

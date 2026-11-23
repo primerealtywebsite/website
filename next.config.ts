@@ -52,9 +52,10 @@ const nextConfig: NextConfig = {
     return rules;
   },
   async rewrites() {
-    if (!IDX_ORIGIN) return [];
-    // Fallback runs only after every page and public file of this site has been checked.
-    return { beforeFiles: [], afterFiles: [], fallback: [{ source: "/:path*", destination: `${IDX_ORIGIN}/:path*` }] };
+    // Fallback runs only after every page and public file of this site has been checked: anything this
+    // site doesn't own goes to the old MLS app through /api/idx (direct-to-IP proxy, see that route).
+    if (process.env.IDX_PROXY === "off") return [];
+    return { beforeFiles: [], afterFiles: [], fallback: [{ source: "/:path*", destination: "/api/idx/:path*" }] };
   },
   async headers() {
     return [

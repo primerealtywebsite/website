@@ -18,6 +18,9 @@ type Email = {
   attachments?: { filename: string; content: string }[];
 };
 
+/** Last Resend API response (status + body snippet, never the key), for diagnostics. */
+export const lastResend: { status?: number; body?: string } = {};
+
 export const resendEnabled = () => Boolean(process.env.RESEND_API_KEY);
 
 async function post(body: Email) {
@@ -27,7 +30,9 @@ async function post(body: Email) {
     body: JSON.stringify(body),
     signal: AbortSignal.timeout(25_000),
   });
-  const text = r.ok ? "" : await r.text();
+  const text = await r.text();
+  lastResend.status = r.status;
+  lastResend.body = text.slice(0, 120);
   return { ok: r.ok, status: r.status, text };
 }
 
