@@ -88,6 +88,8 @@ export const site = {
    * event (leads, calls, bookings, agent applications) is mirrored to Microsoft Ads as well.
    */
   msUetId: process.env.NEXT_PUBLIC_MS_UET_ID || "",
+  /** Microsoft Clarity (session recordings + heatmaps). Project: clarity.microsoft.com */
+  clarityId: process.env.NEXT_PUBLIC_CLARITY_ID || "zhvywhzeab",
   googleAds: {
     id: process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || "AW-17574854752",
     labels: {

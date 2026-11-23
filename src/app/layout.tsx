@@ -10,6 +10,7 @@ import { ContactDialog } from "@/components/layout/ContactDialog";
 import { MetaPixel } from "@/components/analytics/MetaPixel";
 import { GoogleTag } from "@/components/analytics/GoogleTag";
 import { MicrosoftUet } from "@/components/analytics/MicrosoftUet";
+import { MicrosoftClarity } from "@/components/analytics/MicrosoftClarity";
 import { JsonLd } from "@/components/sections/JsonLd";
 import { organizationSchema } from "@/lib/schema";
 
@@ -47,6 +48,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <MetaPixel />
         <GoogleTag />
         <MicrosoftUet />
+        <MicrosoftClarity />
         <JsonLd data={organizationSchema()} />
       </body>
     </html>
