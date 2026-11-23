@@ -1,5 +1,6 @@
-import { request as httpsRequest } from "node:https";
-import type { IncomingHttpHeaders } from "node:http";
+import { oldAppFetch, OLD_HOST as ORIGIN_HOST } from "@/lib/old-app";
+import { optimizeListingHtml } from "@/lib/listing-seo";
+import { site } from "@/config/site";
 
 /**
  * MLS home search (old Laravel app) proxy. Every URL this site doesn't own (/home-search, /search,
@@ -8,8 +9,6 @@ import type { IncomingHttpHeaders } from "node:http";
  * "prime1realty.net", the vhost that serves the app with a valid certificate. That keeps search working
  * even after prime1realty.net's DNS points to this site.
  */
-const ORIGIN_HOST = process.env.OLD_SERVER_HOST || "prime1realty.net";
-const ORIGIN_IP = process.env.OLD_SERVER_IP || "50.63.133.85";
 
 const HOP = new Set(["connection", "keep-alive", "transfer-encoding", "upgrade", "proxy-connection", "te", "trailer", "host", "content-length", "content-encoding"]);
 
@@ -29,34 +28,7 @@ async function proxy(req: Request, { params }: { params: Promise<{ path?: string
   const body = req.method === "GET" || req.method === "HEAD" ? undefined : Buffer.from(await req.arrayBuffer());
   if (body) headers["content-length"] = String(body.length);
 
-  const res = await new Promise<{ status: number; headers: IncomingHttpHeaders; body: Buffer }>((resolve, reject) => {
-    const r = httpsRequest(
-      {
-        host: ORIGIN_HOST,
-        servername: ORIGIN_HOST,
-        port: 443,
-        method: req.method,
-        path: target,
-        headers,
-        timeout: 25_000,
-        // Resolve the old app's hostname to the old server, whatever public DNS says.
-        lookup: (_h, opts, cb) => {
-          if ((opts as { all?: boolean }).all) (cb as unknown as (e: null, a: { address: string; family: number }[]) => void)(null, [{ address: ORIGIN_IP, family: 4 }]);
-          else cb(null, ORIGIN_IP, 4);
-        },
-      },
-      (resp) => {
-        const chunks: Buffer[] = [];
-        resp.on("data", (c: Buffer) => chunks.push(c));
-        resp.on("end", () => resolve({ status: resp.statusCode ?? 502, headers: resp.headers, body: Buffer.concat(chunks) }));
-        resp.on("error", reject);
-      },
-    );
-    r.on("timeout", () => r.destroy(new Error("timeout")));
-    r.on("error", reject);
-    if (body) r.write(body);
-    r.end();
-  }).catch((e) => {
+  const res = await oldAppFetch(target, { method: req.method, headers, body }).catch((e) => {
     console.error("[idx] proxy error", target, e instanceof Error ? e.message : e);
     return null;
   });
@@ -75,7 +47,16 @@ async function proxy(req: Request, { params }: { params: Promise<{ path?: string
     }
     out.set(k, Array.isArray(v) ? v.join(", ") : String(v));
   }
-  return new Response(req.method === "HEAD" || res.status === 204 || res.status === 304 ? null : new Uint8Array(res.body), { status: res.status, headers: out });
+  let payload: BodyInit = new Uint8Array(res.body);
+  // MLS listing pages: unique title/description/image, H1 and RealEstateListing schema (see lib/listing-seo).
+  if (req.method === "GET" && res.status === 200 && /^\/property\/[^/]+$/.test(`/${path.join("/")}`) && String(res.headers["content-type"] ?? "").includes("text/html")) {
+    try {
+      payload = optimizeListingHtml(res.body.toString("utf8"), `${site.url}/${path.join("/")}`);
+    } catch (e) {
+      console.error("[idx] listing seo error", e);
+    }
+  }
+  return new Response(req.method === "HEAD" || res.status === 204 || res.status === 304 ? null : payload, { status: res.status, headers: out });
 }
 
 export { proxy as GET, proxy as HEAD, proxy as POST, proxy as PUT, proxy as PATCH, proxy as DELETE };

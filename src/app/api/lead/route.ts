@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { site } from "@/config/site";
 import { requestContext, sendCapiEvent } from "@/lib/meta-capi";
-import { lastResend, sendEmail } from "@/lib/resend";
+import { sendEmail } from "@/lib/resend";
 
 const LeadSchema = z.object({
   leadType: z.enum(["sell", "valuation", "buy", "rent", "management", "commercial", "careers", "contact"]),
@@ -103,7 +103,7 @@ export async function POST(req: Request) {
         ? `<h3 style="margin:18px 0 6px;font-size:13px;color:#d90a0a;text-transform:uppercase;letter-spacing:.04em">${title}</h3><table style="border-collapse:collapse">${rows.filter(([, v]) => v).map(([k, v]) => tr(k, v)).join("")}</table>`
         : "";
     const digits = lead.phone.replace(/\D/g, "").replace(/^1(?=\d{10}$)/, "");
-    const contactRows: [string, string][] = [["Name", lead.name], ["Phone", lead.phone], ["Email", lead.email ?? ""], ["OK to call/text", lead.smsConsent ? "Yes" : "No"]];
+    const contactRows: [string, string][] = [["Name", lead.name], ["Phone", lead.phone], ["Email", lead.email ?? ""], ["OK to call", lead.smsConsent ? "Yes" : "No"]];
     const answerRows: [string, string][] = [...Object.entries(lead.answers), ["Message", lead.message ?? ""]];
     const sourceRows: [string, string][] = [["Page", lead.pageUrl ?? ""], ...Object.entries(lead.utm ?? {}).map(([k, v]): [string, string] => [SRC[k] ?? k, v])];
     const when = new Date(submittedAt).toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "medium", timeStyle: "short" }) + " ET";
@@ -192,5 +192,5 @@ ${section("Contact", contactRows)}${section("Their answers", answerRows)}${secti
       { status: 502 },
     );
   }
-  return NextResponse.json({ ok: true }, { headers: { "x-lead-destinations": String(delivered.length), "x-resend": `${lastResend.status ?? "-"} ${(lastResend.body ?? "").replace(/[^\x20-\x7e]/g, "")}` } });
+  return NextResponse.json({ ok: true });
 }

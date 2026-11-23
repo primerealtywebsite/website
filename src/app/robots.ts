@@ -13,7 +13,7 @@ export default function robots(): MetadataRoute.Robots {
       },
       { userAgent: "Bytespider", disallow: "/" },
     ],
-    sitemap: `${site.url}/sitemap.xml`,
+    sitemap: [`${site.url}/sitemap.xml`, `${site.url}/sitemap-listings.xml`],
     host: site.url,
   };
 }
