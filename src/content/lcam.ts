@@ -3,12 +3,13 @@ export const LCAM_JOB = {
   path: "/careers/lcam-jobs",
   title: "Licensed Community Association Manager (LCAM), Part-Time",
   posted: "2026-11-22",
+  hourlyRate: 30,
   summary:
-    "Prime 1 Property Management is hiring licensed Florida community association managers for part-time, hourly work: up to 20 hours a week, managing HOA and condominium associations in Tampa Bay.",
+    "Prime 1 Property Management is hiring licensed Florida community association managers for part-time work at $30 an hour: up to 20 hours a week, managing HOA and condominium associations in Tampa Bay.",
   facts: [
     ["Position", "Licensed Community Association Manager (LCAM)"],
     ["Schedule", "Part-time, up to 20 hours a week"],
-    ["Pay", "Hourly"],
+    ["Pay", "$30 per hour"],
     ["Location", "Tampa Bay associations; Prime 1 office in Tampa (Ybor)"],
     ["License", "Active Florida CAM license required"],
   ] as [string, string][],
@@ -29,7 +30,7 @@ export const LCAM_JOB = {
   ],
   faqs: [
     { q: "How many hours is the LCAM position?", a: "Part-time, up to 20 hours a week. Hours are set around the associations you manage, including occasional evening board meetings." },
-    { q: "Is the LCAM role paid hourly?", a: "Yes. The position is paid hourly. The rate is discussed with qualified applicants based on license, experience and the associations assigned." },
+    { q: "What does the LCAM position pay?", a: "Yes. The position pays $30 per hour, up to 20 hours a week." },
     { q: "Do I need a Florida CAM license?", a: "Yes. An active Florida Community Association Manager license is required. Florida requires a licensed CAM for associations with more than 10 units or an annual budget over $100,000." },
     { q: "How do I apply?", a: "Apply on this page in about two minutes with your CAM license number and experience. Antony Oseitutu, Designated CAM, reviews every application." },
   ],

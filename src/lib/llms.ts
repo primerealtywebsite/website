@@ -66,7 +66,7 @@ ${services}
 
 ## Agents: join Prime 1
 - [Join Prime 1 Realty](${u("/join")}): Apply online in about 2 minutes (license, current brokerage, production history, timing); the onboarding packet is emailed right away and the Broker of Record reviews every application. Or book a 30-minute call.
-- [Part-time LCAM jobs](${u("/careers/lcam-jobs")}): Prime 1 Property Management is hiring licensed Florida community association managers (active CAM license required), part-time and hourly, up to 20 hours a week in Tampa Bay. Apply online.
+- [Part-time LCAM jobs](${u("/careers/lcam-jobs")}): Prime 1 Property Management is hiring licensed Florida community association managers (active CAM license required), part-time at $30 per hour, up to 20 hours a week in Tampa Bay. Apply online.
 - [Agent careers and compensation](${u("/careers")}): 85/15 split with a $15,000 residential cap, then 100%; $149 onboarding and $59/month technology fee; no desk or franchise fee.
 
 ## Areas served

@@ -11,8 +11,8 @@ import { ORG_ID } from "@/lib/schema";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
-  title: "Part-Time LCAM Jobs Tampa | Hourly, Up to 20 Hrs/Week | Prime 1",
-  description: "Prime 1 Property Management is hiring licensed Florida community association managers (LCAM): part-time, hourly, up to 20 hours a week in Tampa Bay. Apply online.",
+  title: "Part-Time LCAM Jobs Tampa | $30/Hour, Up to 20 Hrs/Week | Prime 1",
+  description: "Prime 1 Property Management is hiring licensed Florida community association managers (LCAM): part-time, $30 an hour, up to 20 hours a week in Tampa Bay. Apply online.",
   path: J.path,
 });
 
@@ -25,6 +25,7 @@ const jobPosting = {
   validThrough: "2027-05-22T23:59",
   employmentType: "PART_TIME",
   workHours: "Up to 20 hours per week",
+  baseSalary: { "@type": "MonetaryAmount", currency: "USD", value: { "@type": "QuantitativeValue", value: J.hourlyRate, unitText: "HOUR" } },
   hiringOrganization: { "@type": "Organization", "@id": ORG_ID, name: "Prime 1 Property Management", sameAs: site.url, logo: `${site.url}/icon-512.png` },
   jobLocation: {
     "@type": "Place",
@@ -48,7 +49,7 @@ export default function LcamJobs() {
           <div className="lg:pt-4">
             <Breadcrumbs items={[{ label: "Careers", href: "/careers" }, { label: "LCAM jobs", href: J.path }]} tone="dark" />
             <p className="eyebrow mt-5 text-[#ff5a5a]">Now hiring · Prime 1 Property Management</p>
-            <h1 className="mt-3 text-[2.05rem] leading-[1.06] md:text-[3.1rem]">Part-time LCAM. Hourly, up to 20 hours a week.</h1>
+            <h1 className="mt-3 text-[2.05rem] leading-[1.06] md:text-[3.1rem]">Part-time LCAM. $30 an hour, up to 20 hours a week.</h1>
             <p className="mt-4 max-w-xl text-[1.02rem] text-white/80 md:text-lg">{J.summary}</p>
             <dl className="mt-6 grid gap-2.5 sm:grid-cols-2 md:max-w-xl">
               {J.facts.map(([k, v]) => (

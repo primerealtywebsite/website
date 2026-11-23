@@ -67,8 +67,8 @@ export async function POST(req: Request) {
       to: [a.email],
       reply_to: site.recruiting.email,
       subject: "We received your LCAM application | Prime 1 Property Management",
-      html: `<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.55;color:#111;max-width:600px"><p>Hi ${esc(a.firstName)},</p><p>Thank you for applying for the part-time Licensed Community Association Manager position (hourly, up to 20 hours a week) at Prime 1 Property Management. ${esc(site.recruiting.name)}, our Designated CAM, reviews every application and will contact you about next steps.</p><p>Questions? Reply to this email or call ${site.phone.display}.</p><p>Prime 1 Property Management<br>${site.address.street}, ${site.address.city}, ${site.address.region} ${site.address.postal}</p></div>`,
-      text: `Hi ${a.firstName},\n\nThank you for applying for the part-time LCAM position (hourly, up to 20 hours a week) at Prime 1 Property Management. ${site.recruiting.name}, our Designated CAM, reviews every application and will contact you about next steps.\n\nQuestions? Reply to this email or call ${site.phone.display}.`,
+      html: `<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.55;color:#111;max-width:600px"><p>Hi ${esc(a.firstName)},</p><p>Thank you for applying for the part-time Licensed Community Association Manager position ($30 an hour, up to 20 hours a week) at Prime 1 Property Management. ${esc(site.recruiting.name)}, our Designated CAM, reviews every application and will contact you about next steps.</p><p>Questions? Reply to this email or call ${site.phone.display}.</p><p>Prime 1 Property Management<br>${site.address.street}, ${site.address.city}, ${site.address.region} ${site.address.postal}</p></div>`,
+      text: `Hi ${a.firstName},\n\nThank you for applying for the part-time LCAM position ($30 an hour, up to 20 hours a week) at Prime 1 Property Management. ${site.recruiting.name}, our Designated CAM, reviews every application and will contact you about next steps.\n\nQuestions? Reply to this email or call ${site.phone.display}.`,
     },
     { tag: "[lcam]" },
   );

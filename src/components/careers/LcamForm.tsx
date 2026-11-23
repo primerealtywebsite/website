@@ -68,7 +68,7 @@ export function LcamForm() {
   return (
     <form id="apply" onSubmit={submit} noValidate data-no-click-track className="relative scroll-mt-24 rounded-[18px] border border-line bg-white p-5 text-ink shadow-[var(--shadow-lift)] sm:p-7">
       <h2 className="font-display text-[1.65rem] leading-tight sm:text-[1.85rem]">Apply for the LCAM position</h2>
-      <p className="mt-1.5 text-[0.95rem] text-muted">Part-time, hourly, up to 20 hours a week. Takes about 2 minutes.</p>
+      <p className="mt-1.5 text-[0.95rem] text-muted">Part-time, $30 an hour, up to 20 hours a week. Takes about 2 minutes.</p>
       <div className="mt-5 grid gap-3 sm:grid-cols-2">
         <Field label="First name" id="l-first"><input id="l-first" autoComplete="given-name" value={f.firstName} onChange={set("firstName")} className={inputCls} /></Field>
         <Field label="Last name" id="l-last"><input id="l-last" autoComplete="family-name" value={f.lastName} onChange={set("lastName")} className={inputCls} /></Field>
