@@ -56,6 +56,20 @@ async function proxy(req: Request, { params }: { params: Promise<{ path?: string
       console.error("[idx] listing seo error", e);
     }
   }
+  // Home search page: real title/description/canonical + SearchResultsPage schema instead of the generic "Prime 1 Realty".
+  if (req.method === "GET" && res.status === 200 && path.join("/") === "home-search" && !inUrl.search && String(res.headers["content-type"] ?? "").includes("text/html")) {
+    const t = "Tampa Bay Homes for Sale | Search MLS Listings | Prime 1 Realty";
+    const d = "Search every Tampa Bay home for sale and rent on Stellar MLS: Tampa, St. Petersburg, Clearwater, Brandon, Riverview and more. Updated daily by Prime 1 Realty.";
+    const ld = { "@context": "https://schema.org", "@type": "SearchResultsPage", name: t, description: d, url: `${site.url}/home-search`, provider: { "@id": `${site.url}/#organization` } };
+    payload = res.body
+      .toString("utf8")
+      .replace(/<title>[\s\S]*?<\/title>/i, `<title>${t}</title>`)
+      .replace(/<meta name="description" content="[^"]*"\s*\/?>/i, `<meta name="description" content="${d}">`)
+      .replace(/<meta property="og:title" content="[^"]*"\s*\/?>/i, `<meta property="og:title" content="${t}">`)
+      .replace(/<meta property="og:description" content="[^"]*"\s*\/?>/i, `<meta property="og:description" content="${d}">`)
+      .replace(/<link rel="canonical" href="[^"]*"/i, `<link rel="canonical" href="${site.url}/home-search"`)
+      .replace(/<\/head>/i, `<script type="application/ld+json">${JSON.stringify(ld)}</script></head>`);
+  }
   return new Response(req.method === "HEAD" || res.status === 204 || res.status === 304 ? null : payload, { status: res.status, headers: out });
 }
 
