@@ -3,6 +3,7 @@ import { SERVICES } from "@/content/services";
 import { AREAS } from "@/content/areas";
 import { POSTS } from "@/content/blog";
 import { FAQS as AGENT_FAQS } from "@/content/careers";
+import { LCAM_JOB } from "@/content/lcam";
 
 /**
  * AI-only version of the site (llms.txt standard): plain Markdown built from the same content files
@@ -65,6 +66,7 @@ ${services}
 
 ## Agents: join Prime 1
 - [Join Prime 1 Realty](${u("/join")}): Apply online in about 2 minutes (license, current brokerage, production history, timing); the onboarding packet is emailed right away and the Broker of Record reviews every application. Or book a 30-minute call.
+- [Part-time LCAM jobs](${u("/careers/lcam-jobs")}): Prime 1 Property Management is hiring licensed Florida community association managers (active CAM license required), part-time and hourly, up to 20 hours a week in Tampa Bay. Apply online.
 - [Agent careers and compensation](${u("/careers")}): 85/15 split with a $15,000 residential cap, then 100%; $149 onboarding and $59/month technology fee; no desk or franchise fee.
 
 ## Areas served
@@ -93,6 +95,7 @@ export function llmsFullTxt() {
     out.push("### FAQ", ...s.faqs.flatMap((f) => [`**Q: ${f.q}**`, `A: ${f.a}`, ""]));
   }
 
+  out.push("## Part-time LCAM jobs at Prime 1 Property Management", `URL: ${u(LCAM_JOB.path)}`, "", LCAM_JOB.summary, "", ...LCAM_JOB.facts.map(([k, v]) => `- ${k}: ${v}`), "", ...LCAM_JOB.faqs.flatMap((f) => [`**Q: ${f.q}**`, `A: ${f.a}`, ""]));
   out.push("## Agent careers at Prime 1", `URL: ${u("/careers")} · Apply: ${u("/join")}`, "", ...AGENT_FAQS.flatMap((f) => [`**Q: ${f.q}**`, `A: ${f.a}`, ""]));
 
   for (const a of AREAS) {

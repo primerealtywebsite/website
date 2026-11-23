@@ -152,6 +152,17 @@ export default function Careers() {
         </div>
       </Section>
 
+      {/* Also hiring: LCAM */}
+      <Section tone="sand">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <p className="eyebrow text-red">Also hiring · Prime 1 Property Management</p>
+            <h2 className="mt-2 text-2xl md:text-3xl">Licensed CAM? Part-time, hourly, up to 20 hours a week.</h2>
+          </div>
+          <a href="/careers/lcam-jobs" className="btn btn-ink">See the LCAM position</a>
+        </div>
+      </Section>
+
       {/* Who we're looking for + join steps */}
       <Section tone="white">
         <div className="grid gap-10 lg:grid-cols-2">

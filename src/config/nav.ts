@@ -59,6 +59,7 @@ export const NAV: NavGroup[] = [
       { label: "Our team", href: "/team" },
       { label: "Careers for agents", href: "/careers" },
       { label: "Join Prime 1 (agents)", href: "/join", desc: "Apply online or book a call" },
+      { label: "LCAM jobs (part-time)", href: "/careers/lcam-jobs", desc: "Hourly, up to 20 hrs/week" },
       { label: "Real estate insights", href: "/blog" },
       { label: "Contact", href: "/lets-connect" },
     ],
