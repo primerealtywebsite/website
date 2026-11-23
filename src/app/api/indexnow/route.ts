@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import { site } from "@/config/site";
 
 /**
@@ -8,6 +9,7 @@ import { site } from "@/config/site";
 const KEY = "5f17b520fad19965105c031d56e535ed";
 
 export async function GET(req: Request) {
+  await connection(); // always run at request time (never frozen at build)
   if (process.env.CRON_SECRET && req.headers.get("authorization") !== `Bearer ${process.env.CRON_SECRET}`) {
     return new Response("Unauthorized", { status: 401 });
   }

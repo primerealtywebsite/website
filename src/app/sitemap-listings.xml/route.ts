@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import { site } from "@/config/site";
 import { oldAppFetch } from "@/lib/old-app";
 
@@ -20,6 +21,7 @@ async function listingsOnPage(page: number) {
 }
 
 export async function GET() {
+  await connection(); // always run at request time (never frozen at build)
   const ids = new Set<string>();
   for (let start = 1; start <= MAX_PAGES; start += BATCH) {
     const pages = await Promise.all(Array.from({ length: BATCH }, (_, i) => listingsOnPage(start + i)));

@@ -1,26 +1,13 @@
 import { SERVICES } from "@/content/services";
 import { ServicePage } from "@/components/sections/ServicePage";
-import { Heading, Section } from "@/components/sections/Blocks";
-import { BuildoutListings } from "@/components/commercial/BuildoutListings";
+import { CommercialListings } from "@/components/commercial/CommercialListings";
 import { pageMeta } from "@/lib/seo";
 
 const data = SERVICES.commercialProps;
-const BUILDOUT_TOKEN = process.env.NEXT_PUBLIC_BUILDOUT_TOKEN || "";
 
 export const metadata = pageMeta({ title: data.meta.title, description: data.meta.description, path: data.path, image: data.hero.image });
 
+/** Live Buildout listings sit right under the hero (they appear automatically once Buildout has website listings). */
 export default function Page() {
-  return (
-    <>
-      <ServicePage data={data} />
-      {BUILDOUT_TOKEN && (
-        <Section tone="white" id="listings">
-          <Heading eyebrow="Available now" title="Prime 1 commercial listings" intro="Search current office, retail, industrial, land and investment listings. Inquiries go straight to the listing broker." />
-          <div className="mt-8">
-            <BuildoutListings token={BUILDOUT_TOKEN} />
-          </div>
-        </Section>
-      )}
-    </>
-  );
+  return <ServicePage data={data} top={<CommercialListings />} />;
 }

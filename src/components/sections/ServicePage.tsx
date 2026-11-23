@@ -194,7 +194,8 @@ function RentalManagement() {
   );
 }
 
-export function ServicePage({ data, children }: { data: ServicePageData; children?: ReactNode }) {
+/** `top`: content right under the hero (e.g. live listings); `children`: content lower on the page. */
+export function ServicePage({ data, children, top }: { data: ServicePageData; children?: ReactNode; top?: ReactNode }) {
   const d = data;
   return (
     <>
@@ -211,6 +212,8 @@ export function ServicePage({ data, children }: { data: ServicePageData; childre
           <span className="flex items-center gap-2"><IconClock size={16} className="text-red" /> {site.phone.answered}</span>
         </div>
       </div>
+
+      {top}
 
       <Section>
         <div className="mx-auto max-w-3xl">
