@@ -177,7 +177,7 @@ function careersDocs(): AgentDoc[] {
     {
       path: "/join",
       title: "Join Prime 1 Realty | Apply Online or Book a Call with the Broker",
-      description: "Experienced Florida agents: apply to Prime 1 Realty in 2 minutes. 85% agent share, $15,000 cap, $5,000 Producer Advantage bonus. Or book a 30-minute call with Broker Antony Oseitutu.",
+      description: "Experienced Florida agents: apply to Prime 1 Realty in 2 minutes. 85% agent share, $15,000 cap and a $5,000 Producer Advantage bonus. Or book a call.",
       h1: "Apply to join Prime 1 in 2 minutes.",
       answer: [
         `For experienced residential agents with 6+ closings, and established commercial agents with sales and leasing experience. ${site.recruiting.name}, our Broker of Record, reviews every application personally. Prefer to talk first? Book a 30-minute call.`,

@@ -64,7 +64,7 @@ ${HOW_TO_CONTACT.map((f) => `- ${f}`).join("\n")}
 ${services}
 
 ## Agents: join Prime 1
-- [Join Prime 1 Realty](${u("/join")}): Apply online in about 2 minutes (license, current brokerage, production history, timing); the Broker of Record reviews every application. Or book a 30-minute call.
+- [Join Prime 1 Realty](${u("/join")}): Apply online in about 2 minutes (license, current brokerage, production history, timing); the onboarding packet is emailed right away and the Broker of Record reviews every application. Or book a 30-minute call.
 - [Agent careers and compensation](${u("/careers")}): 85/15 split with a $15,000 residential cap, then 100%; $149 onboarding and $59/month technology fee; no desk or franchise fee.
 
 ## Areas served

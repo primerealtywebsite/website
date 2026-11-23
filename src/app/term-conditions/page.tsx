@@ -5,7 +5,7 @@ import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
   title: "Terms & Conditions | Prime 1 Realty",
-  description: "Terms and conditions for using the Prime 1 Realty website, listing information, portals and tools.",
+  description: "Terms and conditions for using the Prime 1 Realty website, including listing information, MLS data, owner and resident portals, forms and online tools.",
   path: "/term-conditions",
 });
 
