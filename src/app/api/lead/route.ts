@@ -124,6 +124,8 @@ ${section("Contact", contactRows)}${section("Their answers", answerRows)}${secti
           from: process.env.LEAD_EMAIL_FROM || "Prime 1 Website <leads@updates.prime1realty.net>",
           // Agent inquiries also go to Antony (recruiting / HR).
           to: [process.env.LEAD_EMAIL_TO || site.email, ...(lead.leadType === "careers" ? [site.recruiting.email] : [])],
+          // Support staff (e.g. Gabrielle) copied on every inquiry: LEAD_EMAIL_CC, comma-separated.
+          ...(process.env.LEAD_EMAIL_CC ? { cc: process.env.LEAD_EMAIL_CC.split(",").map((x) => x.trim()).filter(Boolean) } : {}),
           ...(lead.email ? { reply_to: lead.email } : {}),
           subject: `New lead: ${LABELS[lead.leadType]} — ${lead.name}`,
           html,

@@ -190,7 +190,7 @@ export async function POST(req: Request) {
 
   if (resend) {
     const from = process.env.RECRUITING_EMAIL_FROM || process.env.LEAD_EMAIL_FROM || "Prime 1 Realty <recruiting@updates.prime1realty.net>";
-    const cc = [...new Set([site.recruiting.cc, process.env.RECRUITING_EMAIL_CC].filter((v): v is string => Boolean(v) && v !== toAntony.to))];
+    const cc = [...new Set([site.recruiting.cc, ...(process.env.RECRUITING_EMAIL_CC || process.env.LEAD_EMAIL_CC || "").split(",").map((x) => x.trim())].filter((v): v is string => Boolean(v) && v !== toAntony.to))];
     const agentBody = { from, to: [toAgent.to], reply_to: site.recruiting.email, subject: toAgent.subject, html: toAgent.html, text: toAgent.text };
     agentEmailed = docAttachments()
       .then((attachments) => sendEmail({ ...agentBody, attachments }, { tag: "[join]" }))
