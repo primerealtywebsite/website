@@ -37,6 +37,7 @@ const nextConfig: NextConfig = {
       { source: "/:path*", has: [{ type: "host", value: "join.prime1realty.net" }], destination: `${SITE}/join`, permanent: false },
       // One Join Prime 1 path for every channel (homepage, careers, join. subdomain, LinkedIn, campaigns).
       { source: "/careers", destination: "/join", permanent: true },
+      { source: "/commercialteam", destination: "/team", permanent: true },
       { source: "/index.php", destination: "/", permanent: true },
       { source: "/contact", destination: "/lets-connect", permanent: true },
       { source: "/about", destination: "/about-us", permanent: true },

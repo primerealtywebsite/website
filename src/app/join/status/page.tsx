@@ -1,7 +1,7 @@
 import { connection } from "next/server";
 import { Suspense } from "react";
 import { MessageForm } from "@/components/join/FlowForms";
-import { FlowShell, Notice, NotAvailable, StepCard } from "@/components/join/Shell";
+import { FlowLoading, FlowShell, Notice, NotAvailable, StepCard } from "@/components/join/Shell";
 import { readAgent } from "@/lib/recruiting/token";
 import { pageMeta } from "@/lib/seo";
 
@@ -9,7 +9,7 @@ export const metadata = pageMeta({ title: "Application Status | Prime 1 Realty",
 
 export default function Page(props: PageProps<"/join/status">) {
   return (
-    <Suspense fallback={<FlowShell eyebrow="Join Prime 1" title="Loading your application…">{null}</FlowShell>}>
+    <Suspense fallback={<FlowLoading />}>
       <Status searchParams={props.searchParams} />
     </Suspense>
   );

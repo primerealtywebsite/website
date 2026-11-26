@@ -1,7 +1,7 @@
 import { connection } from "next/server";
 import { Suspense } from "react";
 import { PayStep, SignForm } from "@/components/join/FlowForms";
-import { FlowShell, Notice, NotAvailable, StepCard } from "@/components/join/Shell";
+import { FlowLoading, FlowShell, Notice, NotAvailable, StepCard } from "@/components/join/Shell";
 import { OFFER, usd } from "@/config/offer";
 import { TRANSITION } from "@/content/transition";
 import { packetLinks, signingOpen } from "@/lib/onboarding-docs";
@@ -13,7 +13,7 @@ export const metadata = pageMeta({ title: "Onboarding | Prime 1 Realty", descrip
 
 export default function Page(props: PageProps<"/join/onboarding">) {
   return (
-    <Suspense fallback={<FlowShell eyebrow="Onboarding" title="Loading…">{null}</FlowShell>}>
+    <Suspense fallback={<FlowLoading />}>
       <Onboarding searchParams={props.searchParams} />
     </Suspense>
   );

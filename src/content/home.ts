@@ -18,7 +18,7 @@ export const PATHS = [
 ];
 
 export const FAQS = [
-  { q: "What does Prime 1 Realty do?", a: "Prime 1 Realty is a licensed Florida real estate brokerage in Tampa that helps clients buy, sell, rent and lease residential and commercial property. Its sister company, Prime 1 Property Management, is a licensed community association management firm that manages HOAs, condo associations, rentals and commercial properties." },
+  { q: "What does Prime 1 Realty do?", a: "Prime 1 Realty is a licensed Florida real estate brokerage that helps clients throughout Florida buy, sell, rent and lease residential and commercial property. Prime 1 Property Management is a licensed Florida community association management firm for homeowners and condominium associations, commercial property owners' associations, office parks and qualifying rental portfolios. Both are headquartered in Tampa." },
   { q: "What areas do you serve?", a: "All of Florida. Prime 1 Realty and Prime 1 Property Management are headquartered in Tampa and serve clients throughout the state. Our local market guides cover the communities near our headquarters, and inquiries are welcome for any Florida location." },
   { q: "What are your office hours?", a: "Monday through Friday, 9:00 a.m. to 5:00 p.m. Eastern Time. The office is closed on all federal holidays. Online requests get a reply within one business day. Prime 1 Property Management provides 24/7 live phone answering for community association emergencies at (813) 295-8215." },
   { q: "Is there a cost for a property analysis or management proposal?", a: "No. Seller property analyses, home valuations and management proposals are free with no obligation." },

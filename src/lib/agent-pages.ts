@@ -79,8 +79,8 @@ function servicesDoc(key: string): AgentDoc {
 function homeDoc(): AgentDoc {
   return {
     path: "/",
-    title: "Prime 1 Realty | Florida Real Estate Brokerage & Association Management",
-    description: "Licensed Florida real estate brokerage and community association management firm, headquartered in Tampa and serving clients throughout Florida. Buy, sell, lease or request a management proposal.",
+    title: "Prime 1 Realty | Florida Real Estate & Association Management",
+    description: "Licensed Florida real estate brokerage and community association management firm, headquartered in Tampa. Buy, sell, lease or request a management proposal.",
     h1: HOME.h1,
     answer: [HOME.whoA, HOME.lede],
     facts: HOME.bullets,
@@ -164,7 +164,7 @@ function careersDocs(): AgentDoc[] {
   return [
     {
       path: "/join",
-      title: "Join Prime 1 Realty | Florida Agent Offer, Splits, Fees & Affiliation",
+      title: "Join Prime 1 Realty | Florida Agent Offer, Splits & Fees",
       description: "For experienced Florida agents: the complete Prime 1 offer, what you keep after splits and fees, incentives, support and how affiliation works.",
       h1: "Independent contractor affiliation for producing Florida agents.",
       answer: [

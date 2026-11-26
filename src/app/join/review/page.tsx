@@ -1,7 +1,7 @@
 import { connection } from "next/server";
 import { Suspense } from "react";
 import { BrokerConfirmForm, DecisionForm } from "@/components/join/FlowForms";
-import { FlowShell, Notice, NotAvailable } from "@/components/join/Shell";
+import { FlowLoading, FlowShell, Notice, NotAvailable } from "@/components/join/Shell";
 import { readBroker } from "@/lib/recruiting/token";
 import { dbprLink } from "@/lib/recruiting/workflow";
 import { pageMeta } from "@/lib/seo";
@@ -10,7 +10,7 @@ export const metadata = pageMeta({ title: "Broker Review | Prime 1 Realty", desc
 
 export default function Page(props: PageProps<"/join/review">) {
   return (
-    <Suspense fallback={<FlowShell eyebrow="Broker review" title="Loading…">{null}</FlowShell>}>
+    <Suspense fallback={<FlowLoading />}>
       <Review searchParams={props.searchParams} />
     </Suspense>
   );

@@ -6,7 +6,7 @@ import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
   title: "About Prime 1 Realty | Florida Brokerage & Association Management",
-  description: "Prime 1 Realty is a licensed Florida real estate brokerage and Prime 1 Property Management a licensed Florida CAM firm. Both are headquartered in Tampa and serve clients throughout Florida.",
+  description: "Prime 1 Realty, a licensed Florida brokerage, and Prime 1 Property Management, a licensed Florida CAM firm, are headquartered in Tampa and serve all of Florida.",
   path: "/about-us",
 });
 

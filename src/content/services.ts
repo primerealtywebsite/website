@@ -299,7 +299,7 @@ export const SERVICES: Record<string, ServicePageData> = {
     crumbs: [{ label: "Property management", href: "/property_management" }],
     meta: {
       title: "Florida HOA & Condo Association Management | Prime 1",
-      description: "Licensed Florida CAM firm for HOAs, condo associations, commercial owners' associations and office parks throughout Florida. Request an association management proposal.",
+      description: "Licensed Florida CAM firm for HOAs, condo and commercial owners' associations and office parks statewide. Request an association management proposal.",
     },
     schema: { name: "Community association management in Florida", serviceType: "Community association management and property management" },
     hero: {
@@ -430,8 +430,8 @@ export const SERVICES: Record<string, ServicePageData> = {
       { label: "Owner's representation", href: "/owners-representation" },
     ],
     meta: {
-      title: "Commercial Owner's Representation: Acquisitions & Dispositions | Prime 1",
-      description: "Owner's representation for commercial acquisitions and dispositions throughout Florida: evaluation, negotiation, due diligence and closing, on the owner's side.",
+      title: "Owner's Representation: Acquisitions & Dispositions | Prime 1",
+      description: "Owner's representation for commercial acquisitions and dispositions in Florida: evaluation, negotiation, due diligence and closing.",
     },
     schema: { name: "Owner's representation", serviceType: "Real estate owner's representation" },
     hero: {
@@ -495,7 +495,7 @@ export const SERVICES: Record<string, ServicePageData> = {
     crumbs: [{ label: "Commercial real estate", href: "/commercial" }],
     meta: {
       title: "Florida Commercial Real Estate Brokerage | Prime 1 Realty",
-      description: "Commercial real estate throughout Florida: acquisitions, dispositions, leasing, tenant representation, owner's representation and management. Headquartered in Tampa.",
+      description: "Commercial real estate throughout Florida: acquisitions, dispositions, leasing, tenant representation, owner's representation and property management.",
     },
     schema: { name: "Commercial real estate brokerage in Florida", serviceType: "Commercial real estate brokerage" },
     hero: {

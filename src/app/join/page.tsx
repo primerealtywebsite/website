@@ -10,7 +10,7 @@ import { handbookReviewReady, reviewDocs } from "@/lib/onboarding-docs";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
-  title: "Join Prime 1 Realty | Florida Agent Offer, Splits, Fees & Affiliation",
+  title: "Join Prime 1 Realty | Florida Agent Offer, Splits & Fees",
   description: `For experienced Florida agents: ${SPLIT_LABEL.residential} to a ${usd(OFFER.residential.cap)} cap, then 100%. Commercial ${SPLIT_LABEL.commercial}, then ${SPLIT_LABEL.commercialAbove}. See what you keep, the fees, incentives and how affiliation works.`,
   path: "/join",
   image: "/og/prime1-join-og.jpg",

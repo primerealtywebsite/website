@@ -10,9 +10,9 @@ import { pageMeta } from "@/lib/seo";
 import { FAQS, HOME, PATHS } from "@/content/home";
 
 export const metadata = pageMeta({
-  title: "Prime 1 Realty | Florida Real Estate Brokerage & Association Management",
+  title: "Prime 1 Realty | Florida Real Estate & Association Management",
   description:
-    "Licensed Florida real estate brokerage and community association management firm, headquartered in Tampa and serving clients throughout Florida. Buy, sell, lease or request a management proposal.",
+    "Licensed Florida real estate brokerage and community association management firm, headquartered in Tampa. Buy, sell, lease or request a management proposal.",
   path: "/",
 });
 

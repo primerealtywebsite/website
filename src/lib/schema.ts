@@ -71,6 +71,17 @@ export function organizationSchema() {
         "Owner's representation",
       ],
       memberOf: { "@type": "Organization", name: "National Association of REALTORS®" },
+      subOrganization: {
+        "@type": "ProfessionalService",
+        "@id": `${site.url}/property_management#organization`,
+        name: site.pmName,
+        description: "Licensed Florida community association management firm, headquartered in Tampa and serving associations throughout Florida.",
+        url: `${site.url}/property_management`,
+        telephone: site.phone.e164,
+        address: { "@type": "PostalAddress", streetAddress: site.address.street, addressLocality: site.address.city, addressRegion: site.address.region, postalCode: site.address.postal, addressCountry: site.address.country },
+        areaServed: { "@type": "State", name: "Florida" },
+        parentOrganization: { "@id": `${site.url}/#organization` },
+      },
     },
     {
       "@context": "https://schema.org",

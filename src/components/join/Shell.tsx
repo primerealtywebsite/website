@@ -15,6 +15,17 @@ export function FlowShell({ eyebrow, title, intro, children }: { eyebrow: string
   );
 }
 
+/** Loading state for the streamed flow pages (no heading, so the page has exactly one H1). */
+export function FlowLoading() {
+  return (
+    <section className="bg-paper py-10 md:py-16" aria-busy="true">
+      <div className="container-x max-w-3xl">
+        <p className="text-muted">Loading…</p>
+      </div>
+    </section>
+  );
+}
+
 export function StepCard({ n, title, state, children }: { n: number; title: string; state: "done" | "current" | "locked"; children?: ReactNode }) {
   return (
     <div className={cn("card p-5 md:p-6", state === "locked" && "opacity-60")}>

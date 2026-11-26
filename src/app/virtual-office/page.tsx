@@ -2,7 +2,7 @@ import { connection } from "next/server";
 import { Suspense } from "react";
 import { cookies } from "next/headers";
 import { LostLinkForm } from "@/components/join/FlowForms";
-import { FlowShell, Notice } from "@/components/join/Shell";
+import { FlowLoading, FlowShell, Notice } from "@/components/join/Shell";
 import { IconDoc } from "@/components/icons";
 import { site } from "@/config/site";
 import { TRANSITION, VO_CHECKLIST } from "@/content/transition";
@@ -23,7 +23,7 @@ const TOOLS = [
 
 export default function Page(props: PageProps<"/virtual-office">) {
   return (
-    <Suspense fallback={<FlowShell eyebrow="Agent Login" title="Virtual Office">{null}</FlowShell>}>
+    <Suspense fallback={<FlowLoading />}>
       <Office searchParams={props.searchParams} />
     </Suspense>
   );

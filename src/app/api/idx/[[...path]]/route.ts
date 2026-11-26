@@ -58,8 +58,8 @@ async function proxy(req: Request, { params }: { params: Promise<{ path?: string
   }
   // Home search page: real title/description/canonical + SearchResultsPage schema instead of the generic "Prime 1 Realty".
   if (req.method === "GET" && res.status === 200 && path.join("/") === "home-search" && !inUrl.search && String(res.headers["content-type"] ?? "").includes("text/html")) {
-    const t = "Florida Homes for Sale | Search Stellar MLS Listings | Prime 1 Realty";
-    const d = "Search Florida homes for sale and rent on Stellar MLS, updated daily by Prime 1 Realty, a licensed Florida brokerage headquartered in Tampa and serving clients throughout Florida.";
+    const t = "Florida Homes for Sale | Search MLS Listings | Prime 1 Realty";
+    const d = "Search Florida homes for sale and rent on Stellar MLS, updated daily by Prime 1 Realty, a licensed Florida real estate brokerage headquartered in Tampa.";
     const ld = { "@context": "https://schema.org", "@type": "SearchResultsPage", name: t, description: d, url: `${site.url}/home-search`, provider: { "@id": `${site.url}/#organization` } };
     payload = res.body
       .toString("utf8")
@@ -68,7 +68,18 @@ async function proxy(req: Request, { params }: { params: Promise<{ path?: string
       .replace(/<meta property="og:title" content="[^"]*"\s*\/?>/i, `<meta property="og:title" content="${t}">`)
       .replace(/<meta property="og:description" content="[^"]*"\s*\/?>/i, `<meta property="og:description" content="${d}">`)
       .replace(/<link rel="canonical" href="[^"]*"/i, `<link rel="canonical" href="${site.url}/home-search"`)
-      .replace(/<\/head>/i, `<script type="application/ld+json">${JSON.stringify(ld)}</script></head>`);
+      .replace(/<\/head>/i, `<script type="application/ld+json">${JSON.stringify(ld)}</script></head>`)
+      // The old template has no H1; make its page heading the H1.
+      .replace(/<h2>Real Estate & Homes For Sale<\/h2>/, "<h1 style=\"font-size:inherit;margin:inherit\">Florida Real Estate & Homes For Sale</h1>");
+  }
+  // Old MLS app navigation: point its links at the current site (one Join path, Virtual Office login, no dead team page).
+  if (req.method === "GET" && res.status === 200 && String(res.headers["content-type"] ?? "").includes("text/html")) {
+    const html = typeof payload === "string" ? payload : res.body.toString("utf8");
+    payload = html
+      .replace(/href="https:\/\/app\.prime1realty\.net\/?"/g, 'href="/virtual-office"')
+      .replace(/href="https:\/\/join\.prime1realty\.net\/?"/g, 'href="/join"')
+      .replace(/href="(?:https:\/\/(?:www\.)?prime1realty\.net)?\/careers"/g, 'href="/join"')
+      .replace(/href="(?:https:\/\/(?:www\.)?prime1realty\.net)?\/commercialteam"/g, 'href="/team"');
   }
   // Microsoft Clarity on every proxied HTML page too (home search, listings), same project as the main site.
   if (req.method === "GET" && res.status === 200 && site.clarityId && String(res.headers["content-type"] ?? "").includes("text/html")) {
