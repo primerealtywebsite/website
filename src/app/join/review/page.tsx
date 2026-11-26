@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import { Suspense } from "react";
 import { BrokerConfirmForm, DecisionForm } from "@/components/join/FlowForms";
 import { FlowShell, Notice, NotAvailable } from "@/components/join/Shell";
@@ -16,6 +17,7 @@ export default function Page(props: PageProps<"/join/review">) {
 }
 
 async function Review({ searchParams }: Pick<PageProps<"/join/review">, "searchParams">) {
+  await connection(); // token expiry uses the current time: render per request
   const { t } = await searchParams;
   const token = typeof t === "string" ? t : "";
   const b = readBroker(token);

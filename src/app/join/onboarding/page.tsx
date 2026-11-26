@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import { Suspense } from "react";
 import { PayStep, SignForm } from "@/components/join/FlowForms";
 import { FlowShell, Notice, NotAvailable, StepCard } from "@/components/join/Shell";
@@ -19,6 +20,7 @@ export default function Page(props: PageProps<"/join/onboarding">) {
 }
 
 async function Onboarding({ searchParams }: Pick<PageProps<"/join/onboarding">, "searchParams">) {
+  await connection(); // token expiry uses the current time: render per request
   const sp = await searchParams;
   const token = typeof sp.t === "string" ? sp.t : "";
   // Pending and declined applicants never hold an approved link, so they stop here.

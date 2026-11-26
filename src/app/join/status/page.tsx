@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import { Suspense } from "react";
 import { MessageForm } from "@/components/join/FlowForms";
 import { FlowShell, Notice, NotAvailable, StepCard } from "@/components/join/Shell";
@@ -15,6 +16,7 @@ export default function Page(props: PageProps<"/join/status">) {
 }
 
 async function Status({ searchParams }: Pick<PageProps<"/join/status">, "searchParams">) {
+  await connection(); // token expiry uses the current time: render per request
   const { t } = await searchParams;
   const token = typeof t === "string" ? t : "";
   const tok = readAgent(token, ["pending"]);

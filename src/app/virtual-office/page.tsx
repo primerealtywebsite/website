@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import { Suspense } from "react";
 import { cookies } from "next/headers";
 import { LostLinkForm } from "@/components/join/FlowForms";
@@ -29,6 +30,7 @@ export default function Page(props: PageProps<"/virtual-office">) {
 }
 
 async function Office({ searchParams }: Pick<PageProps<"/virtual-office">, "searchParams">) {
+  await connection(); // token expiry uses the current time: render per request
   const sp = await searchParams;
   const token = (await cookies()).get("p1_vo")?.value ?? "";
   const tok = readAgent(token, ["affiliated"]);
