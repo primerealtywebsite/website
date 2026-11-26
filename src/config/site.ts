@@ -126,7 +126,7 @@ export const people = {
     role: "Owner, Broker of Record & Designated CAM",
     titles: ["Owner | Broker of Record, Prime 1 Realty", "Designated CAM, Prime 1 Property Management", "REALTOR®"],
     email: "antony@prime1realty.net",
-    image: "/images/team/antony-oseitutu-broker-tampa.jpg",
+    image: "/images/team/antony-oseitutu-headshot.jpg",
     cutout: "/images/team/antony-oseitutu-cutout.png",
     bio: [
       "Antony Oseitutu leads Prime 1 Realty as Broker of Record and serves as Designated Community Association Manager for Prime 1 Property Management. His work spans residential and commercial brokerage, rental property management and community association management.",
@@ -152,7 +152,7 @@ export const people = {
     role: "Brokerage Operations Support",
     titles: ["Brokerage Operations Support, Prime 1 Realty (Northern Lights Operations)"],
     email: "admin2@prime1realty.net",
-    image: null as string | null,
+    image: "/images/team/gabrielle-ortiz.jpg" as string | null,
     cutout: null as string | null,
     bio: [
       "Gabrielle Ortiz supports Prime 1 Realty's brokerage administration through Northern Lights Operations. She maintains agent and applicant records, sends approved written information and follows up on administrative next steps.",
