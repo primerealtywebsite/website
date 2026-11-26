@@ -37,7 +37,9 @@ function titleCase(s: string) {
 
 function field(text: string, label: string) {
   const m = text.match(new RegExp(`${label}\\s*:?\\s*\\n+([^\\n]+)`, "i"));
-  return m ? m[1].trim() : "";
+  const v = m ? m[1].trim() : "";
+  // The MLS app prints "N/A" (or "-") for missing values; treat those as empty so titles never say "N/A Bd".
+  return /^(n\/?a|-+|none|null)$/i.test(v) ? "" : v;
 }
 
 export type Listing = {

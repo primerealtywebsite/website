@@ -83,7 +83,7 @@ async function proxy(req: Request, { params }: { params: Promise<{ path?: string
       // Old template script errors: Mmenu is started on pages that have no #menu element, and the chart
       // script loads without its ApexCharts library (and the pages have no charts).
       .replace(/const menu = new Mmenu\( "#menu" \);/g, 'if (!document.querySelector("#menu")) return; const menu = new Mmenu( "#menu" );')
-      .replace(/(<script src="[^"]*\/area-chart\.js"[^>]*>\s*<\/script>)/g, (m) => (/apexcharts/i.test(html) ? m : ""));
+      .replace(/(<script src="[^"]*\/area-chart\.js"[^>]*>\s*<\/script>)/g, (m) => (/<script[^>]+apexcharts/i.test(html) ? m : ""));
   }
   // Microsoft Clarity on every proxied HTML page too (home search, listings), same project as the main site.
   if (req.method === "GET" && res.status === 200 && site.clarityId && String(res.headers["content-type"] ?? "").includes("text/html")) {
