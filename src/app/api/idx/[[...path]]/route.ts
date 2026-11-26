@@ -79,7 +79,11 @@ async function proxy(req: Request, { params }: { params: Promise<{ path?: string
       .replace(/href="https:\/\/app\.prime1realty\.net\/?"/g, 'href="/virtual-office"')
       .replace(/href="https:\/\/join\.prime1realty\.net\/?"/g, 'href="/join"')
       .replace(/href="(?:https:\/\/(?:www\.)?prime1realty\.net)?\/careers"/g, 'href="/join"')
-      .replace(/href="(?:https:\/\/(?:www\.)?prime1realty\.net)?\/commercialteam"/g, 'href="/team"');
+      .replace(/href="(?:https:\/\/(?:www\.)?prime1realty\.net)?\/commercialteam"/g, 'href="/team"')
+      // Old template script errors: Mmenu is started on pages that have no #menu element, and the chart
+      // script loads without its ApexCharts library (and the pages have no charts).
+      .replace(/const menu = new Mmenu\( "#menu" \);/g, 'if (!document.querySelector("#menu")) return; const menu = new Mmenu( "#menu" );')
+      .replace(/(<script src="[^"]*\/area-chart\.js"[^>]*>\s*<\/script>)/g, (m) => (/apexcharts/i.test(html) ? m : ""));
   }
   // Microsoft Clarity on every proxied HTML page too (home search, listings), same project as the main site.
   if (req.method === "GET" && res.status === 200 && site.clarityId && String(res.headers["content-type"] ?? "").includes("text/html")) {
