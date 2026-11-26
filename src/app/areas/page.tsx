@@ -6,8 +6,8 @@ import { AREAS } from "@/content/areas";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
-  title: "Areas We Serve in Tampa Bay | Prime 1 Realty",
-  description: "Prime 1 Realty serves Tampa, Brandon, Riverview, Clearwater, St. Petersburg and surrounding Hillsborough and Pinellas County communities.",
+  title: "Local Market Guides | Prime 1 Realty, Serving All of Florida",
+  description: "Prime 1 Realty serves clients throughout Florida from its Tampa headquarters. Local market guides for Tampa, Brandon, Riverview, Clearwater and St. Petersburg.",
   path: "/areas",
 });
 
@@ -17,8 +17,8 @@ export default function Areas() {
       <section className="bg-paper pb-4 pt-10 md:pt-14">
         <div className="container-x">
           <Breadcrumbs items={[{ label: "Areas", href: "/areas" }]} />
-          <h1 className="mt-5 text-[2.3rem] leading-tight md:text-5xl">Areas we serve across Tampa Bay</h1>
-          <p className="mt-4 max-w-2xl text-lg text-muted">Local notes on neighborhoods, flood zones, insurance and HOAs for each community.</p>
+          <h1 className="mt-5 text-[2.3rem] leading-tight md:text-5xl">Local market guides</h1>
+          <p className="mt-4 max-w-2xl text-lg text-muted">Prime 1 serves clients throughout Florida. These guides cover neighborhoods, flood zones, insurance and HOAs in communities near our Tampa headquarters.</p>
         </div>
       </section>
       <Section tone="paper" className="!pt-8">

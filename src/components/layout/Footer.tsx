@@ -21,7 +21,7 @@ export function Footer() {
         <div className="md:col-span-4">
           <Image src="/images/brand/prime1-realty-logo.png" alt="Prime 1 Realty & Property Management" width={365} height={171} className="h-14 w-auto" />
           <p className="mt-4 max-w-sm text-sm leading-relaxed">
-            Licensed Florida real estate brokerage and community association management firm serving Tampa Bay buyers, sellers, renters, owners and boards.
+            Prime 1 Realty is a licensed Florida real estate brokerage. Prime 1 Property Management is a licensed Florida community association management firm. Both are headquartered in Tampa and serve clients throughout Florida.
           </p>
           <ul className="mt-6 space-y-3 text-sm">
             <li>
@@ -44,8 +44,8 @@ export function Footer() {
                 </span>
               </TrackedLink>
             </li>
-            <li className="text-white/60">{site.phone.answered} · {site.phone.callsOnly.toLowerCase()}</li>
-            <li className="text-white/60">Office: {site.hours.label}</li>
+            <li className="text-white/60">Office: {site.hours.label}. {site.hours.note}.</li>
+            <li className="text-white/60">Community association emergencies: 24/7 live answering · {site.phone.callsOnly.toLowerCase()}</li>
           </ul>
           <p className="mb-2 mt-6 text-xs font-bold uppercase tracking-[.14em] text-white">Portal login</p>
           <ul className="space-y-1.5 text-sm">
@@ -93,7 +93,7 @@ export function Footer() {
             </ul>
           </div>
           <div className="col-span-2">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[.14em] text-white">Areas we serve</p>
+            <p className="mb-3 text-xs font-bold uppercase tracking-[.14em] text-white">Serving all of Florida · Local guides</p>
             <ul className="flex flex-wrap gap-x-4 gap-y-2 text-sm">
               {AREAS.map((a) => (
                 <li key={a.href}>

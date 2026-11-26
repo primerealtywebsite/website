@@ -25,6 +25,7 @@ export function FunnelHero({
   secondary,
   leadType,
   funnelTitle,
+  form,
 }: {
   crumbs?: { label: string; href: string }[];
   eyebrow: string;
@@ -36,6 +37,8 @@ export function FunnelHero({
   secondary?: ServicePageData["hero"]["secondary"];
   leadType?: ServicePageData["leadType"];
   funnelTitle?: string;
+  /** Replaces the question flow (e.g. the association proposal form). */
+  form?: ReactNode;
 }) {
   return (
     <section className="relative isolate overflow-hidden bg-ink text-white">
@@ -72,9 +75,7 @@ export function FunnelHero({
         </div>
         <div className="lg:sticky lg:top-24">
           <MobileCallCta location="hero_mobile_call" />
-          <MobileFormReveal>
-            <Funnel flow={leadType} title={funnelTitle} />
-          </MobileFormReveal>
+          <MobileFormReveal label={form ? "Request an Association Management Proposal" : undefined}>{form ?? <Funnel flow={leadType} title={funnelTitle} />}</MobileFormReveal>
           <ul className="mt-4 grid gap-2 text-sm text-white/80 sm:hidden">
             {bullets.map((b) => (
               <li key={b} className="flex items-center gap-2">
@@ -124,7 +125,7 @@ function SellerSample() {
               <span className="rounded-full bg-paper px-3 py-1 text-xs font-bold uppercase tracking-wider text-muted ring-1 ring-line">Sample</span>
             </div>
             <p className="mt-1 flex items-center gap-1.5 text-sm text-muted">
-              <IconPin size={15} /> Your address, Tampa Bay
+              <IconPin size={15} /> Your address, Florida
             </p>
             <dl className="mt-6 divide-y divide-line">
               {rows.map(([k, v]) => (
@@ -176,8 +177,8 @@ function RentalManagement() {
         <Photo src="/images/buy/craftsman-home-curb-appeal.jpg" alt="Single-family rental home with a well-kept front yard" ratio="4/3" />
         <div>
           <p className="eyebrow">Rental property management</p>
-          <h2 className="mt-3 text-[2rem] leading-tight md:text-[2.4rem]">Hands-off rental income for single-family and multifamily owners</h2>
-          <p className="mt-4 text-lg text-muted">For residential rentals, multifamily and commercial properties.</p>
+          <h2 className="mt-3 text-[2rem] leading-tight md:text-[2.4rem]">Management for qualifying rental portfolios</h2>
+          <p className="mt-4 text-lg text-muted">For residential rental portfolios that meet Prime 1&apos;s service criteria.</p>
           <CheckList
             className="mt-6"
             items={[
@@ -195,21 +196,21 @@ function RentalManagement() {
 }
 
 /** `top`: content right under the hero (e.g. live listings); `children`: content lower on the page. */
-export function ServicePage({ data, children, top }: { data: ServicePageData; children?: ReactNode; top?: ReactNode }) {
+export function ServicePage({ data, children, top, form, emergency }: { data: ServicePageData; children?: ReactNode; top?: ReactNode; form?: ReactNode; emergency?: boolean }) {
   const d = data;
   return (
     <>
       <ViewContent category={d.category} name={d.schema.name} />
       <JsonLd data={serviceSchema({ name: d.schema.name, description: d.meta.description, path: d.path, serviceType: d.schema.serviceType })} />
-      <FunnelHero crumbs={d.crumbs} leadType={d.leadType} {...d.hero} />
+      <FunnelHero crumbs={d.crumbs} leadType={d.leadType} {...d.hero} form={form} />
 
       {/* Trust strip */}
       <div className="border-b border-line bg-white">
         <div className="container-x flex flex-wrap items-center justify-center gap-x-8 gap-y-3 py-5 text-sm font-semibold text-muted">
           <span className="flex items-center gap-2"><IconCheck size={16} className="text-red" /> Licensed Florida brokerage</span>
           <span className="flex items-center gap-2"><IconCheck size={16} className="text-red" /> Licensed CAM firm</span>
-          <span className="flex items-center gap-2"><IconPin size={16} className="text-red" /> Office in Tampa ({site.address.neighborhood})</span>
-          <span className="flex items-center gap-2"><IconClock size={16} className="text-red" /> {site.phone.answered}</span>
+          <span className="flex items-center gap-2"><IconPin size={16} className="text-red" /> Headquartered in Tampa · serving all of Florida</span>
+          <span className="flex items-center gap-2"><IconClock size={16} className="text-red" /> {emergency ? site.phone.emergency : `Office ${site.hours.label}`}</span>
         </div>
       </div>
 
@@ -294,7 +295,7 @@ function MobileCallCta({ location }: { location: string }) {
       <TrackedLink href={site.phone.href} event="Contact" params={{ method: "phone", cta_location: location }} className="btn btn-red min-h-[60px] w-full text-[1.1rem]">
         <IconPhone size={20} /> Call now: {site.phone.display}
       </TrackedLink>
-      <p className="mt-2 text-center text-[0.82rem] text-white/70">{site.phone.answered} · tap to call now</p>
+      <p className="mt-2 text-center text-[0.82rem] text-white/70">Office {site.hours.label} · tap to call</p>
     </div>
   );
 }

@@ -22,7 +22,7 @@ const nextConfig: NextConfig = {
   // Agent onboarding PDFs live outside /public (never crawlable) and are read at runtime by these routes.
   outputFileTracingIncludes: {
     "/api/agent-docs": ["./private/onboarding/**/*"],
-    "/api/join": ["./private/onboarding/**/*"],
+    "/api/onboarding/sign": ["./private/onboarding/**/*"],
   },
   images: {
     qualities: [70, 75, 85],
@@ -33,8 +33,10 @@ const nextConfig: NextConfig = {
     const rules: R[] = [
       // Canonical host: apex -> www
       { source: "/:path*", has: [{ type: "host", value: siteHost.replace(/^www\./, "") }], destination: `${SITE}/:path*`, permanent: true },
-      // Old recruiting portal host (was Capped/Lovable) -> on-site application
+      // Recruiting subdomain (formerly the Capped portal) -> the one Join Prime 1 page. Query strings (utm_*) are kept.
       { source: "/:path*", has: [{ type: "host", value: "join.prime1realty.net" }], destination: `${SITE}/join`, permanent: false },
+      // One Join Prime 1 path for every channel (homepage, careers, join. subdomain, LinkedIn, campaigns).
+      { source: "/careers", destination: "/join", permanent: true },
       { source: "/index.php", destination: "/", permanent: true },
       { source: "/contact", destination: "/lets-connect", permanent: true },
       { source: "/about", destination: "/about-us", permanent: true },

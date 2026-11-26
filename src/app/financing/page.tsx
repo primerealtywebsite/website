@@ -7,7 +7,7 @@ import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
   title: "Florida Mortgage Payment Calculator | Tampa | Prime 1 Realty",
-  description: "Estimate your monthly mortgage payment in Tampa Bay, including Florida property tax, homeowners insurance, PMI and HOA dues. Free and instant.",
+  description: "Estimate your monthly mortgage payment in Florida, including Florida property tax, homeowners insurance, PMI and HOA dues. Free and instant.",
   path: "/financing",
 });
 
@@ -25,7 +25,7 @@ export default function Financing() {
         <div className="container-x">
           <Breadcrumbs items={[{ label: "Buy", href: "/residential" }, { label: "Mortgage calculator", href: "/financing" }]} />
           <h1 className="mt-5 text-[2.3rem] leading-tight md:text-5xl">Florida mortgage payment calculator</h1>
-          <p className="mt-4 max-w-2xl text-lg text-muted">See what a Tampa Bay home really costs per month, including taxes, insurance, PMI and HOA dues.</p>
+          <p className="mt-4 max-w-2xl text-lg text-muted">See what a Florida home really costs per month, including taxes, insurance, PMI and HOA dues.</p>
         </div>
       </section>
       <Section tone="paper" className="!pt-6">
@@ -37,7 +37,7 @@ export default function Financing() {
       </Section>
       <Section tone="white">
         <div className="mx-auto max-w-3xl">
-          <Answer question="How much house can I afford in Tampa Bay?">
+          <Answer question="How much house can I afford in Florida?">
             Start from the monthly payment you are comfortable with, not the maximum loan you qualify for. In Florida, include property tax, homeowners and flood insurance, HOA or CDD fees and maintenance. A lender pre-approval confirms your budget, and a buyer agent can flag homes where insurance or fees push the payment higher.
           </Answer>
         </div>

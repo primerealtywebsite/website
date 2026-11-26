@@ -10,9 +10,9 @@ import { pageMeta } from "@/lib/seo";
 import { FAQS, HOME, PATHS } from "@/content/home";
 
 export const metadata = pageMeta({
-  title: "Tampa Bay Real Estate & Property Management | Prime 1 Realty",
+  title: "Prime 1 Realty | Florida Real Estate Brokerage & Association Management",
   description:
-    "Buy, sell, rent or get your HOA, condo or rental managed in Tampa Bay. Licensed Florida brokerage and CAM firm. Get started in 60 seconds.",
+    "Licensed Florida real estate brokerage and community association management firm, headquartered in Tampa and serving clients throughout Florida. Buy, sell, lease or request a management proposal.",
   path: "/",
 });
 
@@ -23,7 +23,7 @@ export default function Home() {
   return (
     <>
       <FunnelHero
-        eyebrow="Tampa Bay real estate brokerage & property management"
+        eyebrow="Florida real estate brokerage & community association management"
         h1={HOME.h1}
         lede={HOME.lede}
         image="/images/blog/modern-florida-luxury-home-pool.jpg"
@@ -38,9 +38,9 @@ export default function Home() {
         <div className="container-x grid grid-cols-2 gap-4 py-6 text-sm md:grid-cols-4">
           {[
             [IconCheck, "Licensed FL brokerage", "Residential & commercial"],
-            [IconCommunity, "Licensed CAM firm", "HOA, condo & rentals"],
-            [IconPin, "Tampa-based", "Serving all of Tampa Bay"],
-            [IconClock, "Calls answered 24/7", "Forms: reply within 1 business day"],
+            [IconCommunity, "Licensed CAM firm", "Associations throughout Florida"],
+            [IconPin, "Headquartered in Tampa", "Serving clients throughout Florida"],
+            [IconClock, "Office Mon–Fri, 9–5 ET", "24/7 live answering for association emergencies"],
           ].map(([Icon, t, s]) => {
             const I = Icon as typeof IconCheck;
             return (
@@ -99,7 +99,7 @@ export default function Home() {
       <Section tone="paper">
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <Reveal>
-            <Photo src="/images/sell/two-story-home-front-lawn.jpg" alt="Two-story home with a front lawn in a Tampa Bay neighborhood" ratio="5/4" />
+            <Photo src="/images/sell/two-story-home-front-lawn.jpg" alt="Two-story Florida home with a front lawn" ratio="5/4" />
           </Reveal>
           <div>
             <Heading eyebrow="Thinking of selling?" title="Know your number before you list" intro="Homes priced right from day one tend to sell faster and closer to asking. Get a broker-prepared value range built from real nearby sales, free and with no obligation." />
@@ -118,11 +118,11 @@ export default function Home() {
       <Section tone="ink">
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <div>
-            <Heading tone="dark" eyebrow="For HOA & condo boards and rental owners" title="Management that keeps your board compliant and your owners informed" intro="Florida's association rules keep getting stricter. Our licensed managers handle budgets, vendors, records and deadlines, with portals for owners and residents." />
-            <CheckList tone="dark" className="mt-6 text-white/90" items={["Licensed Florida CAM firm with a Designated CAM", "Budgets, collections and financial reporting", "Milestone inspection and reserve study coordination", "Owner and resident portals for payments and documents"]} />
+            <Heading tone="dark" eyebrow="For association boards throughout Florida" title="Request an Association Management Proposal" intro="For homeowners associations, condominium associations, commercial property owners' associations and office parks. Prime 1 Property Management is a licensed Florida CAM firm led by a Designated CAM." />
+            <CheckList tone="dark" className="mt-6 text-white/90" items={["Inspections and board reporting", "Budget and financial reporting support", "Vendor oversight and Florida compliance deadlines", "Buildium portal for payments, requests and documents", "Attach your existing RFP"]} />
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/property_management#start" className="btn btn-red">
-                Get a management proposal <IconArrow size={18} />
+                Request an Association Management Proposal <IconArrow size={18} />
               </Link>
               <Link href="/blog/florida-designated-cam-license-explained" className="btn btn-ghost text-white">Why a Designated CAM matters</Link>
             </div>
@@ -139,7 +139,7 @@ export default function Home() {
           steps={[
             { title: "Answer a few questions", body: "Tell us what you need. It takes about a minute and there's no obligation." },
             { title: "Get your next step", body: "A licensed professional sends your property analysis, matching homes or proposal." },
-            { title: "Decide with confidence", body: "Book a short call or meet at our Tampa office. You stay in control." },
+            { title: "Decide with confidence", body: "Talk it through by phone or at our Tampa headquarters. You stay in control." },
           ]}
         />
       </Section>
@@ -150,7 +150,7 @@ export default function Home() {
 
       {/* Areas */}
       <Section tone="sand">
-        <Heading eyebrow="Areas we serve" title="Local guidance across Tampa Bay" intro="Neighborhood notes, flood and insurance tips, and HOA details for each community." />
+        <Heading eyebrow="Local market guides" title="Serving all of Florida, with local guides close to home" intro="We work with clients throughout Florida. These guides cover neighborhoods, flood and insurance tips and HOA details near our Tampa headquarters." />
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {AREAS.map((a, i) => (
             <Reveal key={a.slug} delay={i * 0.05}>
@@ -170,7 +170,7 @@ export default function Home() {
       {/* Insights */}
       <Section tone="paper">
         <div className="flex flex-wrap items-end justify-between gap-4">
-          <Heading eyebrow="Insights" title="Real estate guidance for Tampa Bay" />
+          <Heading eyebrow="Insights" title="Real estate guidance for Florida" />
           <Link href="/blog" className="font-bold text-red hover:underline">All articles →</Link>
         </div>
         <div className="mt-10 grid gap-5 md:grid-cols-3">
@@ -197,19 +197,16 @@ export default function Home() {
       <section className="border-y border-line bg-paper py-12">
         <div className="container-x flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
           <div>
-            <p className="eyebrow">For licensed agents</p>
-            <h2 className="mt-2 text-3xl">Built for producing agents: 85/15 split, $15,000 cap</h2>
+            <p className="eyebrow">For experienced Florida agents</p>
+            <h2 className="mt-2 text-3xl">Join Prime 1: 85/15 to a $15,000 cap, then 100%. Anywhere in Florida.</h2>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Link href="/careers" className="btn btn-ink">See the agent offer</Link>
-            <Link href="/join" className="btn btn-ghost">
-              Apply to join
-            </Link>
+            <Link href="/join" className="btn btn-ink">Join Prime 1</Link>
           </div>
         </div>
       </section>
 
-      <CtaBand title="Ready when you are" body="Answer a few questions, book a short call or just call the office." primary={{ label: "Get started", href: "/get-started" }} location="home_cta_band" />
+      <CtaBand title="Ready when you are" body="Answer a few questions or call the office, Monday to Friday, 9 to 5 ET." primary={{ label: "Get started", href: "/get-started" }} location="home_cta_band" />
     </>
   );
 }

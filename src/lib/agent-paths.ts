@@ -16,7 +16,6 @@ export const AGENT_PATHS: readonly string[] = [
   ...AREAS.map((a) => `/areas/${a.slug}`),
   "/blog",
   ...POSTS.map((p) => `/blog/${p.slug}`),
-  "/careers",
   "/join",
   "/team",
   ...Object.values(people).map((p) => `/team/${p.slug}`),

@@ -3,7 +3,7 @@ import { SERVICES } from "@/content/services";
 import { AREAS } from "@/content/areas";
 import { POSTS } from "@/content/blog";
 import { FAQS as AGENT_FAQS } from "@/content/careers";
-import { LCAM_JOB } from "@/content/lcam";
+import { OFFER, SPLIT_LABEL, usd } from "@/config/offer";
 
 /**
  * AI-only version of the site (llms.txt standard): plain Markdown built from the same content files
@@ -18,24 +18,24 @@ const FACTS = [
   `Sister company: ${site.pmName}, a licensed Florida community association management (CAM) firm. Both are DBAs of ${site.legalName}.`,
   `Broker of Record and Designated CAM: ${people.antony.name}.`,
   `Office: ${addr} (${site.address.neighborhood}, Tampa). Office hours: ${site.hours.label}.`,
-  `Phone: ${site.phone.display}. ${site.phone.answered}. The line is for calls only and does not receive text messages.`,
-  `Email: ${site.email}. Agent recruiting: ${site.recruiting.email}.`,
-  `Service area: ${site.serviceArea.join(", ")}, and surrounding communities in Pasco County, Florida. Commercial clients across Central Florida.`,
+  `Phone: ${site.phone.display}. Office hours ${site.hours.label}; ${site.hours.note.toLowerCase()}. Prime 1 Property Management provides ${site.phone.emergency}. The line is for calls only and does not receive text messages.`,
+  `Email: ${site.email}. Agent affiliation: ${u("/join")}.`,
+  `Service area: clients throughout Florida, from the Tampa headquarters. Local market guides cover Tampa Bay communities; inquiries are welcome for any Florida location.`,
   `MLS: ${site.mls}. Live home search: ${idx.search}`,
 ];
 
 const PM_LICENSING = [
   "Under Florida law (Chapter 468, Part VIII, Florida Statutes), managing a community association (HOA or condominium) for compensation requires a licensed community association manager (CAM) when the association has more than 10 units OR an annual budget over $100,000. Either condition is enough.",
-  "Prime 1 Property Management is a licensed CAM firm with a Designated CAM, so it manages HOAs and condominium associations as small as 11 units, as well as large communities.",
-  "Managing a single-family rental home does not require a CAM license. Prime 1 manages single-family and small multifamily rentals (leasing, tenant screening, rent collection, maintenance) as a licensed Florida real estate brokerage, even for an owner with one home.",
+  "Prime 1 Property Management is a licensed Florida CAM firm with a Designated CAM. Service criteria: homeowners and condominium associations with 10 or more units, commercial property owners' associations and office parks throughout Florida, and qualifying rental portfolios.",
+  `Boards request a proposal at ${u("/property_management#start")} (an existing RFP can be attached). Community association emergencies: 24/7 live phone answering at ${site.phone.display}.`,
 ];
 
 const HOW_TO_CONTACT = [
-  `Fastest: call ${site.phone.display} (${site.phone.answered.toLowerCase()}).`,
+  `Call ${site.phone.display} during office hours (${site.hours.label}). Community association emergencies: 24/7 live answering on the same number.`,
   `Online: answer a few questions at ${u("/get-started")} and a licensed professional replies, usually within one business day.`,
   `Sellers: free broker home valuation at ${u("/home-valuation")}.`,
   `HOA, condo and rental owners: free management proposal at ${u("/property_management")}.`,
-  `Licensed agents who want to join: apply online (the broker reviews every application), or book a call with the broker, at ${u("/join")}.`,
+  `Experienced, producing Florida agents: review the offer and apply at ${u("/join")}. Every application stays pending until the broker decides.`,
 ];
 
 export function llmsTxt() {
@@ -65,9 +65,7 @@ ${HOW_TO_CONTACT.map((f) => `- ${f}`).join("\n")}
 ${services}
 
 ## Agents: join Prime 1
-- [Join Prime 1 Realty](${u("/join")}): Apply online in about 2 minutes (license, current brokerage, production history, timing); the onboarding packet is emailed right away and the Broker of Record reviews every application. Or book a 30-minute call.
-- [Part-time LCAM jobs](${u("/careers/lcam-jobs")}): Prime 1 Property Management is hiring licensed Florida community association managers (active CAM license required), part-time at $30 per hour, up to 20 hours a week in Tampa Bay. Apply online.
-- [Agent careers and compensation](${u("/careers")}): 85/15 split with a $15,000 residential cap, then 100%; $149 onboarding and $59/month technology fee; no desk or franchise fee.
+- [Join Prime 1 Realty](${u("/join")}): the complete offer, what agents keep at realistic production levels, fees, incentives, support, MLS and transaction transition, affiliation steps and the application. Residential ${SPLIT_LABEL.residential} to a ${usd(OFFER.residential.cap)} anniversary-year cap, then 100%; commercial ${SPLIT_LABEL.commercial} through ${usd(OFFER.commercial.threshold)} qualifying GCI, then ${SPLIT_LABEL.commercialAbove}; company-generated ${SPLIT_LABEL.company}. ${usd(OFFER.fees.onboarding)} onboarding, ${usd(OFFER.fees.techMonthly)}/month technology, ${usd(OFFER.fees.transactionCoordination)} transaction coordination per covered file per side; no desk or franchise fee. Every application stays pending until the broker decides; nothing is signed or charged before approval.
 
 ## Areas served
 ${areas}
@@ -95,8 +93,7 @@ export function llmsFullTxt() {
     out.push("### FAQ", ...s.faqs.flatMap((f) => [`**Q: ${f.q}**`, `A: ${f.a}`, ""]));
   }
 
-  out.push("## Part-time LCAM jobs at Prime 1 Property Management", `URL: ${u(LCAM_JOB.path)}`, "", LCAM_JOB.summary, "", ...LCAM_JOB.facts.map(([k, v]) => `- ${k}: ${v}`), "", ...LCAM_JOB.faqs.flatMap((f) => [`**Q: ${f.q}**`, `A: ${f.a}`, ""]));
-  out.push("## Agent careers at Prime 1", `URL: ${u("/careers")} · Apply: ${u("/join")}`, "", ...AGENT_FAQS.flatMap((f) => [`**Q: ${f.q}**`, `A: ${f.a}`, ""]));
+  out.push("## Join Prime 1 (experienced Florida agents)", `URL: ${u("/join")}`, "", ...AGENT_FAQS.flatMap((f) => [`**Q: ${f.q}**`, `A: ${f.a}`, ""]));
 
   for (const a of AREAS) {
     out.push(`## Living in ${a.name} (${a.county})`, `URL: ${u(`/areas/${a.slug}`)}`, "", a.answer, "");

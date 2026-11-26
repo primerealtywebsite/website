@@ -9,7 +9,7 @@ import type { StandardEvent } from "@/lib/meta";
 
 export const metadata = pageMeta({
   title: "Resident Services: Pay Rent & Maintenance | Prime 1 Tampa",
-  description: "Prime 1 residents: pay rent online, submit maintenance requests 24/7, apply for a rental, review resident criteria and find move-in and move-out resources.",
+  description: "Prime 1 residents: pay rent online, submit maintenance requests online, apply for a rental, review resident criteria and find move-in and move-out resources.",
   path: "/resident_services",
 });
 
@@ -38,7 +38,7 @@ export default function ResidentServices() {
         <div className="container-x">
           <Breadcrumbs items={[{ label: "Rent", href: "/rent" }, { label: "Resident services", href: "/resident_services" }]} tone="dark" />
           <h1 className="mt-5 text-[2.3rem] leading-tight md:text-5xl">Resident services</h1>
-          <p className="mt-4 max-w-2xl text-lg text-white/75">A smooth rental experience: secure online payments, 24/7 maintenance requests and move-in and move-out coordination.</p>
+          <p className="mt-4 max-w-2xl text-lg text-white/75">A smooth rental experience: secure online payments, online maintenance requests and move-in and move-out coordination.</p>
           <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {tiles.map((t) => (
               <TrackedLink key={t.t} href={t.href} event={t.event} custom={t.custom} params={{ cta_location: "resident_tiles", type: undefined }} className="group flex flex-col rounded-xl bg-white p-5 text-ink transition hover:-translate-y-0.5">

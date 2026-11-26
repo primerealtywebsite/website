@@ -20,7 +20,7 @@ const sans = localFont({ src: "../fonts/public-sans-variable.woff2", weight: "10
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: { default: "Tampa Bay Real Estate Brokerage & Property Management | Prime 1 Realty", template: "%s | Prime 1 Realty" },
+  title: { default: "Prime 1 Realty | Florida Real Estate Brokerage & Association Management", template: "%s | Prime 1 Realty" },
   description: site.description,
   applicationName: site.name,
   authors: [{ name: site.name, url: site.url }],

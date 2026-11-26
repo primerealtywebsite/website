@@ -5,8 +5,8 @@ import { pageMeta } from "@/lib/seo";
 import { site } from "@/config/site";
 
 export const metadata = pageMeta({
-  title: "Get Started with Prime 1 Realty | Tampa Bay Real Estate",
-  description: "Selling, buying, renting or need property management in Tampa Bay? Answer a few quick questions and a licensed Prime 1 professional will follow up.",
+  title: "Get Started with Prime 1 Realty | Florida Real Estate",
+  description: "Selling, buying, leasing or need association management anywhere in Florida? Answer a few quick questions and a licensed Prime 1 professional will follow up.",
   path: "/get-started",
 });
 
@@ -20,10 +20,10 @@ export default function GetStarted() {
           <p className="mt-4 text-lg text-muted">Answer a few quick questions and we email you a clear next step. A licensed Prime 1 professional reviews your answers and follows up, usually within one business day.</p>
           <div className="mt-5 md:hidden">
             <CallButton location="get_started_mobile" label={`Call now: ${site.phone.display}`} className="btn-red w-full border-0 text-white" />
-            <p className="mt-2 text-center text-sm text-muted">{site.phone.answered}. Or answer a few questions below.</p>
+            <p className="mt-2 text-center text-sm text-muted">Office {site.phone.answered}. Or answer a few questions below.</p>
           </div>
           <ul className="mt-6 hidden gap-3 lg:grid">
-            {["Sellers get a broker property analysis", "Buyers and renters get matching homes", "Owners and boards get a written management proposal"].map((t) => (
+            {["Sellers get a broker property analysis", "Buyers and renters get matching homes", "Association boards get a written management proposal"].map((t) => (
               <li key={t} className="flex items-center gap-3">
                 <span className="grid size-6 place-items-center rounded-full bg-red text-white"><IconCheck size={14} /></span>
                 {t}

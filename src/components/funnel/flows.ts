@@ -34,11 +34,10 @@ export const START: Step = {
   help: "Pick one. Takes about 60 seconds.",
   options: [
     { label: "Sell my home", hint: "Free property analysis", icon: "sell", next: "sell" },
-    { label: "Buy a home", hint: "Tampa Bay home search", icon: "buy", next: "buy" },
+    { label: "Buy a home", hint: "Florida home search", icon: "buy", next: "buy" },
     { label: "Rent a home", hint: "Rentals & applications", icon: "rent", next: "rent" },
-    { label: "Manage my property or HOA", hint: "Rental, condo & HOA management", icon: "management", next: "management" },
+    { label: "Association management", hint: "HOA, condo & commercial associations", icon: "management", next: "management" },
     { label: "Commercial real estate", hint: "Buy, sell or lease space", icon: "commercial", next: "commercial" },
-    { label: "Join as an agent", hint: "85/15 split, $15K cap", icon: "careers", next: "careers" },
   ],
 };
 
@@ -50,10 +49,10 @@ export const FLOWS: Record<LeadType, Flow> = {
     contactNote: "No obligation to list. A broker reviews it personally.",
     submitLabel: "Get my property analysis",
     steps: [
-      { id: "address", kind: "text", question: "What's the property address?", help: "We use it to pull recent comparable sales nearby.", placeholder: "Street address, city", autoComplete: "street-address" },
+      { id: "address", kind: "text", question: "What's the property address?", help: "Anywhere in Florida. We use it to pull recent comparable sales nearby.", placeholder: "Street address, city", autoComplete: "street-address" },
       { id: "propertyType", kind: "choice", question: "What type of property is it?", options: [{ label: "Single-family home" }, { label: "Condo or townhome" }, { label: "Multifamily (2–4 units)" }, { label: "Land or other" }] },
       { id: "timeline", kind: "choice", question: "When would you like to sell?", options: timeline },
-      { id: "situation", kind: "choice", question: "Which best describes you?", options: [{ label: "Moving within Tampa Bay" }, { label: "Relocating out of the area" }, { label: "Selling a rental or inherited home" }, { label: "Just want to know the value" }] },
+      { id: "situation", kind: "choice", question: "Which best describes you?", options: [{ label: "Moving within Florida" }, { label: "Relocating out of the area" }, { label: "Selling a rental or inherited home" }, { label: "Just want to know the value" }] },
     ],
   },
   valuation: {
@@ -76,7 +75,7 @@ export const FLOWS: Record<LeadType, Flow> = {
     contactNote: "We'll send homes that fit and set up a quick call if you'd like.",
     submitLabel: "Start my home search",
     steps: [
-      { id: "area", kind: "choice", question: "Where are you looking?", options: [{ label: "Tampa" }, { label: "Brandon / Riverview" }, { label: "Clearwater / St. Pete" }, { label: "Not sure yet" }] },
+      { id: "area", kind: "text", question: "Where in Florida are you looking?", help: "City, county or area. Anywhere in Florida.", placeholder: "e.g. Tampa, Orlando, Naples" },
       { id: "price", kind: "choice", question: "What price range?", options: [{ label: "Under $350K" }, { label: "$350K–$600K" }, { label: "$600K–$1M" }, { label: "$1M+" }] },
       { id: "financing", kind: "choice", question: "How are you planning to pay?", options: [{ label: "Pre-approved already" }, { label: "Need a lender" }, { label: "Paying cash" }, { label: "Not sure yet" }] },
       { id: "timeline", kind: "choice", question: "When do you want to move?", options: timeline },
@@ -89,7 +88,7 @@ export const FLOWS: Record<LeadType, Flow> = {
     contactNote: "We'll share available homes that match and how to apply.",
     submitLabel: "Find my rental",
     steps: [
-      { id: "area", kind: "choice", question: "Where do you want to live?", options: [{ label: "Tampa" }, { label: "Brandon / Riverview" }, { label: "Clearwater / St. Pete" }, { label: "Flexible" }] },
+      { id: "area", kind: "text", question: "Where in Florida do you want to live?", help: "City, county or area.", placeholder: "e.g. Tampa, Brandon, St. Pete" },
       { id: "beds", kind: "choice", question: "How many bedrooms?", options: [{ label: "Studio / 1" }, { label: "2" }, { label: "3" }, { label: "4+" }] },
       { id: "budget", kind: "choice", question: "Monthly budget?", options: [{ label: "Under $1,800" }, { label: "$1,800–$2,500" }, { label: "$2,500–$3,500" }, { label: "$3,500+" }] },
       { id: "moveDate", kind: "choice", question: "When do you need to move in?", options: [{ label: "Within 30 days" }, { label: "1–2 months" }, { label: "2+ months" }, { label: "Just looking" }] },
@@ -102,10 +101,10 @@ export const FLOWS: Record<LeadType, Flow> = {
     contactNote: "A licensed manager reviews your property and replies within one business day.",
     submitLabel: "Request my proposal",
     steps: [
-      { id: "propertyType", kind: "choice", question: "What do you need managed?", options: [{ label: "HOA / homeowners association" }, { label: "Condo association" }, { label: "Single-family rental(s)" }, { label: "Multifamily or commercial" }] },
-      { id: "size", kind: "choice", question: "How many units, homes or doors?", help: "Associations with more than 10 units (or a budget over $100K) need a licensed CAM. We're licensed.", options: [{ label: "1 home" }, { label: "2–10" }, { label: "11–49" }, { label: "50–149" }, { label: "150+" }] },
+      { id: "propertyType", kind: "choice", question: "What do you need managed?", options: [{ label: "HOA / homeowners association" }, { label: "Condo association" }, { label: "Commercial owners' association / office park" }, { label: "Rental portfolio" }] },
+      { id: "size", kind: "choice", question: "How many units or doors?", help: "Our association service criteria start at 10 units.", options: [{ label: "Under 10" }, { label: "10–49" }, { label: "50–149" }, { label: "150+" }] },
       { id: "situation", kind: "choice", question: "What's your current situation?", options: [{ label: "Self-managing, need help" }, { label: "Unhappy with current manager" }, { label: "New property or new board" }, { label: "Comparing options" }] },
-      { id: "location", kind: "text", question: "Where is the property?", help: "City or community name is enough.", placeholder: "e.g. Riverview, or Sunset Bay HOA", optional: true },
+      { id: "location", kind: "text", question: "Where in Florida is the property?", help: "City, county or community name.", placeholder: "e.g. Fort Myers, or Sunset Bay HOA" },
     ],
   },
   commercial: {
@@ -116,6 +115,7 @@ export const FLOWS: Record<LeadType, Flow> = {
     submitLabel: "Talk to a commercial broker",
     steps: [
       { id: "goal", kind: "choice", question: "What are you looking to do?", options: [{ label: "Buy or invest" }, { label: "Sell a property" }, { label: "Lease space for my business" }, { label: "Owner's representation" }] },
+      { id: "location", kind: "text", question: "Where in Florida?", help: "City, county or region. Anywhere in Florida.", placeholder: "e.g. Orlando, Miami-Dade" },
       { id: "assetType", kind: "choice", question: "What type of property?", options: [{ label: "Office" }, { label: "Retail" }, { label: "Industrial / flex" }, { label: "Multifamily / mixed-use" }] },
       { id: "timeline", kind: "choice", question: "What's your timeline?", options: timeline },
     ],

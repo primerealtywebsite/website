@@ -6,8 +6,8 @@ import { POSTS } from "@/content/blog";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
-  title: "Tampa Bay Real Estate Insights & Guides | Prime 1 Realty Blog",
-  description: "Guides for Tampa Bay buyers, sellers, landlords and HOA boards: Florida CAM licensing, market insights, renting tips and landlord requirements.",
+  title: "Florida Real Estate Insights & Guides | Prime 1 Realty Blog",
+  description: "Guides for Florida buyers, sellers, landlords and association boards: Florida CAM licensing, market insights, renting tips and landlord requirements.",
   path: "/blog",
 });
 
@@ -20,7 +20,7 @@ export default function Blog() {
       <section className="bg-paper pb-4 pt-10 md:pt-14">
         <div className="container-x">
           <Breadcrumbs items={[{ label: "Insights", href: "/blog" }]} />
-          <h1 className="mt-5 text-[2.3rem] leading-tight md:text-5xl">Real estate insights for Tampa Bay</h1>
+          <h1 className="mt-5 text-[2.3rem] leading-tight md:text-5xl">Real estate insights for Florida</h1>
           <p className="mt-4 max-w-2xl text-lg text-muted">Plain-language guides for buyers, sellers, renters, landlords and association boards.</p>
         </div>
       </section>

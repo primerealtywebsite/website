@@ -18,7 +18,21 @@ type Email = {
   attachments?: { filename: string; content: string }[];
 };
 
-export const resendEnabled = () => Boolean(process.env.RESEND_API_KEY);
+export const resendEnabled = () => Boolean(process.env.RESEND_API_KEY || process.env.EMAIL_OUTBOX);
+
+let outboxSeq = 0;
+/** Test mode (never set in production): EMAIL_OUTBOX=<dir> writes each email to an .html file instead of sending. */
+async function toOutbox(email: Email) {
+  const { mkdir, writeFile } = await import("node:fs/promises");
+  const dir = process.env.EMAIL_OUTBOX!;
+  await mkdir(dir, { recursive: true });
+  const slug = email.subject.replace(/[^a-z0-9]+/gi, "-").slice(0, 70);
+  const name = `${String(Date.now())}-${String(++outboxSeq).padStart(3, "0")}-${slug}.html`;
+  const head = [`From: ${email.from}`, `To: ${email.to.join(", ")}`, email.cc?.length ? `Cc: ${email.cc.join(", ")}` : "", email.reply_to ? `Reply-To: ${email.reply_to}` : "", `Subject: ${email.subject}`, email.attachments?.length ? `Attachments: ${email.attachments.map((a) => a.filename).join(", ")}` : "Attachments: none"].filter(Boolean);
+  const esc = (x: string) => x.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+  await writeFile(`${dir}/${name}`, `<!doctype html><meta charset="utf-8"><title>${esc(email.subject)}</title><pre style="background:#f4f4f4;padding:12px;font:12px/1.5 monospace;white-space:pre-wrap">${esc(head.join("\n"))}</pre>${email.html}`);
+  return true;
+}
 
 async function post(body: Email) {
   const r = await fetch("https://api.resend.com/emails", {
@@ -34,6 +48,8 @@ async function post(body: Email) {
 /** Returns true only when the email reached the intended recipients (or the office fallback, for office notices). */
 export async function sendEmail(email: Email, opts: { officeNotice?: boolean; tag?: string } = {}) {
   const tag = opts.tag ?? "[email]";
+  if (process.env.EMAIL_OUTBOX && process.env.VERCEL_ENV !== "production") return toOutbox(email);
+  if (!process.env.RESEND_API_KEY) return false;
   try {
     const first = await post(email);
     if (first.ok) return true;

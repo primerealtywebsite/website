@@ -19,7 +19,12 @@
  * If you edit this script later: Deploy > Manage deployments > edit > Version: New version.
  * (A brand-new deployment would change the URL.)
  *
- * Agent applications (/join) go to a second tab, "Agent Applications". When Resend is not set up,
+ * APPLICANTS (current workflow, Nov 2026): every /join status change posts kind "applicant_status".
+ * upsertApplicant keeps ONE row per applicant ID in the "Applicants" tab: status, next action and the
+ * person responsible, plus a dated history. Run installTriggers() once to email the office a daily
+ * list of incomplete files older than 24 hours and payments that failed (Northern Lights follow-up).
+ *
+ * LEGACY: agent applications from the old workflow went to the "Agent Applications" tab. When Resend is not set up,
  * this script also sends the two recruiting emails with MailApp from this Google account:
  *   - to admin@prime1realty.net (Antony cc'd) with every detail (reply goes to the agent), and
  *   - to the agent, with the 10-PDF onboarding packet attached (fetched from the website's signed links).
@@ -44,6 +49,7 @@ function doPost(e) {
       return json({ ok: false, error: "unauthorized" });
     }
 
+    if (data.kind === "applicant_status") return json(upsertApplicant(data));
     if (data.kind === "agent_application") return json(handleAgent(data));
 
     var sheet = getSheet();
@@ -197,4 +203,88 @@ function getSheet() {
 
 function json(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
+}
+
+
+// ---------- Applicants: one record per applicant (status, next action, responsible) ----------
+
+var APPLICANT_SHEET = "Applicants";
+var APPLICANT_HEADERS = [
+  "Applicant ID", "Name", "Email", "Phone", "Status", "Next action", "Responsible", "Last update",
+  "Track", "License #", "License status (self)", "DBPR (broker)", "Current brokerage", "Closings 12 mo", "Commercial exp.",
+  "Markets", "Affiliation date", "Flags", "Fit", "Heard from", "Referred by", "Source", "Campaign",
+  "Speak request", "Info request", "Info response", "Signed at", "Payment", "Paid at", "Affiliated at", "Production (YTD)", "History",
+];
+var APPLICANT_KEYS = {
+  phone: "Phone", track: "Track", license: "License #", licenseStatus: "License status (self)", dbpr: "DBPR (broker)",
+  brokerage: "Current brokerage", closings: "Closings 12 mo", commercial: "Commercial exp.", markets: "Markets",
+  affiliationDate: "Affiliation date", flags: "Flags", fit: "Fit", heardFrom: "Heard from", referredBy: "Referred by",
+  source: "Source", campaign: "Campaign", speakRequest: "Speak request", infoRequest: "Info request", infoResponse: "Info response",
+  signedAt: "Signed at", payment: "Payment", paidAt: "Paid at", affiliatedAt: "Affiliated at",
+};
+
+function applicantSheet() {
+  var ss = SpreadsheetApp.getActive();
+  var sh = ss.getSheetByName(APPLICANT_SHEET);
+  if (!sh) {
+    sh = ss.insertSheet(APPLICANT_SHEET, 0);
+    sh.appendRow(APPLICANT_HEADERS);
+    sh.setFrozenRows(1);
+    sh.setFrozenColumns(2);
+    sh.getRange(1, 1, 1, APPLICANT_HEADERS.length).setFontWeight("bold").setBackground("#0f172a").setFontColor("#ffffff");
+  }
+  return sh;
+}
+
+/** Same applicant ID -> same row (a returning applicant never creates a duplicate record). */
+function upsertApplicant(d) {
+  var sh = applicantSheet();
+  var head = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
+  var col = function (name) { return head.indexOf(name) + 1; };
+  var ids = sh.getLastRow() > 1 ? sh.getRange(2, 1, sh.getLastRow() - 1, 1).getValues().map(function (r) { return r[0]; }) : [];
+  var idx = ids.indexOf(d.id);
+  var row = idx >= 0 ? idx + 2 : sh.getLastRow() + 1;
+  var isNew = idx < 0;
+  // Never move a record backwards from a later status because of a late "Incomplete" ping.
+  var current = isNew ? "" : sh.getRange(row, col("Status")).getValue();
+  var keepStatus = d.status === "Incomplete" && current && current !== "Incomplete";
+  var set = function (name, v) { if (v !== undefined && v !== null && v !== "") sh.getRange(row, col(name)).setValue(v); };
+  set("Applicant ID", d.id);
+  set("Name", d.name);
+  set("Email", d.email);
+  if (!keepStatus) {
+    set("Status", d.status);
+    set("Next action", d.nextAction);
+    set("Responsible", d.owner);
+  }
+  set("Last update", new Date(d.at || Date.now()));
+  Object.keys(APPLICANT_KEYS).forEach(function (k) { if (d[k] !== undefined) set(APPLICANT_KEYS[k], k === "phone" ? "'" + d[k] : d[k]); });
+  var hist = isNew ? "" : String(sh.getRange(row, col("History")).getValue() || "");
+  sh.getRange(row, col("History")).setValue((hist ? hist + "\n" : "") + Utilities.formatDate(new Date(), "America/New_York", "yyyy-MM-dd HH:mm") + " " + d.status);
+  return { ok: true, row: row, created: isNew };
+}
+
+/** Run once from the editor: daily 8 AM ET digest of files that need administrative follow-up. */
+function installTriggers() {
+  ScriptApp.getProjectTriggers().forEach(function (t) { if (t.getHandlerFunction() === "dailyApplicantDigest") ScriptApp.deleteTrigger(t); });
+  ScriptApp.newTrigger("dailyApplicantDigest").timeBased().atHour(8).everyDays(1).inTimezone("America/New_York").create();
+}
+
+function dailyApplicantDigest() {
+  var to = PropertiesService.getScriptProperties().getProperty("OFFICE_EMAIL") || "admin@prime1realty.net";
+  var sh = applicantSheet();
+  if (sh.getLastRow() < 2) return;
+  var rows = sh.getRange(2, 1, sh.getLastRow() - 1, APPLICANT_HEADERS.length).getValues();
+  var dayAgo = Date.now() - 24 * 3600 * 1000;
+  var items = rows.filter(function (r) {
+    var status = r[4], updated = new Date(r[7]).getTime();
+    return (status === "Incomplete" && updated < dayAgo) || status === "Payment failed" || (status === "More information requested" && updated < Date.now() - 3 * 24 * 3600 * 1000);
+  });
+  if (!items.length) return;
+  MailApp.sendEmail({
+    to: to,
+    subject: "Applicant follow-up: " + items.length + " file(s) need administrative action",
+    body: items.map(function (r) { return r[0] + "  " + r[1] + " <" + r[2] + ">  " + r[4] + "\n  Next: " + r[5] + " (" + r[6] + ")"; }).join("\n\n") +
+      "\n\nAdministrative follow-up only (Northern Lights). Affiliation decisions, compensation and agreement questions go to the broker.\nSheet: " + SpreadsheetApp.getActive().getUrl(),
+  });
 }

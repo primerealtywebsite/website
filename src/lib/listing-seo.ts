@@ -171,7 +171,7 @@ export function optimizeListingHtml(html: string, pageUrl: string): string {
     },
   };
 
-  const where = L.city || "Tampa Bay";
+  const where = L.city || "Florida";
   let out = html
     .replace(/<title>[\s\S]*?<\/title>/i, `<title>${esc(title)}</title>`)
     .replace(/<meta name="description" content="[^"]*"\s*\/?>/i, `<meta name="description" content="${esc(desc)}">`)

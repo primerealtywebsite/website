@@ -8,16 +8,17 @@ export const site = {
   legalName: "Antony Kenneth Stefan Oseitutu PLLC",
   pmName: "Prime 1 Property Management",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://www.prime1realty.net",
-  tagline: "Tampa Bay residential & commercial real estate brokerage and property management",
+  tagline: "Florida residential & commercial real estate brokerage and community association management, headquartered in Tampa",
   description:
-    "Prime 1 Realty is a licensed Florida real estate brokerage in Tampa. Buy, sell, rent, lease or get your HOA, condo or rental property professionally managed by one accountable team.",
+    "Prime 1 Realty is a licensed Florida real estate brokerage and Prime 1 Property Management is a licensed Florida community association management firm. Both are headquartered in Tampa and serve clients throughout Florida.",
   phone: {
     display: "(813) 295-8215",
     href: "tel:+18132958215",
     /** Calls only: this number cannot receive text messages, so the site never offers sms: links. */
     e164: "+18132958215",
-    /** The line is answered around the clock by Prime 1's receptionist (office hours are separate). */
-    answered: "Calls answered 24/7",
+    /** Office line. Live 24/7 answering applies ONLY to community association emergencies (Prime 1 Property Management). */
+    answered: "Mon–Fri, 9 AM–5 PM ET",
+    emergency: "24/7 live answering for community association emergencies",
     callsOnly: "Calls only, no text messages",
   },
   email: "admin@prime1realty.net",
@@ -33,8 +34,10 @@ export const site = {
   },
   mapsUrl:
     "https://www.google.com/maps/dir/?api=1&destination=1600+E+8th+Ave+A200+Tampa+FL+33605",
-  hours: { label: "Mon–Fri, 9:00 AM–6:00 PM", days: "Mo-Fr", opens: "09:00", closes: "18:00" },
-  serviceArea: ["Tampa", "Brandon", "Riverview", "Clearwater", "St. Petersburg", "Hillsborough County", "Pinellas County"],
+  hours: { label: "Mon–Fri, 9:00 AM–5:00 PM ET", days: "Mo-Fr", opens: "09:00", closes: "17:00", note: "Closed on all federal holidays" },
+  /** Statewide: both companies serve clients throughout Florida from the Tampa headquarters. */
+  serviceArea: ["Florida"],
+  region: "throughout Florida",
   socials: {
     facebook: "https://www.facebook.com/prime1realtyfl/",
     instagram: "https://www.instagram.com/prime1_realty/",
@@ -47,8 +50,11 @@ export const site = {
     owner: "https://prime1pm.managebuilding.com/manager/public/authentication/login",
     resident: "https://prime1pm.managebuilding.com/Resident/portal/login",
     rentalApplication: "https://prime1pm.managebuilding.com/Resident/rental-application/new",
-    agent: "https://app.prime1realty.net/",
-    /** Agent recruiting: on-site application + booking page (replaced the old join.prime1realty.net portal) */
+    /** Agent Login: the Virtual Office for affiliated agents (it links on to the Agent Portal and tools). */
+    agent: "/virtual-office",
+    /** Legacy agent portal (app.prime1realty.net), linked from inside the Virtual Office. */
+    agentPortal: "https://app.prime1realty.net/",
+    /** The one Join Prime 1 path for every channel (homepage, Careers, join. subdomain, LinkedIn, campaigns). */
     joinHome: "/join",
     join: "/join",
     petScreening: "https://prime1realty.petscreening.com/",
@@ -65,16 +71,15 @@ export const site = {
   bookingUrl: process.env.NEXT_PUBLIC_BOOKING_URL || "/lets-connect#start",
   bookingConfigured: Boolean(process.env.NEXT_PUBLIC_BOOKING_URL),
   /**
-   * Agent recruiting. Applications and recruiting inquiries go directly to Antony (`notify`), with the
-   * admin inbox copied (`cc`) so support staff can log them in the CRM. Override with RECRUITING_EMAIL_TO/CC.
+   * Agent recruiting. Complete application records go to Antony (`notify`) for a decision, with the admin
+   * inbox copied (`cc`) for records. There is no booking calendar and no invitation to email the broker
+   * about joining: applicants may submit a written request to speak, attached to their application.
    */
   recruiting: {
     name: "Antony Oseitutu",
     email: "antony@prime1realty.net",
     notify: process.env.RECRUITING_EMAIL_TO || "antony@prime1realty.net",
     cc: "admin@prime1realty.net",
-    /** 30-minute call with Antony for agents who want to talk before joining */
-    calendly: process.env.NEXT_PUBLIC_RECRUITING_CALENDLY_URL || "https://calendly.com/prime1realty-proton/30min",
   },
   /**
    * Google Ads tag (AW-17574854752). Conversion labels come from Google Ads > Goals > Conversions >
@@ -125,7 +130,7 @@ export const people = {
     cutout: "/images/team/antony-oseitutu-cutout.png",
     bio: [
       "Antony Oseitutu leads Prime 1 Realty as Broker of Record and serves as Designated Community Association Manager for Prime 1 Property Management. His work spans residential and commercial brokerage, rental property management and community association management.",
-      "Born in Bern, Switzerland, Antony is a Swiss citizen and a naturalized United States citizen. He built Prime 1 so owners, buyers, sellers and boards across Tampa Bay could work with one accountable firm instead of juggling separate agents and managers.",
+      "Born in Bern, Switzerland, Antony is a Swiss citizen and a naturalized United States citizen. He built Prime 1 so owners, buyers, sellers and boards throughout Florida could work with one accountable firm instead of juggling separate agents and managers.",
       "Outside real estate, Antony is a licensed race car driver in the United States and overseas.",
     ],
   },
@@ -138,7 +143,7 @@ export const people = {
     image: null as string | null,
     cutout: null as string | null,
     bio: [
-      "Jennifer Rivera is a licensed Community Association Manager with Prime 1 Property Management. She supports association boards and owners with day-to-day administration, vendor coordination, compliance and communication.",
+      "Jennifer Rivera is a part-time Licensed Community Association Manager with Prime 1 Property Management. She handles assigned association operations, inspections, and board and resident matters under the oversight of Antony Oseitutu, Designated CAM.",
     ],
   },
 } as const;

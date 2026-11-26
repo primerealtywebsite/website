@@ -37,6 +37,14 @@ export function organizationSchema() {
           contactType: "customer service",
           areaServed: "US-FL",
           availableLanguage: "English",
+          hoursAvailable: { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"], opens: site.hours.opens, closes: site.hours.closes },
+        },
+        {
+          "@type": "ContactPoint",
+          telephone: site.phone.e164,
+          contactType: "emergency",
+          name: "Community association emergencies (Prime 1 Property Management)",
+          areaServed: "US-FL",
           hoursAvailable: { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], opens: "00:00", closes: "23:59" },
         },
       ],
@@ -48,7 +56,7 @@ export function organizationSchema() {
           closes: site.hours.closes,
         },
       ],
-      areaServed: site.serviceArea.map((name) => ({ "@type": "Place", name: `${name}, FL` })),
+      areaServed: { "@type": "State", name: "Florida", sameAs: "https://en.wikipedia.org/wiki/Florida" },
       sameAs: Object.values(site.socials),
       founder: { "@id": `${site.url}/team/${people.antony.slug}#person` },
       employee: [{ "@id": `${site.url}/team/${people.antony.slug}#person` }, { "@id": `${site.url}/team/${people.jennifer.slug}#person` }],
@@ -102,7 +110,7 @@ export function serviceSchema(s: { name: string; description: string; path: stri
     description: s.description,
     url: abs(s.path),
     provider: { "@id": ORG_ID },
-    areaServed: (s.areas ?? ["Tampa", "Hillsborough County", "Pinellas County", "Pasco County"]).map((n) => ({ "@type": "Place", name: `${n}, FL` })),
+    areaServed: s.areas ? s.areas.map((n) => ({ "@type": "Place", name: `${n}, FL` })) : { "@type": "State", name: "Florida" },
   };
 }
 

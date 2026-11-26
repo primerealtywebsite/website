@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Prime 1 Realty & Property Management",
     short_name: "Prime 1",
-    description: "Tampa Bay real estate brokerage and property & association management.",
+    description: "Florida real estate brokerage and community association management, headquartered in Tampa.",
     start_url: "/",
     display: "browser",
     background_color: "#121316",

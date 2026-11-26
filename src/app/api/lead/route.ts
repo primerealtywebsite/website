@@ -4,6 +4,26 @@ import { site } from "@/config/site";
 import { requestContext, sendCapiEvent } from "@/lib/meta-capi";
 import { sendEmail } from "@/lib/resend";
 
+/**
+ * Routing (Nov 2026): every inquiry goes to the office inbox (LEAD_EMAIL_TO, admin@) with support staff
+ * copied (LEAD_EMAIL_CC). Commercial and association-management inquiries also go to the broker
+ * (antony@), who handles commercial brokerage and leads association business development.
+ * Agent recruiting never comes through here: it has its own workflow at /join.
+ */
+const BROKER_TOO = new Set(["commercial", "management"]);
+
+/** Short acknowledgment to the person who submitted (only when they gave an email). */
+const ACK: Record<string, string> = {
+  sell: "A licensed Prime 1 professional is preparing your property analysis and will contact you, usually within one business day.",
+  valuation: "A licensed Prime 1 professional is preparing your home value range and will contact you, usually within one business day.",
+  buy: "A licensed Prime 1 professional will review your criteria and follow up, usually within one business day.",
+  rent: "We will review your criteria and follow up with available rentals, usually within one business day.",
+  management: "Our Designated CAM reviews every management request. We will review your property details and follow up, usually within one business day.",
+  commercial: "Your request was sent to our commercial brokerage team. We will follow up, usually within one business day.",
+  contact: "We received your message and will reply, usually within one business day.",
+  careers: "Agent affiliation runs through prime1realty.net/join, where you can review the complete offer and apply.",
+};
+
 const LeadSchema = z.object({
   leadType: z.enum(["sell", "valuation", "buy", "rent", "management", "commercial", "careers", "contact"]),
   name: z.string().trim().min(2).max(120),
@@ -95,7 +115,7 @@ export async function POST(req: Request) {
   }
 
   // 1) Email the office
-  if (process.env.RESEND_API_KEY) {
+  if (process.env.RESEND_API_KEY || process.env.EMAIL_OUTBOX) {
     const SRC: Record<string, string> = { utm_source: "Ad source", utm_medium: "Ad medium", utm_campaign: "Ad campaign", utm_content: "Ad content", utm_term: "Ad keyword", gclid: "Google Ads click", gbraid: "Google Ads click (iOS)", wbraid: "Google Ads click (web)", fbclid: "Meta ad click", landing_page: "Landing page", landing_service: "Landing service", referrer: "Referred from", device: "Device", ai_source: "Came from AI assistant" };
     const tr = (k: string, v: string) => `<tr><td style="padding:5px 14px 5px 0;color:#555;vertical-align:top">${esc(k)}</td><td style="padding:5px 0"><b>${esc(v)}</b></td></tr>`;
     const section = (title: string, rows: [string, string][]) =>
@@ -123,7 +143,7 @@ ${section("Contact", contactRows)}${section("Their answers", answerRows)}${secti
         {
           from: process.env.LEAD_EMAIL_FROM || "Prime 1 Website <leads@updates.prime1realty.net>",
           // Agent inquiries also go to Antony (recruiting / HR).
-          to: [process.env.LEAD_EMAIL_TO || site.email, ...(lead.leadType === "careers" ? [site.recruiting.email] : [])],
+          to: [process.env.LEAD_EMAIL_TO || site.email, ...(BROKER_TOO.has(lead.leadType) ? [site.recruiting.notify] : [])],
           // Support staff (e.g. Gabrielle) copied on every inquiry: LEAD_EMAIL_CC, comma-separated.
           ...(process.env.LEAD_EMAIL_CC ? { cc: process.env.LEAD_EMAIL_CC.split(",").map((x) => x.trim()).filter(Boolean) } : {}),
           ...(lead.email ? { reply_to: lead.email } : {}),
@@ -134,6 +154,21 @@ ${section("Contact", contactRows)}${section("Their answers", answerRows)}${secti
         { officeNotice: true, tag: "[lead]" },
       ),
     );
+    if (lead.email) {
+      const first = esc(firstName);
+      tasks.push(
+        sendEmail(
+          {
+            from: process.env.LEAD_EMAIL_FROM || "Prime 1 Realty <leads@updates.prime1realty.net>",
+            to: [lead.email],
+            reply_to: site.email,
+            subject: `Prime 1 Realty: we received your request`,
+            html: `<div style="font-family:Arial,sans-serif;font-size:15px;line-height:1.55;color:#111;max-width:600px"><p>Hi ${first},</p><p>Thank you for contacting Prime 1 Realty (${esc(LABELS[lead.leadType])}). ${esc(ACK[lead.leadType])}</p><p>Office hours are ${esc(site.hours.label)}; we are closed on federal holidays. Prime 1 Property Management provides 24/7 live phone answering for community association emergencies at ${site.phone.display}.</p><p>Prime 1 Realty · Prime 1 Property Management<br>${esc(site.address.street)}, ${esc(site.address.city)}, ${site.address.region} ${site.address.postal}<br>Serving clients throughout Florida</p></div>`,
+          },
+          { tag: "[lead:ack]" },
+        ),
+      );
+    }
     // Copy to the CRM's lead-intake inbox (e.g. Buildout), comma-separated. Plain fields so the CRM can parse them.
     if (process.env.CRM_LEAD_EMAIL) {
       const plain = text;

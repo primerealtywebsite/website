@@ -7,8 +7,8 @@ import { site } from "@/config/site";
 import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
-  title: "Contact Prime 1 Realty | Tampa Office (813) 295-8215",
-  description: "Call (813) 295-8215, email or visit Prime 1 Realty at 1600 E 8th Ave, Suite A200, Tampa, FL 33605. Calls answered 24/7. Office Mon–Fri 9 AM–6 PM.",
+  title: "Contact Prime 1 Realty | Tampa Headquarters (813) 295-8215",
+  description: "Call (813) 295-8215, email or visit Prime 1 Realty's Tampa headquarters. Office Mon–Fri 9 AM–5 PM ET. 24/7 live answering for community association emergencies.",
   path: "/lets-connect",
 });
 
@@ -25,7 +25,7 @@ export default function Contact() {
           <div>
             <Breadcrumbs items={[{ label: "Contact", href: "/lets-connect" }]} tone="dark" />
             <h1 className="mt-5 text-[2.3rem] leading-tight md:text-5xl">Let&apos;s connect</h1>
-            <p className="mt-4 max-w-lg text-lg text-white/75">Call, email, stop by our Tampa office or answer one quick question below. We typically respond within one business day.</p>
+            <p className="mt-4 max-w-lg text-lg text-white/75">Call, email, visit our Tampa headquarters or send a message below. We serve clients throughout Florida and typically respond within one business day.</p>
             <ul className="mt-8 grid gap-3">
               {items.map((it) => (
                 <li key={it.label}>
@@ -43,7 +43,8 @@ export default function Contact() {
                 <span>
                   <span className="block text-sm text-white/60">Office hours</span>
                   <span className="block font-semibold">{site.hours.label}</span>
-                  <span className="block text-sm text-white/60">Phone: {site.phone.answered}. {site.phone.callsOnly}.</span>
+                  <span className="block text-sm text-white/60">{site.hours.note}. {site.phone.callsOnly}.</span>
+                  <span className="block text-sm text-white/60">Community association emergencies: 24/7 live phone answering.</span>
                 </span>
               </li>
             </ul>
