@@ -43,6 +43,16 @@ const nextConfig: NextConfig = {
       { source: "/about", destination: "/about-us", permanent: true },
       { source: "/sell", destination: "/sell-your-home", permanent: true },
       { source: "/buy", destination: "/residential", permanent: true },
+      // Common property-management URLs (typed, old links, ad final URLs). Without these they fall through
+      // to the old MLS app, which answers /property-management with a 500 and still serves its outdated
+      // /management page.
+      ...["/property-management", "/property-management/:path*", "/association-management", "/hoa-management", "/condo-association-management", "/community-association-management", "/management"].map(
+        (source): R => ({ source, destination: "/property_management", permanent: true }),
+      ),
+      { source: "/commercial-property-management", destination: "/commercial_property_management", permanent: true },
+      { source: "/rental-management", destination: "/property_management", permanent: true },
+      { source: "/resident-services", destination: "/resident_services", permanent: true },
+      { source: "/pay-rent", destination: "/resident_services", permanent: true },
     ];
     // Old IDX URLs move to a separate IDX host (only when not proxying via IDX_ORIGIN).
     if (!IDX_ORIGIN && idxHost !== siteHost) {
