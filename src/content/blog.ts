@@ -19,6 +19,88 @@ export type Post = {
 /** Migrated from prime1realty.net/blog/* (same slugs). Content rewritten, fact-checked and structured for search and AI answers. */
 export const POSTS: Post[] = [
   {
+    slug: "how-to-choose-a-community-association-management-company-in-florida",
+    title: "How to Choose a Community Association Management Company in Florida",
+    metaTitle: "How to Choose an HOA or Condo Management Company in Florida",
+    description: "A board's guide to choosing a Florida community association management company: licensing, scope, reporting, transition, and the questions to ask before you sign.",
+    published: "2026-11-25",
+    modified: "2026-11-25",
+    image: "/images/management/townhome-community-row.jpg",
+    imageAlt: "Row of townhomes in a managed community",
+    category: "Community associations",
+    readMins: 7,
+    tldr: "Start with licensing: in Florida both the management firm and the individual manager must be licensed, and the firm names a Designated CAM. Then compare written scope, site coverage, reporting, financial controls, portal tools, emergency response and the transition plan. Get every promise in the management agreement.",
+    body: [
+      {
+        h2: "1. Verify licensing first",
+        p: [
+          "Under Chapter 468, Part VIII of the Florida Statutes, a community association management firm must be licensed, and the individuals who manage associations for compensation must hold a Community Association Manager (CAM) license once the association has more than 10 units or an annual budget over $100,000. The firm designates a licensed CAM who is responsible for its management work.",
+          "Look up the firm and the proposed manager on the Florida DBPR license search at myfloridalicense.com before you compare anything else.",
+        ],
+      },
+      {
+        h2: "2. Compare the written scope, not the sales pitch",
+        list: [
+          "Which inspections are included, how often, and what the written findings look like",
+          "Board meeting support: notices, agendas, attendance and minutes",
+          "Budget preparation support and the monthly financial statements you will receive",
+          "Collections and delinquency procedures, and when accounts go to the association attorney",
+          "Vendor bidding, contracts, insurance certificates and performance follow-up",
+          "Florida compliance calendar: notices, records, milestone inspections and reserve study coordination",
+        ],
+      },
+      {
+        h2: "3. Ask how the site will be covered",
+        p: [
+          "Site coverage drives cost and service. Ask how often the manager will be on site, who covers inspections between visits, and how open work orders are tracked and reported to the board.",
+        ],
+      },
+      {
+        h2: "4. Look at reporting and financial controls",
+        list: [
+          "A sample board report or inspection summary (ask to see one)",
+          "Who can approve spending, and the limits set in the management agreement",
+          "How association funds are held and reconciled, and who reviews the reconciliations",
+          "What the board can see in the owner and board portal",
+        ],
+      },
+      {
+        h2: "5. Check resident tools and emergency response",
+        p: [
+          "Residents should be able to pay, submit maintenance requests and get community documents online. For water leaks, fire, security or life-safety issues, ask whether a person answers the phone around the clock and how the on-call manager is reached.",
+        ],
+      },
+      {
+        h2: "6. Understand who decides what",
+        p: [
+          "The board sets policy, approves the budget, reserves and assessments, approves contracts and spending above the agreed limit, and decides on legal action. The manager carries out the board's decisions and runs day-to-day administration under the management agreement. A good proposal spells this out.",
+        ],
+      },
+      {
+        h2: "7. Ask for the transition plan in writing",
+        list: [
+          "Transfer of official records and financial records from the current manager",
+          "Bank accounts, signature cards and reconciliations",
+          "Open work orders, vendor contracts and insurance certificates",
+          "Resident and owner portal setup and communication to owners",
+          "A start date that respects the notice period in your current contract",
+        ],
+      },
+      {
+        h2: "Questions to ask every company you interview",
+        list: [
+          "Who is your Designated CAM, and who will manage our community day to day?",
+          "How many associations does our manager handle, and how often will they be on site?",
+          "Can we see a sample board report and inspection summary?",
+          "What is included in the fee, and what is billed separately?",
+          "How do residents reach you after hours for an emergency?",
+          "What does your transition timeline look like for an association our size?",
+        ],
+      },
+    ],
+    cta: { label: "Request an Association Management Proposal", href: "/property_management#start" },
+  },
+  {
     slug: "florida-designated-cam-license-explained",
     title: "What Is a Florida Designated CAM License, and Why Your Association Should Require One",
     metaTitle: "Florida Designated CAM License Explained | Prime 1",
@@ -26,7 +108,7 @@ export const POSTS: Post[] = [
     published: "2026-05-12",
     modified: "2026-11-18",
     image: "/images/blog/florida-condo-association-marina.jpg",
-    imageAlt: "Florida condominium association community beside a marina",
+    imageAlt: "Condominium towers with palm trees in Tampa",
     category: "Community associations",
     readMins: 6,
     tldr: "Florida requires community association managers to be licensed under Chapter 468, Part VIII of the Florida Statutes, and management firms must designate a licensed CAM who is responsible for the firm's management work. Boards should verify both the firm and the individual manager at myfloridalicense.com before signing a contract.",

@@ -26,7 +26,7 @@ export const AREAS: Area[] = [
     h1: "Tampa real estate, from a brokerage based in Tampa",
     lede: "Our office is in Centro Ybor, minutes from downtown. We help Tampa buyers, sellers, renters and owners with neighborhood-level advice and one accountable team.",
     image: "/images/areas/tampa-downtown-skyline.jpg",
-    imageAlt: "Downtown Tampa skyline with palm trees and office towers",
+    imageAlt: "Downtown Tampa skyline at night over the Hillsborough River",
     answer:
       "Tampa is Hillsborough County's largest city and the center of the Tampa Bay job market. Neighborhoods range from historic bungalows in Seminole Heights and Hyde Park to newer suburban communities in New Tampa and Westchase. Flood zone, insurance cost and HOA rules vary a lot by street, so check them for each home before you make an offer.",
     neighborhoods: [
@@ -110,7 +110,7 @@ export const AREAS: Area[] = [
     h1: "Clearwater, FL real estate and condo expertise",
     lede: "From Clearwater Beach condos to inland neighborhoods like Countryside, we help buyers, sellers and associations across Clearwater and Pinellas County.",
     image: "/images/areas/clearwater-beach-waterfront.jpg",
-    imageAlt: "Clearwater Beach with white sand, palm trees and waterfront hotels",
+    imageAlt: "Aerial view of Clearwater Beach, its pier and waterfront hotels",
     answer:
       "Clearwater is a Pinellas County city that includes Clearwater Beach and inland neighborhoods like Countryside. Many properties are condos governed by associations, so buyers should review building inspections, reserves and insurance along with the unit itself. Coastal homes need careful flood zone and elevation review.",
     neighborhoods: [

@@ -77,6 +77,9 @@ export function ProposalForm({ variant = "card", id = "start" }: { variant?: "ca
         <F label="Primary concern" id="p-concern" className="sm:col-span-2">
           <select id="p-concern" name="concern" className={inputCls} defaultValue=""><option value="">Choose…</option>{CONCERNS.map((t) => <option key={t}>{t}</option>)}</select>
         </F>
+        <F label="On-site staff needed?" id="p-onsite" optional>
+          <select id="p-onsite" name="onSite" className={inputCls} defaultValue=""><option value="">Not sure</option><option>Yes, on-site manager or staff</option><option>No, portfolio management</option></select>
+        </F>
         <F label="Current management company" id="p-cur" optional><input id="p-cur" name="currentManagement" placeholder="or self-managed" className={inputCls} /></F>
         <F label="Existing RFP" id="p-rfp" optional>
           <label htmlFor="p-rfp" className={cn(inputCls, "flex cursor-pointer items-center gap-2 truncate text-sm")}>
@@ -84,12 +87,13 @@ export function ProposalForm({ variant = "card", id = "start" }: { variant?: "ca
           </label>
           <input id="p-rfp" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg" className="sr-only" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
         </F>
-        <F label="Anything else the board wants us to know?" id="p-msg" optional className="sm:col-span-2"><textarea id="p-msg" name="message" rows={2} className={cn(inputCls, "h-auto py-3")} /></F>
+        <F label="Anything else the board wants us to know?" id="p-msg" optional><textarea id="p-msg" name="message" rows={2} className={cn(inputCls, "h-auto py-3")} /></F>
         <input tabIndex={-1} aria-hidden autoComplete="off" name="company_website" className="absolute left-[-9999px] h-0 w-0 opacity-0" />
       </div>
       {err && <p role="alert" className="mt-3 rounded-lg bg-red-soft px-3 py-2 text-sm font-semibold text-red-deep">{err}</p>}
       <button disabled={state === "sending"} className="btn btn-red mt-5 w-full text-base disabled:opacity-70">{state === "sending" ? "Sending…" : "Request a proposal"} {state !== "sending" && <IconArrow size={18} />}</button>
-      <p className="mt-3 flex items-center justify-center gap-1.5 text-xs text-muted"><IconLock size={14} /> Reviewed by our Designated CAM. Emergencies: call (813) 295-8215, 24/7.</p>
+      <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-xs text-muted"><IconLock size={14} className="shrink-0" /> Used only to prepare your proposal, never shared. We reply within one business day.</p>
+      <p className="mt-1 text-center text-xs text-muted">Association emergency? Call (813) 295-8215, answered 24/7.</p>
     </form>
   );
 }

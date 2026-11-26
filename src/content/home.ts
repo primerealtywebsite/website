@@ -9,10 +9,10 @@ export const HOME = {
 };
 
 export const PATHS = [
-  { icon: "Sell" as const, title: "Sell a home", body: "Free broker property analysis with comparable sales and a pricing range.", href: "/sell-your-home", cta: "Get my property analysis", image: "/images/sell/tampa-bay-brick-home-for-sale.jpg", alt: "Brick home for sale in Florida" },
-  { icon: "Buy" as const, title: "Buy a home", body: "Matched listings, flood and insurance checks, and a negotiator on your side.", href: "/residential", cta: "Start my home search", image: "/images/buy/florida-pool-home-at-dusk.jpg", alt: "Florida pool home at dusk" },
+  { icon: "Sell" as const, title: "Sell a home", body: "Free broker property analysis with comparable sales and a pricing range.", href: "/sell-your-home", cta: "Get my property analysis", image: "/images/sell/tampa-bay-brick-home-for-sale.jpg", alt: "Two-story Florida home with palm trees" },
+  { icon: "Buy" as const, title: "Buy a home", body: "Matched listings, flood and insurance checks, and a negotiator on your side.", href: "/residential", cta: "Start my home search", image: "/images/buy/florida-pool-home-at-dusk.jpg", alt: "Modern Florida home with a swimming pool" },
   { icon: "Key" as const, title: "Rent a home", body: "Homes and condos for rent, with online applications and a resident portal.", href: "/rent", cta: "Find my rental", image: "/images/rent/new-tenant-receiving-keys.jpg", alt: "Renter receiving keys to a new home" },
-  { icon: "Community" as const, title: "Association management", body: "Licensed Florida CAM firm for HOAs, condominium and commercial associations and office parks.", href: "/property_management#start", cta: "Request a management proposal", image: "/images/blog/florida-condo-association-marina.jpg", alt: "Condominium community by a marina" },
+  { icon: "Community" as const, title: "Association management", body: "Licensed Florida CAM firm for HOAs, condominium and commercial associations and office parks.", href: "/property_management#start", cta: "Request a management proposal", image: "/images/blog/florida-condo-association-marina.jpg", alt: "Condominium towers with palm trees in Tampa" },
   { icon: "Building" as const, title: "Commercial real estate", body: "Acquisitions, sales, leasing, tenant rep and owner's representation.", href: "/commercial", cta: "Talk to a commercial broker", image: "/images/areas/tampa-downtown-skyline.jpg", alt: "Downtown Tampa office towers" },
   { icon: "Badge" as const, title: "Agents: join Prime 1", body: "For experienced, producing Florida agents. 85/15, then 100% after a $15,000 residential cap.", href: "/join", cta: "Join Prime 1", image: "/images/commercial/glass-office-interior.jpg", alt: "Modern brokerage office" },
 ];

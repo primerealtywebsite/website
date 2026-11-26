@@ -61,6 +61,22 @@ export function AssociationSections() {
         <a href="#start" className="btn btn-red mt-8">Request an Association Management Proposal</a>
       </Section>
 
+      <Section tone="white" id="board-resources">
+        <Heading eyebrow="Board resources" title="Guidance for Florida association boards" />
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          {[
+            ["How to choose a management company", "Licensing, scope, site coverage, reporting, financial controls and the transition plan, with the questions to ask.", "/blog/how-to-choose-a-community-association-management-company-in-florida"],
+            ["Florida Designated CAM license explained", "What a CAM license is, what a Designated CAM is responsible for, and how to verify both.", "/blog/florida-designated-cam-license-explained"],
+            ["Verify a license on DBPR", "Look up any Florida community association manager or management firm on the state license search.", "https://www.myfloridalicense.com/wl11.asp"],
+          ].map(([t, b, h]) => (
+            <a key={t} href={h} {...(h.startsWith("http") ? { target: "_blank", rel: "noopener" } : {})} className="card group p-6 transition hover:-translate-y-0.5">
+              <h3 className="text-xl group-hover:underline">{t}</h3>
+              <p className="mt-2 text-muted">{b}</p>
+            </a>
+          ))}
+        </div>
+      </Section>
+
       <Section tone="ink" id="residents">
         <div className="grid gap-8 lg:grid-cols-2">
           <div>

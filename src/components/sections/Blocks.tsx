@@ -147,7 +147,7 @@ export function BrokerCard({ heading = "You work directly with the broker" }: { 
   return (
     <div className="card grid overflow-hidden md:grid-cols-[240px_1fr]">
       <div className="relative min-h-[260px] bg-gradient-to-b from-sand to-[#d9d1c5]">
-        <Image src={a.cutout} alt={`${a.name}, Broker of Record at Prime 1 Realty`} fill sizes="(min-width:768px) 240px, 100vw" className="object-contain object-bottom" />
+        <Image src={a.image} alt={`${a.name}, Broker of Record at Prime 1 Realty`} fill quality={85} sizes="(min-width:768px) 240px, 100vw" className="object-cover object-[50%_20%]" />
       </div>
       <div className="p-6 md:p-8">
         <p className="eyebrow">Accountable leadership</p>
