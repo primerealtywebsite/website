@@ -170,7 +170,8 @@ ${section("Contact", contactRows)}${section("Their answers", answerRows)}${secti
       );
     }
     // Copy to the CRM's lead-intake inbox (e.g. Buildout), comma-separated. Plain fields so the CRM can parse them.
-    if (process.env.CRM_LEAD_EMAIL) {
+    // Buildout is for commercial real estate only (per Antony, Nov 2026): only commercial inquiries are copied there.
+    if (process.env.CRM_LEAD_EMAIL && lead.leadType === "commercial") {
       const plain = text;
       deliveries.push(
         sendEmail(
