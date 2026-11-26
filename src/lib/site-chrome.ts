@@ -43,7 +43,14 @@ async function load(origin: string): Promise<Chrome | null> {
   if (!header || !css.length) return null;
   // @font-face only works at document level (not inside a shadow root), so it is copied out of the CSS.
   const sheets = await Promise.all(css.map((h) => fetch(`${origin}${h}`, { signal: AbortSignal.timeout(8_000) }).then((x) => (x.ok ? x.text() : "")).catch(() => "")));
-  const fontFaces = sheets.flatMap((s) => s.match(/@font-face\s*{[^}]*}/g) ?? []).join("");
+  // Their url()s are relative to the stylesheet (../media/x.woff2), so make them absolute paths for the page.
+  const fontFaces = sheets
+    .flatMap((s, i) =>
+      (s.match(/@font-face\s*{[^}]*}/g) ?? []).map((rule) =>
+        rule.replace(/url\((['"]?)([^'")]+)\1\)/g, (m, q: string, u: string) => (/^(data:|https?:|\/)/.test(u) ? m : `url(${q}${new URL(u, `${origin}${css[i]}`).pathname}${q})`)),
+      ),
+    )
+    .join("");
   // next/font puts --font-serif / --font-body on <html> classes; the chrome hosts need the same values.
   const all = sheets.join("\n");
   const fontVars = htmlClass
