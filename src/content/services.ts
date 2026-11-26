@@ -305,10 +305,10 @@ export const SERVICES: Record<string, ServicePageData> = {
     hero: {
       eyebrow: "Prime 1 Property Management",
       h1: "Community association management throughout Florida",
-      lede: "Prime 1 Property Management is a licensed Florida community association management firm, headquartered in Tampa. We manage homeowners and condominium associations, commercial property owners' associations, office parks and qualifying rental portfolios, with inspections, board reporting and Buildium portal access.",
+      lede: "Prime 1 Property Management is a licensed Florida community association management firm, headquartered in Tampa. We manage homeowners and condominium associations, commercial property owners' associations, office parks and qualifying rental portfolios, with inspections, board reporting and online portal access for owners, residents and boards.",
       image: "/images/blog/florida-condo-association-marina.jpg",
       imageAlt: "Condominium towers with palm trees in Tampa",
-      bullets: ["Licensed Florida CAM firm with a Designated CAM", "Associations of 10+ units throughout Florida", "24/7 live answering for association emergencies"],
+      bullets: ["Licensed Florida CAM firm with a Designated CAM", "Associations with 10+ units and a $100K+ annual budget", "24/7 live answering for association emergencies"],
       funnelTitle: "Association management proposal",
     },
     answer: {
@@ -334,8 +334,8 @@ export const SERVICES: Record<string, ServicePageData> = {
     audiences: {
       title: "Who we manage for",
       items: [
-        { title: "HOA boards", body: "Communities of 10 or more homes that need dependable administration, enforcement and a licensed CAM." },
-        { title: "Condo associations", body: "Associations of 10 or more units facing milestone inspections, reserve requirements and insurance changes." },
+        { title: "HOA boards", body: "Communities of 10 or more homes with an annual operating budget of at least $100,000 that need dependable administration, enforcement and a licensed CAM." },
+        { title: "Condo associations", body: "Associations of 10 or more units with a $100,000+ annual operating budget facing milestone inspections, reserve requirements and insurance changes." },
         { title: "Rental portfolio owners", body: "Qualifying residential rental portfolios: leasing, rent collection, maintenance and owner reporting." },
         { title: "Commercial associations & office parks", body: "Commercial property owners' associations and office parks that need operations, vendor oversight and reporting." },
       ],
@@ -352,9 +352,9 @@ export const SERVICES: Record<string, ServicePageData> = {
     faqs: [
       { q: "Is Prime 1 Property Management licensed?", a: "Yes. Prime 1 Property Management is a licensed Florida community association management firm, and Antony Oseitutu serves as its Designated CAM. You can verify licenses at myfloridalicense.com." },
       { q: "Does our association need a licensed CAM?", a: "Under Florida law (Chapter 468, Part VIII), an HOA or condo association with more than 10 units, or with an annual budget over $100,000, must be managed by a licensed community association manager. Either condition is enough. Prime 1 Property Management is a licensed CAM firm with a Designated CAM. Our service criteria start at 10 units for homeowners and condominium associations." },
-      { q: "What accounts do you accept?", a: "Homeowners and condominium associations with 10 or more units, commercial property owners' associations and office parks throughout Florida, and qualifying rental portfolios. These are Prime 1's service criteria; send the details in the proposal form and we will confirm fit before proposing." },
+      { q: "What accounts do you accept?", a: "Community associations throughout Florida (homeowners associations, condominium associations, commercial property owners' associations and office parks) that have 10 or more homes or units AND an annual operating budget of at least $100,000. Both requirements must be met. Prime 1 also manages qualifying rental portfolios. Send the details in the proposal form and we will confirm fit before proposing." },
       { q: "Do you manage rental properties?", a: "We manage qualifying residential rental portfolios that meet our service criteria. Rental management does not require a community association manager license; Prime 1 handles it as a licensed Florida real estate brokerage." },
-      { q: "How do owners and residents access information?", a: "Through Buildium. Owners get statements, reports and documents. Residents and association members use the portal for payments, maintenance requests and community documents. For a community association emergency, call (813) 295-8215: live answering 24/7." },
+      { q: "How do owners and residents access information?", a: "Through Prime 1's secure online portal (powered by Buildium). Owners get statements, reports and documents. Residents and association members use the portal for payments, maintenance requests and community documents. For a community association emergency, call (813) 295-8215: live answering 24/7." },
       { q: "How do you handle the transition from our current manager?", a: "We coordinate the transfer of records, bank accounts, vendor information, open work orders and resident portal access so the board is not left doing it." },
       { q: "Which areas do you serve?", a: "Associations throughout Florida. Prime 1 Property Management is headquartered in Tampa; site coverage for your property is part of the proposal." },
       { q: "Can you help with milestone inspections and reserve studies?", a: "We coordinate the engineers and reserve specialists your association needs and keep the board on schedule with its obligations." },
@@ -373,7 +373,7 @@ export const SERVICES: Record<string, ServicePageData> = {
     ],
     meta: {
       title: "Commercial Property Management in Florida | Prime 1",
-      description: "Commercial property management throughout Florida: tenant communications, rent collection, vendors, maintenance, budgets and owner reporting. Request a proposal.",
+      description: "Commercial property management throughout Florida: tenant communications, rent collection, vendors, maintenance, budgets and owner reports. Get a proposal.",
     },
     schema: { name: "Commercial property management in Florida", serviceType: "Commercial property management" },
     hero: {

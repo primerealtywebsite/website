@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: PageProps<"/team/[slug]">) {
   if (!key) return {};
   const p = people[key];
   return pageMeta({
-    title: `${p.name}, ${key === "antony" ? "Broker & Designated CAM" : "Licensed CAM"} | Prime 1 Realty`,
+    title: `${p.name}, ${p.short} | Prime 1`,
     description: `${p.name} is ${p.role} at Prime 1 in Tampa, FL. ${p.bio[0]}`.slice(0, 155),
     path: `/team/${p.slug}`,
     image: p.image ?? undefined,

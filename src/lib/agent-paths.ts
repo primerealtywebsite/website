@@ -17,6 +17,7 @@ export const AGENT_PATHS: readonly string[] = [
   "/blog",
   ...POSTS.map((p) => `/blog/${p.slug}`),
   "/join",
+  "/employment",
   "/team",
   ...Object.values(people).map((p) => `/team/${p.slug}`),
   "/lets-connect",

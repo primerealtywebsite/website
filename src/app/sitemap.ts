@@ -3,7 +3,7 @@ import { site, people } from "@/config/site";
 import { AREAS } from "@/content/areas";
 import { POSTS } from "@/content/blog";
 
-const UPDATED = "2026-11-18";
+const UPDATED = "2026-11-26";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const u = (path: string, priority = 0.7, lastModified = UPDATED) => ({ url: `${site.url}${path}`, lastModified, priority });
@@ -28,6 +28,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     u("/team", 0.6),
     ...Object.values(people).map((p) => u(`/team/${p.slug}`, 0.5)),
     u("/join", 0.6),
+    u("/employment", 0.5),
     u("/lets-connect", 0.7),
     u("/areas", 0.7),
     ...AREAS.map((a) => u(`/areas/${a.slug}`, 0.8)),

@@ -59,6 +59,7 @@ export const NAV: NavGroup[] = [
       { label: "About Prime 1", href: "/about-us" },
       { label: "Our team", href: "/team" },
       { label: "Join Prime 1 (agents)", href: "/join", desc: "The offer and how to apply" },
+      { label: "LCAM employment", href: "/employment", desc: "Prime 1 Property Management (W2)" },
       { label: "Real estate insights", href: "/blog" },
       { label: "Contact", href: "/lets-connect" },
     ],
@@ -66,9 +67,11 @@ export const NAV: NavGroup[] = [
 ];
 
 export const PORTALS: NavLink[] = [
-  { label: "Owner portal", href: site.portals.owner, desc: "Statements, reports & documents" },
-  { label: "Resident & association portal", href: site.portals.resident, desc: "Payments, requests & documents" },
-  { label: "Agent login", href: site.portals.agent },
+  { label: "Resident portal", href: site.portals.resident, desc: "Tenants: pay rent, maintenance requests" },
+  { label: "Association portal", href: site.portals.association, desc: "Homeowners & boards: assessments, documents" },
+  { label: "Rental owner portal", href: site.portals.owner, desc: "Rental owners: Buildium owner sign-in" },
+  { label: "Rental application", href: site.portals.rentalApplication, desc: "Apply for a Prime 1 rental" },
+  { label: "Agent login (Virtual Office)", href: site.portals.agent, desc: "Affiliated Prime 1 agents" },
 ];
 
 /** Per-route primary action for the mobile bar and header CTA. Longest prefix wins. */

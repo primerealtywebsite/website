@@ -47,8 +47,15 @@ export const site = {
     zillow: "https://www.zillow.com/profile/Prime1Realty",
   },
   portals: {
+    /**
+     * Rental OWNER portal. Buildium signs rental owners in through its shared authentication page (the
+     * Resident Center itself says "Property manager, rental owner, or vendor? Sign in here" and links here),
+     * so this generic-looking Buildium sign-in is the correct owner destination. Verified 26 Nov 2026.
+     */
     owner: "https://prime1pm.managebuilding.com/manager/public/authentication/login",
+    /** Buildium Resident Center: tenants AND association homeowners / board members sign in here. */
     resident: "https://prime1pm.managebuilding.com/Resident/portal/login",
+    association: "https://prime1pm.managebuilding.com/Resident/portal/login",
     rentalApplication: "https://prime1pm.managebuilding.com/Resident/rental-application/new",
     /** Agent Login: the Virtual Office for affiliated agents (it links on to the Agent Portal and tools). */
     agent: "/virtual-office",
@@ -124,6 +131,8 @@ export const people = {
     slug: "antony-oseitutu",
     name: "Antony Oseitutu",
     role: "Owner, Broker of Record & Designated CAM",
+    /** Short label for page titles. */
+    short: "Broker & Designated CAM",
     titles: ["Owner | Broker of Record, Prime 1 Realty", "Designated CAM, Prime 1 Property Management", "REALTOR®"],
     email: "antony@prime1realty.net",
     image: "/images/team/antony-oseitutu-headshot.jpg",
@@ -136,27 +145,39 @@ export const people = {
   },
   jennifer: {
     slug: "jennifer-rivera",
-    name: "Jennifer Rivera",
+    name: "Jennifer M. Rivera",
     role: "Licensed Community Association Manager",
+    short: "Licensed CAM",
     titles: ["Licensed Community Association Manager, Prime 1 Property Management"],
     email: "jennifer@prime1realty.net",
+    /** Antony's 26 Nov 2026 review: use a clear photo consistent with the other profiles (file pending from the office). */
     image: null as string | null,
     cutout: null as string | null,
+    /** Approved by Antony Oseitutu, 26 Nov 2026. Do not edit without his approval. */
     bio: [
-      "Jennifer Rivera is a part-time Licensed Community Association Manager with Prime 1 Property Management. She handles assigned association operations, inspections, and board and resident matters under the oversight of Antony Oseitutu, Designated CAM.",
+      "Jennifer oversees the daily management and operations of community associations within Prime 1 Property Management’s portfolio, including homeowners associations, condominium associations, commercial property owners associations and office parks.",
+      "Her responsibilities include association administration, board and homeowner communications, property inspections, maintenance oversight, vendor management, covenant enforcement, architectural review administration, financial reporting support and implementation of board approved initiatives.",
+      "Jennifer works directly with association boards, service providers and accounting professionals to support the operational and financial needs of each association.",
+      "Working under the leadership of the Designated Community Association Manager, Jennifer also supports new association transitions, management proposals and the continued expansion of Prime 1 Property Management’s Florida portfolio.",
+      "Her focus is delivering responsive, accountable and professional community association management services.",
     ],
   },
   gabrielle: {
     slug: "gabrielle-ortiz",
     name: "Gabrielle Ortiz",
-    role: "Brokerage Operations Support",
-    titles: ["Brokerage Operations Support, Prime 1 Realty (Northern Lights Operations)"],
+    role: "Operations & Transaction Support",
+    short: "Operations & Transaction Support",
+    titles: ["Operations & Transaction Support, Prime 1 Realty and Prime 1 Property Management"],
     email: "admin2@prime1realty.net",
     image: "/images/team/gabrielle-ortiz.jpg" as string | null,
     cutout: null as string | null,
+    /** Approved by Antony Oseitutu, 26 Nov 2026. Do not edit without his approval. */
     bio: [
-      "Gabrielle Ortiz supports Prime 1 Realty's brokerage administration through Northern Lights Operations. She maintains agent and applicant records, sends approved written information and follows up on administrative next steps.",
-      "Brokerage decisions, compensation and agreement questions are handled by Antony Oseitutu, Broker of Record.",
+      "Gabrielle provides dedicated operational and administrative support to Prime 1 Realty and Prime 1 Property Management, supporting residential brokerage, commercial real estate and community association management operations.",
+      "Within Prime 1 Realty, her responsibilities include agent affiliation administration, onboarding, CRM records management, listing administration, brokerage systems support, transaction documentation, deadline tracking and administrative compliance support.",
+      "Gabrielle provides transaction support to affiliated residential and commercial real estate professionals throughout the transaction process, from contract execution through closing, facilitating communication with transaction participants and maintaining organized records.",
+      "Within Prime 1 Property Management, Gabrielle provides administrative support through association records management, routine Buildium administration, prospective association database maintenance, board meeting logistics, vendor documentation, insurance certificate tracking, maintenance records and association onboarding documentation.",
+      "Working under the direction of Prime 1 leadership, Gabrielle contributes to the efficient operation of both business divisions, supporting affiliated real estate professionals and licensed community association management personnel.",
     ],
   },
 } as const;

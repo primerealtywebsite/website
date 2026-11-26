@@ -28,7 +28,7 @@ export function Header() {
   }, [open]);
 
   return (
-    <header className={cn("sticky top-0 z-50 bg-ink text-white transition-shadow", scrolled && "shadow-[0_10px_30px_-12px_rgba(0,0,0,.6)]")}>
+    <header data-site-chrome="header" className={cn("sticky top-0 z-50 bg-ink text-white transition-shadow", scrolled && "shadow-[0_10px_30px_-12px_rgba(0,0,0,.6)]")}>
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-50 focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:text-ink">
         Skip to content
       </a>

@@ -17,16 +17,17 @@ const FACTS = [
   `Business: ${site.name}, a licensed Florida real estate brokerage.`,
   `Sister company: ${site.pmName}, a licensed Florida community association management (CAM) firm. Both are DBAs of ${site.legalName}.`,
   `Broker of Record and Designated CAM: ${people.antony.name}.`,
+  `Team: ${people.jennifer.name}, ${people.jennifer.role} (${site.pmName}); ${people.gabrielle.name}, ${people.gabrielle.role} (administrative support to both companies). Licensed CAM work is performed by ${people.antony.name} and ${people.jennifer.name}.`,
   `Office: ${addr} (${site.address.neighborhood}, Tampa). Office hours: ${site.hours.label}.`,
   `Phone: ${site.phone.display}. Office hours ${site.hours.label}; ${site.hours.note.toLowerCase()}. Prime 1 Property Management provides ${site.phone.emergency}. The line is for calls only and does not receive text messages.`,
   `Email: ${site.email}. Agent affiliation: ${u("/join")}.`,
   `Service area: clients throughout Florida, from the Tampa headquarters. Local market guides cover Tampa Bay communities; inquiries are welcome for any Florida location.`,
-  `MLS: ${site.mls}. Live home search: ${idx.search}`,
+  `MLS: listing data comes from the Internet Data Exchange program of ${site.mls}; each listing shows its listing brokerage. Live home search: ${idx.search}`,
 ];
 
 const PM_LICENSING = [
   "Under Florida law (Chapter 468, Part VIII, Florida Statutes), managing a community association (HOA or condominium) for compensation requires a licensed community association manager (CAM) when the association has more than 10 units OR an annual budget over $100,000. Either condition is enough.",
-  "Prime 1 Property Management is a licensed Florida CAM firm with a Designated CAM. Service criteria: homeowners and condominium associations with 10 or more units, commercial property owners' associations and office parks throughout Florida, and qualifying rental portfolios.",
+  "Prime 1 Property Management is a licensed Florida CAM firm with a Designated CAM. Minimum eligibility for community association management: 10 or more homes or units AND an annual operating budget of at least $100,000 (both required). Association types: homeowners associations, condominium associations, commercial property owners' associations and office parks throughout Florida. Prime 1 also manages qualifying rental portfolios.",
   `Boards request a proposal at ${u("/property_management#start")} (an existing RFP can be attached). Community association emergencies: 24/7 live phone answering at ${site.phone.display}.`,
 ];
 
@@ -66,6 +67,9 @@ ${services}
 
 ## Agents: join Prime 1
 - [Join Prime 1 Realty](${u("/join")}): the complete offer, what agents keep at realistic production levels, fees, incentives, support, MLS and transaction transition, affiliation steps and the application. Residential ${SPLIT_LABEL.residential} to a ${usd(OFFER.residential.cap)} anniversary-year cap, then 100%; commercial ${SPLIT_LABEL.commercial} through ${usd(OFFER.commercial.threshold)} qualifying GCI, then ${SPLIT_LABEL.commercialAbove}; company-generated ${SPLIT_LABEL.company}. ${usd(OFFER.fees.onboarding)} onboarding, ${usd(OFFER.fees.techMonthly)}/month technology, ${usd(OFFER.fees.transactionCoordination)} transaction coordination per covered file per side; no desk or franchise fee. Every application stays pending until the broker decides; nothing is signed or charged before approval.
+
+## Employment: Prime 1 Property Management (LCAM)
+- [LCAM employment](${u("/employment")}): W2 employment for Florida Licensed Community Association Managers, separate from agent affiliation. Part time starting at $36.06 per hour, 20 hours per week (W2). Full time starting at $75,000 annually, 40 hours per week (W2 with benefits). Requires an active Florida CAM license, demonstrated association management experience, strong communication and organizational skills, and in person office attendance and association site visits. There are currently no open positions; applications and résumés are kept on file for future consideration.
 
 ## Areas served
 ${areas}

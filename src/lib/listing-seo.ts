@@ -198,5 +198,37 @@ export function optimizeListingHtml(html: string, pageUrl: string): string {
     .replace(/This adept skill has earned Antony Oseitutu has earned/g, "This has earned Antony Oseitutu")
     .replace(/hudreds/g, "hundreds");
   const head = `<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${esc(desc)}">${image ? `<meta name="twitter:image" content="${esc(image)}">` : ""}<script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, "\\u003c")}</script>`;
-  return out.replace(/<\/head>/i, `${head}</head>`);
+  out = out.replace(/<\/head>/i, `${head}</head>`);
+  // Listing inquiries go through the site's own lead pipeline with the property address and MLS number.
+  const broker = (html.match(/Listed by ([^<\n]+)/i)?.[1] ?? "").trim();
+  return bridgeListingForms(out, { address: place, mls: L.mls, price: priceTxt, broker, rental: isRental });
+}
+
+/**
+ * The old MLS app's "Enquire Now" and "Schedule a tour" forms posted to the old Laravel app (outside the
+ * site's lead routing, without MLS#, and with SMS consent copy although the office line is calls only).
+ * This replaces the consent copy, hides the stray "Services" box and sends both forms to /api/lead with
+ * the property address, MLS number, price and listing brokerage, so they reach the office like every
+ * other website lead (Resend email, Sheets, Meta CAPI).
+ */
+export function bridgeListingForms(html: string, p: { address: string; mls: string; price: string; broker: string; rental: boolean }) {
+  const consent = `By submitting, you agree that Prime 1 Realty may call or email you about this property and your inquiry. Our office line is calls only. <a href="/privacy-policy">Privacy Policy</a> &amp; <a href="/term-conditions">Terms and Conditions</a>.`;
+  let out = html
+    .replace(/By providing your phone number, you agree to receive SMS messages[\s\S]*?Terms and Conditions<\/a><\/span>\./g, consent);
+  out = out.replace(/<div class="mb-3 form-group">(\s*<label for="lead_service"[\s\S]*?<\/div>\s*<\/div>)/, '<div class="mb-3 form-group" style="display:none">$1');
+  const data = JSON.stringify(p).replace(/</g, "\\u003c");
+  const script = `<script>(function(){var P=${data};function v(f,n){var e=f.querySelector('[name="'+n+'"]');return e?String(e.value||'').trim():''}
+function utm(){try{var o={},q=new URLSearchParams(location.search);['utm_source','utm_medium','utm_campaign','utm_content','utm_term','gclid','gbraid','wbraid','fbclid'].forEach(function(k){var x=q.get(k);if(x)o[k]=x});return o}catch(e){return{}}}
+document.addEventListener('submit',function(e){var f=e.target;if(!f||!(f.id==='enquiryForm'||(f.classList&&f.classList.contains('form-schedule'))))return;e.preventDefault();e.stopImmediatePropagation();
+var tour=f.id!=='enquiryForm',name=v(f,'name'),phone=v(f,'phone'),email=v(f,'email'),msg=v(f,'message'),box=tour?null:document.getElementById('enqAlert');
+function say(t,ok){if(box){box.className='enq-alert '+(ok?'enq-ok':'enq-fail');box.textContent=t;box.style.display='block'}else{alert(t)}}
+if(name.length<2||phone.replace(/\\D/g,'').length<10){say('Please enter your name and a 10-digit phone number.',false);return}
+var a={'Property address':P.address,'MLS number':P.mls,'List price':P.price,'Listing brokerage':P.broker,'Request':tour?'Schedule a tour':'Property inquiry'};
+if(tour){a['Tour date']=v(f,'date');a['Tour time']=v(f,'time')||((f.querySelector('#time-selector .current')||{}).textContent||'');['agent_represented','financial','timeframe'].forEach(function(k){var x=v(f,k);if(x)a[k.replace('_',' ')]=x})}
+Object.keys(a).forEach(function(k){if(!a[k])delete a[k]});var b=f.querySelector('button[type=submit],button:not([type])');if(b)b.disabled=true;
+var id='lst-'+Date.now()+'-'+Math.random().toString(36).slice(2,8);
+fetch('/api/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({leadType:P.rental?'rent':'buy',name:name,phone:phone,email:email,message:msg,smsConsent:!!(f.querySelector('[name="consent"]')||{}).checked,answers:a,eventId:id,pageUrl:location.href,utm:utm()})})
+.then(function(r){return r.json().catch(function(){return{}}).then(function(j){if(!r.ok||!j.ok)throw 0;say(tour?'Tour request sent. A licensed Prime 1 professional will confirm the time with you.':'Thank you. A licensed Prime 1 professional will contact you about this property.',true);f.reset();try{window.clarity&&clarity('event','listing_lead')}catch(_){}})})
+.catch(function(){say('We could not send that. Please call (813) 295-8215.',false)}).finally(function(){if(b)b.disabled=false})},true)})();</script>`;
+  return out.replace(/<\/body>/i, `${script}</body>`);
 }

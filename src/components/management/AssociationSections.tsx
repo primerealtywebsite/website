@@ -1,7 +1,7 @@
 import { CheckList, Heading, Section } from "@/components/sections/Blocks";
 import { TrackedLink } from "@/components/analytics/Tracked";
 import { IconPhone } from "@/components/icons";
-import { BOARD_DECIDES, DELIVERABLES, MANAGER_HANDLES, PROPOSAL_STEPS, SERVICE_CRITERIA } from "@/content/management";
+import { BOARD_DECIDES, DELIVERABLES, ELIGIBILITY, MANAGER_HANDLES, PROPOSAL_STEPS, SERVICE_CRITERIA } from "@/content/management";
 import { site } from "@/config/site";
 
 /** Board-facing sections for /property_management: criteria, deliverables, responsibilities, process, residents. */
@@ -9,7 +9,7 @@ export function AssociationSections() {
   return (
     <>
       <Section tone="white" id="criteria">
-        <Heading eyebrow="Service criteria" title="Accounts Prime 1 accepts" intro="Prime 1 Property Management's service criteria, throughout Florida." />
+        <Heading eyebrow="Service criteria" title="Accounts Prime 1 accepts" intro={`Minimum eligibility for community association management: ${ELIGIBILITY}`} />
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {SERVICE_CRITERIA.map((c) => (
             <div key={c.t} className="card p-6">
@@ -83,15 +83,16 @@ export function AssociationSections() {
             <Heading tone="dark" eyebrow="Current residents & owners" title="Your portal, payments, requests and documents" />
             <div className="mt-6 grid gap-2 sm:grid-cols-2">
               {[
-                ["Resident & owner portal", site.portals.resident],
+                ["Resident portal (tenants)", site.portals.resident],
+                ["Association portal (homeowners & boards)", site.portals.association],
                 ["Pay dues or rent", site.portals.resident],
                 ["Maintenance request", site.portals.resident],
-                ["Community documents", site.portals.resident],
+                ["Rental application", site.portals.rentalApplication],
               ].map(([l, h]) => (
                 <TrackedLink key={l} href={h} custom="PortalLogin" params={{ portal: l }} className="rounded-xl bg-white/5 px-4 py-3.5 font-semibold text-white ring-1 ring-white/15 hover:ring-white/40">{l} →</TrackedLink>
               ))}
             </div>
-            <p className="mt-3 text-sm text-white/60">All four open in the Buildium resident portal. Owners: <a href={site.portals.owner} className="underline">owner portal login</a>.</p>
+            <p className="mt-3 text-sm text-white/60">Tenants and association homeowners sign in to the Buildium Resident Center (payments, maintenance requests and community documents). Rental property owners: <a href={site.portals.owner} className="underline">rental owner portal sign-in</a>.</p>
           </div>
           <div className="rounded-2xl bg-red p-6 text-white md:p-8">
             <h3 className="text-2xl">Community association emergency?</h3>

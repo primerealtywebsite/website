@@ -22,7 +22,7 @@ export const POSTS: Post[] = [
     slug: "how-to-choose-a-community-association-management-company-in-florida",
     title: "How to Choose a Community Association Management Company in Florida",
     metaTitle: "How to Choose an HOA or Condo Management Company in Florida",
-    description: "A board's guide to choosing a Florida community association management company: licensing, scope, reporting, transition, and the questions to ask before you sign.",
+    description: "A board's guide to choosing a Florida community association management company: licensing, scope, reporting, transition and the questions to ask before you sign.",
     published: "2026-11-25",
     modified: "2026-11-25",
     image: "/images/management/townhome-community-row.jpg",

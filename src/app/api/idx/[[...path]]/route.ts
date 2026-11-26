@@ -1,6 +1,7 @@
 import { oldAppFetch, OLD_HOST as ORIGIN_HOST } from "@/lib/old-app";
 import { optimizeListingHtml } from "@/lib/listing-seo";
 import { site } from "@/config/site";
+import { applyChrome, getChrome } from "@/lib/site-chrome";
 
 /**
  * MLS home search (old Laravel app) proxy. Every URL this site doesn't own (/home-search, /search,
@@ -85,7 +86,15 @@ async function proxy(req: Request, { params }: { params: Promise<{ path?: string
       .replace(/const menu = new Mmenu\( "#menu" \);/g, 'if (!document.querySelector("#menu")) return; const menu = new Mmenu( "#menu" );')
       .replace(/(<script src="[^"]*\/area-chart\.js"[^>]*>\s*<\/script>)/g, (m) => (/<script[^>]+apexcharts/i.test(html) ? m : ""))
       // reCAPTCHA hook for a #contact-form that only some old pages have (home search has none).
-      .replace(/document\.getElementById\('contact-form'\)\.addEventListener\(/g, "document.getElementById('contact-form')?.addEventListener(");
+      .replace(/document\.getElementById\('contact-form'\)\.addEventListener\(/g, "document.getElementById('contact-form')?.addEventListener(")
+      // MLS attribution: every listing comes from Stellar MLS (verified 26 Nov 2026), but the search page still
+      // carried the old realMLS (Northeast Florida MLS) disclaimer with a blank brokerage name. Use Stellar's.
+      .replace(
+        /<p><strong>The data relating to real estate for sale on this website comes in part from the Internet Data Exchange program of Northeast Florida Multiple Listing Service[\s\S]*?<\/p>\s*<p><b>Real estate listings held by brokerage firms other than[\s\S]*?<\/p>/g,
+        `<p><strong>The data relating to real estate for sale on this website comes in part from the Internet Data Exchange Program of Stellar MLS.</strong> Information provided is for consumer's personal, non-commercial use and may not be used for any other purpose other than to identify prospective properties consumers may be interested in purchasing. Listings held by brokerage firms other than Prime 1 Realty include the name of the listing brokerage. Listing information is deemed reliable but not guaranteed. All information should be independently verified.</p><p>©${new Date().getFullYear()} Stellar MLS. All rights reserved.</p>`,
+      )
+      // maps.js (defer) ran before the async Maps API had loaded ("google is not defined"): defer both, in order.
+      .replace(/<script async src="(https:\/\/maps\.googleapis\.com\/maps\/api\/js\?[^"]*)"\s*>/g, '<script defer src="$1">');
   }
   // Microsoft Clarity on every proxied HTML page too (home search, listings), same project as the main site.
   if (req.method === "GET" && res.status === 200 && site.clarityId && String(res.headers["content-type"] ?? "").includes("text/html")) {
@@ -93,6 +102,18 @@ async function proxy(req: Request, { params }: { params: Promise<{ path?: string
     if (!html.includes("clarity.ms/tag")) {
       const tag = `<script>(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${site.clarityId}");</script>`;
       payload = html.replace(/<\/head>/i, `${tag}</head>`);
+    }
+  }
+  // Same header, footer and mobile action bar as the rest of the site (the old template's menu was different).
+  if (req.method === "GET" && res.status === 200 && String(res.headers["content-type"] ?? "").includes("text/html")) {
+    const chrome = await getChrome(inUrl.origin);
+    if (chrome) {
+      const html = typeof payload === "string" ? payload : res.body.toString("utf8");
+      try {
+        payload = applyChrome(html, chrome);
+      } catch (e) {
+        console.error("[idx] chrome error", e);
+      }
     }
   }
   return new Response(req.method === "HEAD" || res.status === 204 || res.status === 304 ? null : payload, { status: res.status, headers: out });

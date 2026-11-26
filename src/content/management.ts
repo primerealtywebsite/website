@@ -5,12 +5,15 @@
  * OPEN ITEM (Antony): confirm the written criteria for qualifying rental portfolios. The wording
  * below is deliberately general until he supplies them.
  */
+/** Minimum eligibility for association management (Antony, 26 Nov 2026): BOTH requirements must be met. */
+export const ELIGIBILITY = "10 or more homes or units and an annual operating budget of at least $100,000. Both requirements must be met.";
+
 export const ASSOCIATION_TYPES = ["Homeowners association (HOA)", "Condominium association", "Commercial property owners' association", "Office park"] as const;
 
 export const SERVICE_CRITERIA = [
-  { t: "Homeowners associations", b: "Florida HOAs with 10 or more units." },
-  { t: "Condominium associations", b: "Florida condominium associations with 10 or more units, including buildings with milestone inspection and reserve requirements." },
-  { t: "Commercial property owners' associations & office parks", b: "Commercial owners' associations and office parks throughout Florida, scoped to the property and the services the association needs." },
+  { t: "Homeowners associations", b: "Florida HOAs with 10 or more homes and an annual operating budget of at least $100,000." },
+  { t: "Condominium associations", b: "Florida condominium associations with 10 or more units and an annual operating budget of at least $100,000, including buildings with milestone inspection and reserve requirements." },
+  { t: "Commercial property owners' associations & office parks", b: "Commercial owners' associations and office parks throughout Florida with 10 or more units and an annual operating budget of at least $100,000, scoped to the services the association needs." },
   { t: "Qualifying rental portfolios", b: "Residential rental portfolios that meet Prime 1's service criteria for location, property condition and portfolio size. We review each portfolio before proposing." },
 ];
 
@@ -19,7 +22,7 @@ export const DELIVERABLES = [
   ["Board reporting", "A regular manager's report for every board meeting: open work orders, violations, vendor status, collections and upcoming deadlines."],
   ["Budget & financial reporting support", "Annual budget preparation support, monthly financial statements and delinquency reporting for board review."],
   ["Vendor oversight", "Bids, contracts, insurance certificates and performance follow-up for association vendors."],
-  ["Buildium portal access", "Owners and residents pay, submit maintenance requests and get community documents online. Boards get reports and records in one place."],
+  ["Online portal access", "Owners and residents pay, submit maintenance requests and get community documents online. Boards get reports and records in one place."],
   ["Compliance calendar", "Florida statutory deadlines: notices, meetings, records, milestone inspections and reserve study coordination."],
 ] as const;
 
@@ -47,7 +50,7 @@ export const PROPOSAL_STEPS = [
 ] as const;
 
 export const RESIDENT_LINKS = [
-  { label: "Resident & owner portal login", key: "resident" as const, desc: "Your Buildium account" },
+  { label: "Resident & association portal login", key: "resident" as const, desc: "Your Buildium Resident Center account" },
   { label: "Pay dues or rent online", key: "resident" as const, desc: "In the portal: Payments" },
   { label: "Submit a maintenance request", key: "resident" as const, desc: "In the portal: Requests" },
   { label: "Community documents", key: "resident" as const, desc: "In the portal: Documents" },

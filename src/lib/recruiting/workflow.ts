@@ -17,12 +17,12 @@ import type { AgentToken, Applicant, Stage } from "./token";
  *
  * Who is responsible at each status (shown on every record email and in the Applicants sheet):
  * decisions are Antony's; administrative follow-up (incomplete files, payment exceptions, records)
- * is Northern Lights (admin inbox). Recruiting calls, objections, compensation interpretation and
- * affiliation decisions are never assigned to Northern Lights.
+ * is the Prime 1 operations inbox (admin). Recruiting calls, objections, compensation interpretation and
+ * affiliation decisions are never assigned to operations support.
  */
 
 export const BROKER = { name: site.recruiting.name, email: site.recruiting.notify };
-export const OFFICE_NAME = "Northern Lights Operations (Prime 1 admin)";
+export const OFFICE_NAME = "Prime 1 Operations (Gabrielle Ortiz, admin)";
 
 export function officeInbox() {
   return [...new Set([site.recruiting.cc, ...(process.env.RECRUITING_EMAIL_CC || process.env.LEAD_EMAIL_CC || "").split(",").map((x) => x.trim())].filter(Boolean))].filter((e) => e !== BROKER.email);
@@ -387,7 +387,7 @@ export function mailSignedOffice(a: Applicant, sig: NonNullable<AgentToken["sig"
     office: true,
     subject: `Signed: ${a.first} ${a.last} (${a.id}) accepted affiliation, onboarding paperwork support can begin`,
     html: wrap(`<h2 style="margin:0 0 6px">Approved agent signed and accepted</h2>${statusBar(a.id, "Signed - awaiting payment")}
-<p>This is the notice to Northern Lights that an approved agent accepted. Onboarding paperwork support begins now (administrative only: records, approved written information, follow-up on administrative next steps).</p>
+<p>This is the notice to Prime 1 Operations that an approved agent accepted. Onboarding paperwork support begins now (administrative only: records, approved written information, follow-up on administrative next steps).</p>
 ${table([
       ["Agent", `${a.first} ${a.last}`],
       ["Email", a.email],

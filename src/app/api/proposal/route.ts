@@ -1,27 +1,31 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { site } from "@/config/site";
+import { people, site } from "@/config/site";
 import { requestContext, sendCapiEvent } from "@/lib/meta-capi";
 import { esc, officeInbox, send, toText } from "@/lib/recruiting/workflow";
 import { sendEmail } from "@/lib/resend";
 
 /**
  * Request an Association Management Proposal (multipart form, optional RFP attachment up to 3 MB).
- * Routing (per Antony, Nov 2026): the proposal goes to Antony, who leads business development and
- * approves scope and proposal; the admin inbox (Northern Lights) is copied to log the inquiry, send
- * the approved acknowledgment and track outstanding information. Jennifer Rivera (LCAM) assists with
- * inspections and transition planning only at Antony's direction, so she is not copied automatically.
+ * Routing (Antony's review, 26 Nov 2026): licensed community association management inquiries go to
+ * Antony (Designated CAM) and Jennifer M. Rivera (LCAM). The office inbox is copied so Gabrielle Ortiz can
+ * provide administrative support (logging, acknowledgment, outstanding information). Every activity that
+ * requires a Florida CAM license stays with Antony and Jennifer.
+ * Minimum eligibility: 10+ homes or units AND a $100,000+ annual operating budget (both required).
  */
 const Fields = z.object({
   associationName: z.string().trim().min(2).max(160),
   location: z.string().trim().min(2).max(160),
   propertyType: z.string().trim().min(2).max(80),
   units: z.string().trim().min(1).max(20),
+  budget: z.string().trim().min(2).max(60),
+  arrangement: z.string().trim().min(2).max(80),
+  services: z.string().trim().min(2).max(1000),
   contactName: z.string().trim().min(2).max(120),
   boardRole: z.string().trim().min(2).max(80),
   email: z.string().trim().email().max(160),
   phone: z.string().trim().min(10).max(30),
-  concern: z.string().trim().min(5).max(2000),
+
   transitionDate: z.string().trim().max(40).optional().default(""),
   currentManagement: z.string().trim().max(120).optional().default(""),
   onSite: z.string().trim().max(60).optional().default(""),
@@ -63,20 +67,25 @@ export async function POST(req: Request) {
   try {
     utm = JSON.parse(d.utm);
   } catch {}
+  const unitCount = parseInt(d.units.replace(/[^\d]/g, ""), 10) || 0;
+  const meets = unitCount >= 10 && !/^under/i.test(d.budget);
   const when = new Date().toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "medium", timeStyle: "short" }) + " ET";
   const rows: [string, string][] = [
     ["Association", d.associationName],
-    ["Location", d.location],
-    ["Property type", d.propertyType],
-    ["Units", d.units],
-    ["Contact", d.contactName],
-    ["Board role", d.boardRole],
+    ["Property address", d.location],
+    ["Association type", d.propertyType],
+    ["Homes / units", d.units],
+    ["Annual operating budget", d.budget],
+    ["Meets minimums (10+ units AND $100K+ budget)", meets ? "Yes" : "NO: below minimum"],
+    ["Board representative", d.contactName],
+    ["Board position", d.boardRole],
     ["Email", d.email],
     ["Phone", d.phone],
-    ["Primary concern", d.concern],
+    ["Current management arrangement", d.arrangement],
+    ["Current management company", d.currentManagement],
+    ["Requested services", d.services],
     ["Anticipated transition date", d.transitionDate],
-    ["On-site staff needed", d.onSite || "Not sure"],
-    ["Current management", d.currentManagement],
+    ["On-site staff needed", d.onSite],
     ["Message", d.message],
     ["RFP attached", attachment ? attachment.filename : "No"],
     ["Page", d.pageUrl],
@@ -85,16 +94,16 @@ export async function POST(req: Request) {
   const table = `<table style="border-collapse:collapse">${rows.filter(([, v]) => v).map(([k, v]) => `<tr><td style="padding:5px 14px 5px 0;color:#555;vertical-align:top">${esc(k)}</td><td style="padding:5px 0"><b>${esc(v)}</b></td></tr>`).join("")}</table>`;
   const html = `<div style="font-family:Arial,sans-serif;font-size:14px;color:#111;max-width:640px">
 <h2 style="margin:0 0 4px">Association management proposal request</h2>
-<p style="margin:0 0 12px;color:#555">${when}. <b>Owner: ${esc(site.recruiting.name)}</b> (business development, scope and proposal approval). Northern Lights: log the inquiry, confirm the acknowledgment went out and track outstanding information. Jennifer Rivera assists with inspections, operational questions and transition planning only at the broker's direction.</p>
+<p style="margin:0 0 12px;color:#555">${when}. Licensed CAM review: <b>${esc(people.antony.name)}</b> (Designated CAM) and <b>${esc(people.jennifer.name)}</b> (LCAM). Office copy: administrative support only (log the inquiry, confirm the acknowledgment, track outstanding information).</p>
 ${table}<p style="color:#777;font-size:12px;margin-top:18px">Reply to this email to reach ${esc(d.contactName)}.</p></div>`;
 
   const office = await sendEmail(
     {
       from: process.env.LEAD_EMAIL_FROM || "Prime 1 Website <leads@updates.prime1realty.net>",
-      to: [site.recruiting.notify],
+      to: [site.recruiting.notify, people.jennifer.email],
       cc: officeInbox(),
       reply_to: d.email,
-      subject: `Association proposal request: ${d.associationName} (${d.units} units, ${d.location})`,
+      subject: `${meets ? "" : "[Below minimum] "}Association proposal request: ${d.associationName} (${d.units} units, ${d.budget})`,
       html,
       text: toText(html),
       attachments: attachment ? [attachment] : undefined,

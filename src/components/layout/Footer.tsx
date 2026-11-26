@@ -16,7 +16,7 @@ const AREAS = [
 export function Footer() {
   const year = process.env.BUILD_YEAR;
   return (
-    <footer className="bg-ink text-white/75">
+    <footer data-site-chrome="footer" className="bg-ink text-white/75">
       <div className="container-x grid gap-10 py-14 md:grid-cols-12">
         <div className="md:col-span-4">
           <Image src="/images/brand/prime1-realty-logo.png" alt="Prime 1 Realty & Property Management" width={365} height={171} className="h-14 w-auto" />
@@ -128,7 +128,7 @@ export function Footer() {
           </p>
         </div>
         <div className="container-x flex flex-col gap-2 pb-8 text-xs text-white/50 sm:flex-row sm:justify-between">
-          <p>© {year} {site.name}. All rights reserved.</p>
+          <p>© {year} {site.legalName}, d/b/a {site.name} and {site.pmName}. All rights reserved.</p>
           <p className="flex gap-4">
             <Link href="/privacy-policy" className="hover:text-white">Privacy Policy</Link>
             <Link href="/term-conditions" className="hover:text-white">Terms &amp; Conditions</Link>

@@ -119,7 +119,7 @@ export default function Home() {
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <div>
             <Heading tone="dark" eyebrow="For association boards throughout Florida" title="Request an Association Management Proposal" intro="For homeowners associations, condominium associations, commercial property owners' associations and office parks. Prime 1 Property Management is a licensed Florida CAM firm led by a Designated CAM." />
-            <CheckList tone="dark" className="mt-6 text-white/90" items={["Inspections and board reporting", "Budget and financial reporting support", "Vendor oversight and Florida compliance deadlines", "Buildium portal for payments, requests and documents", "Attach your existing RFP"]} />
+            <CheckList tone="dark" className="mt-6 text-white/90" items={["Inspections and board reporting", "Budget and financial reporting support", "Vendor oversight and Florida compliance deadlines", "Online portal for payments, requests and documents", "Attach your existing RFP"]} />
             <div className="mt-8 flex flex-wrap gap-3">
               <Link href="/property_management#start" className="btn btn-red">
                 Request an Association Management Proposal <IconArrow size={18} />

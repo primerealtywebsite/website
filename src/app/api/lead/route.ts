@@ -1,13 +1,14 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { site } from "@/config/site";
+import { people, site } from "@/config/site";
 import { requestContext, sendCapiEvent } from "@/lib/meta-capi";
 import { sendEmail } from "@/lib/resend";
 
 /**
  * Routing (Nov 2026): every inquiry goes to the office inbox (LEAD_EMAIL_TO, admin@) with support staff
  * copied (LEAD_EMAIL_CC). Commercial and association-management inquiries also go to the broker
- * (antony@), who handles commercial brokerage and leads association business development.
+ * (antony@), who handles commercial brokerage and leads association business development. Management
+ * inquiries also go to Jennifer M. Rivera (LCAM): licensed CAM work stays with Antony and Jennifer.
  * Agent recruiting never comes through here: it has its own workflow at /join.
  */
 const BROKER_TOO = new Set(["commercial", "management"]);
@@ -143,7 +144,7 @@ ${section("Contact", contactRows)}${section("Their answers", answerRows)}${secti
         {
           from: process.env.LEAD_EMAIL_FROM || "Prime 1 Website <leads@updates.prime1realty.net>",
           // Agent inquiries also go to Antony (recruiting / HR).
-          to: [process.env.LEAD_EMAIL_TO || site.email, ...(BROKER_TOO.has(lead.leadType) ? [site.recruiting.notify] : [])],
+          to: [process.env.LEAD_EMAIL_TO || site.email, ...(BROKER_TOO.has(lead.leadType) ? [site.recruiting.notify] : []), ...(lead.leadType === "management" ? [people.jennifer.email] : [])],
           // Support staff (e.g. Gabrielle) copied on every inquiry: LEAD_EMAIL_CC, comma-separated.
           ...(process.env.LEAD_EMAIL_CC ? { cc: process.env.LEAD_EMAIL_CC.split(",").map((x) => x.trim()).filter(Boolean) } : {}),
           ...(lead.email ? { reply_to: lead.email } : {}),

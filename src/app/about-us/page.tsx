@@ -32,7 +32,7 @@ export default function About() {
       <Section tone="white">
         <div className="mx-auto max-w-3xl">
           <Answer question="Who we are">
-            {site.name} is a licensed Florida real estate brokerage. {site.pmName} is a licensed Florida community association management firm. Both are headquartered in Tampa and serve clients throughout Florida. Both are DBAs of {site.legalName}, and both are led by Antony Oseitutu, Broker of Record and Designated CAM.
+            {site.name} is a licensed Florida real estate brokerage. {site.pmName} is a licensed Florida community association management firm. Both are DBAs of {site.legalName} and are headquartered in Tampa and serve clients throughout Florida. Both are DBAs of {site.legalName}, and both are led by Antony Oseitutu, Broker of Record and Designated CAM.
           </Answer>
         </div>
       </Section>

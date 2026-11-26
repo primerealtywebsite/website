@@ -7,6 +7,7 @@ import { HOME, FAQS as HOME_FAQS, PATHS } from "@/content/home";
 import { FAQS as AGENT_FAQS, STATS as AGENT_STATS } from "@/content/careers";
 import { COMMERCIAL_SCENARIOS, FEE_TABLE, OFFER, RESIDENTIAL_SCENARIOS, SCENARIO_NOTE, usd } from "@/config/offer";
 import { articleSchema, breadcrumbSchema, faqSchema, organizationSchema, personSchema, serviceSchema } from "@/lib/schema";
+import { EMPLOYMENT, EMPLOYMENT_FAQS } from "@/content/employment";
 
 /**
  * AI version (agent view) of each public page. Built only from the content files the human pages
@@ -31,7 +32,7 @@ export type AgentDoc = {
   schema: object[];
 };
 
-const CONTENT_UPDATED = "2026-11-25";
+const CONTENT_UPDATED = "2026-11-26";
 const u = (path: string) => `${site.url}${path}`;
 const ADDRESS = `${site.address.street}, ${site.address.city}, ${site.address.region} ${site.address.postal}`;
 
@@ -183,7 +184,8 @@ function careersDocs(): AgentDoc[] {
         },
         {
           h2: "Affiliation steps",
-          list: ["1. Review the offer, FAQ, agreement review copy and steps.", "2. Apply.", "3. Pending broker review (DBPR license verification).", "4. Decision in writing: approve, request information or decline.", "5. Approved agents e-sign.", `6. ${usd(OFFER.fees.onboarding)} onboarding fee, only after approval and signing.`, "7. License transfer with written MLS, listing, pending-transaction and technology instructions.", "8. Virtual Office and personal onboarding by the broker."],
+          paras: ["There is no mandatory phone consultation, interview or calendar appointment. Gabrielle Ortiz provides administrative support throughout the process; all affiliation approvals and license transfers remain exclusively with the Broker of Record."],
+          list: ["1. Submit the affiliation application.", "2. The Broker of Record reviews the application (DBPR license verification).", "3. Approved applicants receive the Independent Contractor Agreement for electronic signature.", `4. Following execution, the applicant pays the ${usd(OFFER.fees.onboarding)} onboarding fee.`, "5. The Broker of Record processes the license affiliation through the Florida Department of Business and Professional Regulation (DBPR).", "6. Brokerage onboarding is completed, including ADP payment setup, applicable technology access and Virtual Office credentials."],
         },
       ],
       faqs: AGENT_FAQS,
@@ -195,12 +197,33 @@ function careersDocs(): AgentDoc[] {
   ];
 }
 
+function employmentDoc(): AgentDoc {
+  return {
+    path: "/employment",
+    title: "LCAM Employment | Prime 1 Property Management Florida",
+    description: "Employment for Florida Licensed Community Association Managers at Prime 1 Property Management: part time and full time W2 roles. Apply with your résumé.",
+    h1: EMPLOYMENT.role,
+    answer: [EMPLOYMENT.intro, `Current employment status: ${EMPLOYMENT.status}`],
+    sections: [
+      { h2: EMPLOYMENT.partTime.label, list: [...EMPLOYMENT.partTime.items] },
+      { h2: EMPLOYMENT.fullTime.label, list: [...EMPLOYMENT.fullTime.items] },
+      { h2: "Requirements", list: [...EMPLOYMENT.requirements] },
+      { h2: "How to apply", paras: [`Submit the online employment application with your résumé, contact information, Florida CAM license number, relevant experience, employment preference and availability: ${u("/employment#apply")}. There is no fee to apply. Real estate agents affiliate separately with Prime 1 Realty as independent contractors: ${u("/join")}.`] },
+    ],
+    faqs: EMPLOYMENT_FAQS,
+    start: [`Apply: ${u("/employment#apply")}`],
+    related: [{ label: "Association management", href: "/property_management" }, { label: "Our team", href: "/team" }],
+    updated: CONTENT_UPDATED,
+    schema: [faqSchema(EMPLOYMENT_FAQS)],
+  };
+}
+
 function teamDocs(): AgentDoc[] {
   const keys = Object.keys(people) as PersonKey[];
   const index: AgentDoc = {
     path: "/team",
     title: "Our Team | Prime 1 Realty & Property Management, Tampa",
-    description: "Meet the Prime 1 team: Broker of Record and Designated CAM Antony Oseitutu and licensed Community Association Manager Jennifer Rivera.",
+    description: "Meet the Prime 1 team: Broker of Record and Designated CAM Antony Oseitutu, licensed Community Association Manager Jennifer M. Rivera and operations & transaction support Gabrielle Ortiz.",
     h1: "Who you will work with",
     answer: ["Licensed professionals who answer to you, backed by a Broker of Record you can reach directly."],
     sections: [{ h2: "People", list: keys.map((k) => `${people[k].name}, ${people[k].role}: ${u(`/team/${people[k].slug}`)}`) }],
@@ -211,7 +234,7 @@ function teamDocs(): AgentDoc[] {
   const each = keys.map(
     (k): AgentDoc => ({
       path: `/team/${people[k].slug}`,
-      title: `${people[k].name}, ${k === "antony" ? "Broker & Designated CAM" : "Licensed CAM"} | Prime 1 Realty`,
+      title: `${people[k].name}, ${people[k].short} | Prime 1`,
       description: `${people[k].name} is ${people[k].role} at Prime 1 in Tampa, FL. ${people[k].bio[0]}`.slice(0, 155),
       h1: people[k].name,
       answer: [people[k].bio[0]],
@@ -243,7 +266,7 @@ function contactDoc(): AgentDoc {
     sections: [
       {
         h2: "Portals",
-        list: [`Owner portal: ${site.portals.owner}`, `Resident and association portal: ${site.portals.resident}`, `Rental application: ${site.portals.rentalApplication}`, `Home search (MLS listings): ${idx.search}`],
+        list: [`Resident portal (tenants): ${site.portals.resident}`, `Association portal (homeowners and boards): ${site.portals.association}`, `Rental owner portal (Buildium owner sign-in): ${site.portals.owner}`, `Rental application: ${site.portals.rentalApplication}`, `Home search (MLS listings): ${idx.search}`],
       },
     ],
     start: START_DEFAULT,
@@ -255,7 +278,7 @@ function contactDoc(): AgentDoc {
 let cache: Map<string, AgentDoc> | null = null;
 export function agentDocs() {
   if (!cache) {
-    const all = [homeDoc(), ...Object.keys(SERVICES).map(servicesDoc), ...areaDocs(), ...blogDocs(), ...careersDocs(), ...teamDocs(), contactDoc()];
+    const all = [homeDoc(), ...Object.keys(SERVICES).map(servicesDoc), ...areaDocs(), ...blogDocs(), ...careersDocs(), employmentDoc(), ...teamDocs(), contactDoc()];
     cache = new Map(all.map((d) => [d.path, d]));
   }
   return cache;

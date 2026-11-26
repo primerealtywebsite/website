@@ -11,22 +11,21 @@ import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
   title: "Join Prime 1 Realty | Florida Agent Offer, Splits & Fees",
-  description: `For experienced Florida agents: ${SPLIT_LABEL.residential} to a ${usd(OFFER.residential.cap)} cap, then 100%. Commercial ${SPLIT_LABEL.commercial}, then ${SPLIT_LABEL.commercialAbove}. See what you keep, the fees, incentives and how affiliation works.`,
+  description: `For experienced Florida agents: ${SPLIT_LABEL.residential} to a ${usd(OFFER.residential.cap)} cap, then 100%. Commercial ${SPLIT_LABEL.commercial}, then ${SPLIT_LABEL.commercialAbove}. See what you keep, fees, incentives and how affiliation works.`,
   path: "/join",
   image: "/og/prime1-join-og.jpg",
 });
 
 const pa = OFFER.producerAdvantage;
 
+/** Approved affiliation sequence (Antony Oseitutu, Broker of Record, 26 Nov 2026). Do not change without his approval. */
 const STEPS = [
-  ["Review", "Read the offer, FAQ, agreement review copy and these steps."],
-  ["Apply", "License, production, markets, association and MLS needs. About 5 minutes."],
-  ["Pending broker review", "The broker verifies your license on DBPR and reviews your file. Every application stays pending until a decision."],
-  ["Decision", "Approval, a request for more information, or a decline, in writing."],
-  ["Sign", "Approved agents e-sign the Independent Contractor Agreement and Handbook acknowledgment."],
-  ["Onboarding fee", `${usd(OFFER.fees.onboarding)}, paid only after approval and signing.`],
-  ["License transfer", "Written instructions for your transfer, MLS access, active listings, pending transactions and technology."],
-  ["Virtual Office", "Once your license shows Prime 1, your Virtual Office opens and the broker onboards you personally."],
+  ["Apply", "Submit the affiliation application: license, production, markets, association and MLS needs. About 5 minutes. No mandatory phone consultation, interview or calendar appointment."],
+  ["Broker review", "The Broker of Record reviews your application and verifies your license on DBPR. Every application stays pending until a written decision."],
+  ["Sign", "Approved applicants receive the Independent Contractor Agreement for electronic signature."],
+  ["Onboarding fee", `Following execution, you pay the ${usd(OFFER.fees.onboarding)} onboarding fee.`],
+  ["License affiliation", "The Broker of Record processes your license affiliation through the Florida Department of Business and Professional Regulation (DBPR)."],
+  ["Brokerage onboarding", "Onboarding is completed, including ADP payment setup, applicable technology access and your Virtual Office credentials."],
 ];
 
 function ScenarioTable({ rows, caption }: { rows: Scenario[]; caption: string }) {
@@ -230,8 +229,8 @@ export default function Join() {
 
       {/* Steps */}
       <Section tone="paper" id="steps">
-        <Heading eyebrow="Affiliation steps" title="From review to your Virtual Office" intro="Nothing is signed, issued or charged until the broker approves your application." />
-        <ol className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Heading eyebrow="Affiliation steps" title="From review to your Virtual Office" intro="Nothing is signed, issued or charged until the Broker of Record approves your application. Gabrielle Ortiz provides administrative support throughout the process; all affiliation approvals and license transfers remain exclusively with the Broker of Record." />
+        <ol className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {STEPS.map(([t, b], i) => (
             <li key={t} className="card p-5">
               <span className="grid size-8 place-items-center rounded-full bg-ink text-sm font-bold text-white">{i + 1}</span>

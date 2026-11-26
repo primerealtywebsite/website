@@ -44,7 +44,7 @@ export function MobileBar() {
   );
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-ink/95 px-3 pb-[calc(10px+env(safe-area-inset-bottom))] pt-2.5 backdrop-blur md:hidden">
+    <div data-site-chrome="mobilebar" className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-ink/95 px-3 pb-[calc(10px+env(safe-area-inset-bottom))] pt-2.5 backdrop-blur md:hidden">
       <div className={`mx-auto grid max-w-md gap-2 ${action ? (recruiting ? "grid-cols-[1fr_1.6fr]" : "grid-cols-[1.5fr_1fr]") : "grid-cols-1"}`}>
         {call}
         {action}

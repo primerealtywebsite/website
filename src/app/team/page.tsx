@@ -8,7 +8,7 @@ import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
   title: "Our Team | Prime 1 Realty & Property Management, Tampa",
-  description: "Meet the Prime 1 team: Broker of Record and Designated CAM Antony Oseitutu, LCAM Jennifer Rivera and brokerage operations support Gabrielle Ortiz.",
+  description: "Meet the Prime 1 team: Broker of Record and Designated CAM Antony Oseitutu, LCAM Jennifer M. Rivera and operations & transaction support Gabrielle Ortiz.",
   path: "/team",
 });
 
