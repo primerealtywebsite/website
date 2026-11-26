@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { requestContext } from "@/lib/meta-capi";
-import { packetLinks } from "@/lib/onboarding-docs";
+import { packetLinks, signingOpen } from "@/lib/onboarding-docs";
 import { HANDBOOK_ACKS, signHashes } from "@/lib/recruiting/steps";
 import { agentToken, readAgent } from "@/lib/recruiting/token";
 import { logRecord, mailSigned, mailSignedOffice, send } from "@/lib/recruiting/workflow";
@@ -29,6 +29,7 @@ export async function POST(req: Request) {
   const tok = readAgent(d.t, ["approved"]);
   if (!tok) return NextResponse.json({ ok: false, error: "Signing is available only after broker approval, from your approval email." }, { status: 403 });
   const a = tok.a;
+  if (!signingOpen()) return NextResponse.json({ ok: false, error: "The signing documents are being finalized. The office will email you when signing opens." }, { status: 503 });
   if (!norm(d.name).includes(norm(a.first)) || !norm(d.name).includes(norm(a.last))) {
     return NextResponse.json({ ok: false, error: `Please type your full legal name as it appears on your license (${a.first} ${a.last}).` }, { status: 400 });
   }

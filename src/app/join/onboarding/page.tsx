@@ -3,7 +3,7 @@ import { PayStep, SignForm } from "@/components/join/FlowForms";
 import { FlowShell, Notice, NotAvailable, StepCard } from "@/components/join/Shell";
 import { OFFER, usd } from "@/config/offer";
 import { TRANSITION } from "@/content/transition";
-import { packetLinks } from "@/lib/onboarding-docs";
+import { packetLinks, signingOpen } from "@/lib/onboarding-docs";
 import { HANDBOOK_ACKS, paymentMode } from "@/lib/recruiting/steps";
 import { readAgent } from "@/lib/recruiting/token";
 import { pageMeta } from "@/lib/seo";
@@ -33,7 +33,9 @@ async function Onboarding({ searchParams }: Pick<PageProps<"/join/onboarding">, 
     <FlowShell eyebrow={`Approved · Record ${a.id}`} title={`Welcome, ${a.first}. Your onboarding steps`} intro="Complete each step in order. This page is personal to you.">
       <StepCard n={1} title="Broker approval" state="done" />
       <StepCard n={2} title="Review and e-sign the agreement and handbook acknowledgment" state={st === "approved" ? "current" : "done"}>
-        {st === "approved" ? (
+        {st === "approved" && !signingOpen() ? (
+          <Notice>The final signing documents are being prepared. The office will email you as soon as signing opens; nothing else is needed from you now.</Notice>
+        ) : st === "approved" ? (
           <SignForm t={token} name={`${a.first} ${a.last}`} acks={HANDBOOK_ACKS} docs={signDocs} />
         ) : (
           <p className="text-[0.95rem] text-muted">Signed by {tok.sig?.name} on {tok.sig ? new Date(tok.sig.at).toLocaleString("en-US", { timeZone: "America/New_York", dateStyle: "long", timeStyle: "short" }) : ""} ET. A copy of the signature record was emailed to you.</p>

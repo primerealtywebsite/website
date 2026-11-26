@@ -26,6 +26,9 @@ export const REVIEW_DOCS = [
  */
 export const handbookReviewReady = () => process.env.HANDBOOK_REVIEW_READY === "1";
 
+/** Signing opens in production only once the corrected handbook is in place (tests and previews are not blocked). */
+export const signingOpen = () => handbookReviewReady() || process.env.VERCEL_ENV !== "production";
+
 export const PACKET_DOCS = [
   { slug: "independent-contractor-agreement", title: "Independent Contractor Agreement (broker-executed)", sign: true },
   { slug: "independent-contractor-handbook", title: "Independent Contractor Policies & Procedures Handbook", sign: true },
