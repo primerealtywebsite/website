@@ -43,6 +43,14 @@ const nextConfig: NextConfig = {
       { source: "/careers/:path+", destination: "/employment", permanent: true },
       { source: "/commercialteam", destination: "/team", permanent: true },
       { source: "/index.php", destination: "/", permanent: true },
+      // Old-site URLs still reported as 404 in Search Console (26 Nov 2026).
+      { source: "/index.html", destination: "/", permanent: true },
+      { source: "/LoadBlogItem.asp", destination: "/blog", permanent: true },
+      { source: "/favorite-property", destination: "/home-search", permanent: true },
+      { source: "/pdf/Resident_Selection_Criteria.pdf", destination: "/resident-criteria.pdf", permanent: true },
+      { source: "/blog/pet-friendly-rentals-in-hillsborough-county-what-landlords-need-to-know", destination: "/rent", permanent: true },
+      // Former agents' profile pages.
+      ...["katia-brizendine", "ashely-jones", "brandon-arias"].map((slug): R => ({ source: `/team/${slug}`, destination: "/team", permanent: true })),
       { source: "/contact", destination: "/lets-connect", permanent: true },
       { source: "/about", destination: "/about-us", permanent: true },
       { source: "/sell", destination: "/sell-your-home", permanent: true },
