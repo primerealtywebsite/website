@@ -8,7 +8,7 @@ import { pageMeta } from "@/lib/seo";
 
 export const metadata = pageMeta({
   title: "Our Team | Prime 1 Realty & Property Management, Tampa",
-  description: "Meet the Prime 1 team: Broker of Record and Designated CAM Antony Oseitutu and Licensed Community Association Manager Jennifer Rivera.",
+  description: "Meet the Prime 1 team: Broker of Record and Designated CAM Antony Oseitutu, Licensed Community Association Manager Jennifer Rivera and brokerage operations support Gabrielle Ortiz.",
   path: "/team",
 });
 
@@ -21,14 +21,14 @@ function Initials({ name }: { name: string }) {
 }
 
 export default function Team() {
-  const list = [people.antony, people.jennifer];
+  const list = [people.antony, people.jennifer, people.gabrielle];
   return (
     <>
       <section className="bg-paper pb-4 pt-10 md:pt-14">
         <div className="container-x">
           <Breadcrumbs items={[{ label: "Team", href: "/team" }]} />
           <h1 className="mt-5 text-[2.3rem] leading-tight md:text-5xl">Who you will work with</h1>
-          <p className="mt-4 max-w-2xl text-lg text-muted">Licensed professionals who answer to you, backed by a Broker of Record you can reach directly.</p>
+          <p className="mt-4 max-w-2xl text-lg text-muted">The people behind Prime 1 Realty and Prime 1 Property Management, backed by a Broker of Record you can reach directly.</p>
         </div>
       </section>
       <Section tone="paper" className="!pt-8">
@@ -50,10 +50,9 @@ export default function Team() {
       <Section tone="white" id="residentialagents">
         <div className="grid gap-6 md:grid-cols-2" id="commercialagents">
           <div className="rounded-[var(--radius-card)] border border-line p-6">
-            <Heading as="h3" title="We're growing our agent team" intro="Prime 1 is recruiting residential and commercial agents. Self-generated residential is 85/15 until a $15,000 cap, then 100%. Work anywhere in Florida." />
+            <Heading as="h3" title="We're growing our agent team" intro="Prime 1 is affiliating experienced residential and commercial agents. Residential business you generate is 85/15 until a $15,000 cap, then 100%. Work anywhere in Florida." />
             <div className="mt-6 flex flex-wrap gap-3">
-              <Link href="/careers" className="btn btn-ink">See the agent offer</Link>
-              <TrackedLink href="/join" className="btn btn-ghost">Apply to join</TrackedLink>
+              <TrackedLink href="/join" className="btn btn-ink">Join Prime 1</TrackedLink>
             </div>
           </div>
           <div className="rounded-[var(--radius-card)] border border-line p-6">

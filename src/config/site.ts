@@ -146,6 +146,19 @@ export const people = {
       "Jennifer Rivera is a part-time Licensed Community Association Manager with Prime 1 Property Management. She handles assigned association operations, inspections, and board and resident matters under the oversight of Antony Oseitutu, Designated CAM.",
     ],
   },
+  gabrielle: {
+    slug: "gabrielle-ortiz",
+    name: "Gabrielle Ortiz",
+    role: "Brokerage Operations Support",
+    titles: ["Brokerage Operations Support, Prime 1 Realty (Northern Lights Operations)"],
+    email: "admin2@prime1realty.net",
+    image: null as string | null,
+    cutout: null as string | null,
+    bio: [
+      "Gabrielle Ortiz supports Prime 1 Realty's brokerage administration through Northern Lights Operations. She maintains agent and applicant records, sends approved written information and follows up on administrative next steps.",
+      "Brokerage decisions, compensation and agreement questions are handled by Antony Oseitutu, Broker of Record.",
+    ],
+  },
 } as const;
 
 export type PersonKey = keyof typeof people;

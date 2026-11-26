@@ -59,7 +59,7 @@ export function organizationSchema() {
       areaServed: { "@type": "State", name: "Florida", sameAs: "https://en.wikipedia.org/wiki/Florida" },
       sameAs: Object.values(site.socials),
       founder: { "@id": `${site.url}/team/${people.antony.slug}#person` },
-      employee: [{ "@id": `${site.url}/team/${people.antony.slug}#person` }, { "@id": `${site.url}/team/${people.jennifer.slug}#person` }],
+      employee: [{ "@id": `${site.url}/team/${people.antony.slug}#person` }, { "@id": `${site.url}/team/${people.jennifer.slug}#person` }, { "@id": `${site.url}/team/${people.gabrielle.slug}#person` }],
       knowsAbout: [
         "Residential real estate",
         "Commercial real estate",
