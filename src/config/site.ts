@@ -105,7 +105,8 @@ export const site = {
   googleAds: {
     id: process.env.NEXT_PUBLIC_GOOGLE_ADS_ID || "AW-17574854752",
     labels: {
-      lead: process.env.NEXT_PUBLIC_GADS_LABEL_LEAD || "",
+      /** "Website lead form (prime1realty.net)", created 26 Nov 2026 (Submit lead form, primary). */
+      lead: process.env.NEXT_PUBLIC_GADS_LABEL_LEAD || "FbqpCNCeiMAdEOCArLxB",
       call: process.env.NEXT_PUBLIC_GADS_LABEL_CALL || "",
       schedule: process.env.NEXT_PUBLIC_GADS_LABEL_SCHEDULE || "",
       agent: process.env.NEXT_PUBLIC_GADS_LABEL_AGENT || "",
@@ -113,7 +114,8 @@ export const site = {
       leadManagement: process.env.NEXT_PUBLIC_GADS_LABEL_LEAD_MANAGEMENT || "",
       callManagement: process.env.NEXT_PUBLIC_GADS_LABEL_CALL_MANAGEMENT || "",
       /** "Calls from website" conversion: swaps the displayed number for a Google forwarding number on ad visits */
-      phone: process.env.NEXT_PUBLIC_GADS_LABEL_PHONE || "",
+      /** "Calls from website (prime1realty.net)": Google forwarding number, calls of 60s+, created 26 Nov 2026. */
+      phone: process.env.NEXT_PUBLIC_GADS_LABEL_PHONE || "17RbCNOeiMAdEOCArLxB",
     },
   },
   metaPixelId: process.env.NEXT_PUBLIC_META_PIXEL_ID || "1366010352139492",

@@ -228,7 +228,7 @@ if(tour){a['Tour date']=v(f,'date');a['Tour time']=v(f,'time')||((f.querySelecto
 Object.keys(a).forEach(function(k){if(!a[k])delete a[k]});var b=f.querySelector('button[type=submit],button:not([type])');if(b)b.disabled=true;
 var id='lst-'+Date.now()+'-'+Math.random().toString(36).slice(2,8);
 fetch('/api/lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({leadType:P.rental?'rent':'buy',name:name,phone:phone,email:email,message:msg,smsConsent:!!(f.querySelector('[name="consent"]')||{}).checked,answers:a,eventId:id,pageUrl:location.href,utm:utm()})})
-.then(function(r){return r.json().catch(function(){return{}}).then(function(j){if(!r.ok||!j.ok)throw 0;say(tour?'Tour request sent. A licensed Prime 1 professional will confirm the time with you.':'Thank you. A licensed Prime 1 professional will contact you about this property.',true);f.reset();try{window.clarity&&clarity('event','listing_lead')}catch(_){}})})
+.then(function(r){return r.json().catch(function(){return{}}).then(function(j){if(!r.ok||!j.ok)throw 0;say(tour?'Tour request sent. A licensed Prime 1 professional will confirm the time with you.':'Thank you. A licensed Prime 1 professional will contact you about this property.',true);f.reset();try{window.clarity&&clarity('event','listing_lead')}catch(_){}try{var A=window.__p1Ads;if(A&&A.lead&&window.gtag){gtag('set','user_data',{email:email||undefined,phone_number:'+1'+phone.replace(/\\D/g,'').slice(-10)});gtag('event','conversion',{send_to:A.id+'/'+A.lead,transaction_id:id})}}catch(_){}})})
 .catch(function(){say('We could not send that. Please call (813) 295-8215.',false)}).finally(function(){if(b)b.disabled=false})},true)})();</script>`;
   return out.replace(/<\/body>/i, `${script}</body>`);
 }

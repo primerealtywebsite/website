@@ -104,6 +104,16 @@ async function proxy(req: Request, { params }: { params: Promise<{ path?: string
       payload = html.replace(/<\/head>/i, `${tag}</head>`);
     }
   }
+  // Google Ads tag on proxied pages too (the old template only loads GA4): ad visitors who land on or browse
+  // listings still record website calls (forwarding number swap) and listing-inquiry leads.
+  if (req.method === "GET" && res.status === 200 && String(res.headers["content-type"] ?? "").includes("text/html")) {
+    const html = typeof payload === "string" ? payload : res.body.toString("utf8");
+    const { id, labels } = site.googleAds;
+    if (id && !html.includes(`gtag/js?id=${id}`)) {
+      const tag = `<script async src="https://www.googletagmanager.com/gtag/js?id=${id}"></script><script>window.dataLayer=window.dataLayer||[];window.gtag=window.gtag||function(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','${id}',{allow_enhanced_conversions:true});${labels.phone ? `gtag('config','${id}/${labels.phone}',{phone_conversion_number:'${site.phone.display}'});` : ""}window.__p1Ads={id:'${id}',lead:'${labels.lead}'};</script>`;
+      payload = html.replace(/<\/head>/i, `${tag}</head>`);
+    }
+  }
   // Same header, footer and mobile action bar as the rest of the site (the old template's menu was different).
   if (req.method === "GET" && res.status === 200 && String(res.headers["content-type"] ?? "").includes("text/html")) {
     const chrome = await getChrome(inUrl.origin);
